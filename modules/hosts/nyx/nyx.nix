@@ -10,6 +10,10 @@
       self.modules.nixos.nix-opinionated
 
       self.modules.nixos.v2client
+
+      # laptop enables wireless by default, we just add
+      # specific wifi access point here
+      self.modules.nixos.glwifi
     ];
   };
 }
