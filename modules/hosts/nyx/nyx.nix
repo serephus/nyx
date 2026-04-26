@@ -7,6 +7,7 @@
       self.modules.nixos.laptop
 
       self.modules.nixos.nix-mirror-ustc
+      self.modules.nixos.nix-opinionated
     ];
   };
 }
