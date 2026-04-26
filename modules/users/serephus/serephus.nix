@@ -16,6 +16,12 @@ in
         imports = with self.modules.homeManager; [
           laptop
         ];
+
+        # per user specific settings goes here
+        programs.git.settings.user = {
+          name = "${username}";
+          email = "i@sereph.us";
+        };
       };
     }
   ];
