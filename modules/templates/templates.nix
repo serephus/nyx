@@ -16,5 +16,9 @@
       path = ./_python;
       description = "Python template";
     };
+    cpp = {
+      path = ./_cpp;
+      description = "C++ template with CMake";
+    };
   };
 }
