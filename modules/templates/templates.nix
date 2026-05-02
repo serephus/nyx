@@ -8,5 +8,9 @@
       path = ./_typst;
       description = "typst template";
     };
+    bevy = {
+      path = ./_bevy;
+      description = "Bevy template";
+    };
   };
 }
