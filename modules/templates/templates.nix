@@ -12,5 +12,9 @@
       path = ./_bevy;
       description = "Bevy template";
     };
+    python = {
+      path = ./_python;
+      description = "Python template";
+    };
   };
 }
