@@ -12,6 +12,9 @@
     # maps a flake.modules.nixos.<host> to nixosConfigurations.<host>
     mkNixos = system: name: {
       "${name}" = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [
           inputs.self.modules.nixos."${name}"
           { nixpkgs.hostPlatform = lib.mkDefault system; }
