@@ -15,6 +15,7 @@ in
       homeManager."${username}" = {
         imports = with self.modules.homeManager; [
           laptop
+          v2client
         ];
 
         # per user specific settings goes here

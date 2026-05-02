@@ -8,6 +8,8 @@
 
       self.modules.nixos.nix-mirror-ustc
       self.modules.nixos.nix-opinionated
+
+      self.modules.nixos.v2client
     ];
   };
 }
