@@ -87,7 +87,7 @@
               globalSection = {
                 # pinyin only support one custom profile
                 # it's name is fixed "custom"
-                ShuangpinProfile = "custom";
+                ShuangpinProfile = "Custom";
                 ShuangpinMode = true;
                 PageSize = 7;
               };
