@@ -35,6 +35,7 @@
           enable = true;
           variables = [ "--all" ];
         };
+        configType = "hyprlang";
         settings = {
           monitor = [
             # ",preferred,auto,auto"
@@ -120,11 +121,11 @@
             builtins.concatLists (builtins.genList mkWorkspaceRule workspaces)
           );
 
-          windowrulev2 = [
-            "suppressevent maximize, class:.*"
-            "float, title:App" # Bevy examples
-            "float, title:Bevy.*" # Bevy apps
-          ];
+          # windowrulev2 = [
+          #   "suppressevent maximize, class:.*"
+          #   "float, title:App" # Bevy examples
+          #   "float, title:Bevy.*" # Bevy apps
+          # ];
         };
       };
 
