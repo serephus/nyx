@@ -23,14 +23,12 @@
       ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks = {
+        settings = {
           router = {
             hostname = "192.168.8.1";
             user = "root";
-            extraOptions = {
-              hostKeyAlgorithms = "ssh-rsa";
-              fingerprintHash = "md5";
-            };
+            hostKeyAlgorithms = "ssh-rsa";
+            fingerprintHash = "md5";
           };
           gh = {
             hostname = "github.com";
