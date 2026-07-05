@@ -1,6 +1,9 @@
 { self, ... }:
 {
-  flake.modules.nixos.pipewire = {
+  flake.modules.nixos.pipewire = { pkgs, ... }: {
+    environment.systemPackages = [
+      pkgs.wiremix
+    ];
     services.pipewire = {
       enable = true;
       alsa.enable = true;
