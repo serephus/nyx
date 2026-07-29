@@ -6,9 +6,9 @@
       imports = with self.modules.nixos; [
         v2ray
       ];
-      services.v2ray = {
+      services.xray = {
         enable = true;
-        configFile = config.vaultix.templates.v2client.path;
+        settingsFile = config.vaultix.templates.xrayClient.path;
       };
     };
 

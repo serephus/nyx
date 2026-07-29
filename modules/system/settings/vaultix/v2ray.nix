@@ -13,24 +13,33 @@
               addr,
               port,
               uuid,
-              protocol ? "vmess",
-              encryption ? "chacha20-poly1305",
+              serverName,
+              publicKey,
+              shortId,
+              spiderX,
+              protocol ? "vless",
+              encryption ? "none",
             }:
             {
               protocol = protocol;
               settings = {
-                vnext = [
-                  {
-                    address = addr;
-                    port = port;
-                    users = [
-                      {
-                        encryption = encryption;
-                        id = uuid;
-                      }
-                    ];
-                  }
-                ];
+                address = addr;
+                port = port;
+                id = uuid;
+                encryption = encryption;
+                flow = "xtls-rprx-vision";
+              };
+              streamSettings = {
+                network = "tcp";
+                security = "reality";
+                realitySettings = {
+                  fingerprint = "chrome";
+                  serverName = serverName;
+                  sni = serverName;
+                  publicKey = publicKey;
+                  shortId = shortId;
+                  spiderX = spiderX;
+                };
               };
             };
         in
@@ -44,9 +53,21 @@
             v2uuid = {
               file = ./v2uuid.age;
             };
+            v2pk = {
+              file = ./v2pk.age;
+            };
+            v2server = {
+              file = ./v2server.age;
+            };
+            v2sid = {
+              file = ./v2sid.age;
+            };
+            v2sp = {
+              file = ./v2sp.age;
+            };
           };
           templates = {
-            v2client = {
+            xrayClient = {
               mode = "644";
               content = builtins.toJSON {
                 inbounds = [
@@ -67,7 +88,11 @@
                     # so we could not use it as int type
                     addr = config.vaultix.placeholder.v2addr;
                     uuid = config.vaultix.placeholder.v2uuid;
-                    port = 28349;
+                    port = 443;
+                    serverName = config.vaultix.placeholder.v2server;
+                    publicKey = config.vaultix.placeholder.v2pk;
+                    shortId = config.vaultix.placeholder.v2sid;
+                    spiderX = config.vaultix.placeholder.v2sp;
                   }
                 ];
               };
