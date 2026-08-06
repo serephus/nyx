@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   imports = [
     (inputs.flake-file.flakeModules.dendritic or { })
     (inputs.den.flakeModules.dendritic or { })
@@ -10,7 +9,6 @@
     inputs = {
       den.url = "github:denful/den";
       flake-file.url = "github:vic/flake-file";
-      nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     };
 
     description = "NixOS configuration written with den.";

@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
 
   flake-file.inputs.disko = {
     url = "github:nix-community/disko";
@@ -61,9 +60,7 @@
       };
       mkPersist = content: device: {
         nixos = {
-          imports = [
-            inputs.disko.nixosModules.disko
-          ];
+          imports = [ inputs.disko.nixosModules.disko ];
           disko.devices = {
             disk.main = {
               type = "disk";

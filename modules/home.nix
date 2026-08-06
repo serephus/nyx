@@ -5,48 +5,12 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  imports = [ inputs.home-manager.flakeModules.home-manager ];
+
   den.aspects.home = {
     nixos = {
-      # imports = [ inputs.preservation.nixosModules.preservation ];
-      # preservation.enable = true;
-      # preservation.preserveAt."/persist" = {
-      #   # core files to persist
-      #   directories = [ ];
-
-      #   files = [
-      #     {
-      #       file = "/etc/machine-id";
-      #       inInitrd = true;
-      #     }
-      #   ];
-      # };
-
-      # preservation.preserveAt."/persist/var" = {
-      #   # core files to persist
-      #   directories = [
-      #     "/var/lib/systemd/coredump"
-      #     {
-      #       directory = "/var/lib/nixos";
-      #       inInitrd = true;
-      #     }
-      #   ];
-
-      #   files = [ ];
-      # };
-    };
-
-    provides.to-users = { user, ... }: {
-      nixos = { pkgs, ... }: {
-        # preservation.preserveAt."/persist/home" = {
-        #   users."${user.userName}" = {
-        #     # my directory habits
-        #     directories = [
-        #       "dev"
-        #       "res"
-        #     ];
-        #   };
-        # };
-      };
+      imports = [ inputs.home-manager.nixosModules.home-manager ];
+      # some common home manager configs
     };
   };
 }

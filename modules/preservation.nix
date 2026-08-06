@@ -1,5 +1,4 @@
-{ den, inputs, ... }:
-{
+{ den, inputs, ... }: {
 
   flake-file.inputs.preservation.url = "github:nix-community/preservation";
 
@@ -28,30 +27,31 @@
           }
         ];
       };
+      # systemd-machine-id-commit.service would fail, but it is not relevant
+      # in this specific setup for a persistent machine-id so we disable it
+      #
+      # see the firstboot example below for an alternative approach
+      systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
     };
 
-    provides.to-users =
-      { user, ... }:
-      {
-        nixos =
-          { pkgs, ... }:
-          {
-            preservation.preserveAt."/persist/home" = {
-              users."${user.userName}" = {
-                # my directory habits
-                directories = [
-                  "dev"
-                  "res"
-                  ".local/state/nix"
-                  ".cache/nix"
-                  {
-                    directory = ".ssh";
-                    mode = "0700";
-                  }
-                ];
-              };
-            };
+    provides.to-users = { user, ... }: {
+      nixos = { pkgs, ... }: {
+        preservation.preserveAt."/persist/home" = {
+          users."${user.userName}" = {
+            # my directory habits
+            directories = [
+              "dev"
+              "res"
+              ".local/state/nix"
+              ".cache/nix"
+              {
+                directory = ".ssh";
+                mode = "0700";
+              }
+            ];
           };
+        };
       };
+    };
   };
 }

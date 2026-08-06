@@ -8,9 +8,7 @@
     };
   };
 
-  imports = [
-    inputs.vaultix.flakeModules.default
-  ];
+  imports = [ inputs.vaultix.flakeModules.default ];
 
   # vaultix flake-level config: identities and node mappings
   flake.vaultix = {
