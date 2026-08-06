@@ -13,9 +13,20 @@
     nixos = {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
       # some common home manager configs
+      home-manager = {
+        verbose = true;
+        useUserPackages = true;
+        useGlobalPkgs = true;
+      };
     };
-    homeManager = {
-      home.stateVersion = "26.05";
+    provides.to-users = { user, ... }: {
+      homeManager = { lib, ... }: {
+        home.stateVersion = lib.mkDefault "26.05";
+        # many home manager configs requires this
+        home.homeDirectory = "/home/${user.userName}";
+        # let home manager manage itself
+        programs.home-manager.enable = true;
+      };
     };
   };
 }
