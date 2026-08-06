@@ -16,7 +16,14 @@
       };
     };
 
-    provides.to-users = {
+    provides.to-users = { user, ... }: {
+      nixos = {
+        preservation.preserveAt."/persist/home" = {
+          users."${user.userName}" = {
+            files = [ ".local/share/fish/fish_history" ];
+          };
+        };
+      };
       homeManager = { lib, pkgs, ... }: {
         programs = {
           fish = {
