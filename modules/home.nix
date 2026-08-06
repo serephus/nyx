@@ -7,10 +7,15 @@
 
   imports = [ inputs.home-manager.flakeModules.home-manager ];
 
+  den.default.includes = [ den.aspects.home ];
+
   den.aspects.home = {
     nixos = {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
       # some common home manager configs
+    };
+    homeManager = {
+      home.stateVersion = "26.05";
     };
   };
 }

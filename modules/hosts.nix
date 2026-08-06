@@ -1,4 +1,4 @@
-{ den, ... }: {
+{ den, lib, ... }: {
   # serephus user at nyx host.
   den.hosts.x86_64-linux.nyx.users.serephus = { };
 
@@ -10,4 +10,7 @@
   den.homes.x86_64-linux."serephus@nyx" = { };
 
   den.homes.x86_64-linux."serephus@x1c" = { };
+
+  # enable hm by default
+  den.schema.user.classes = lib.mkDefault [ "homeManager" ];
 }

@@ -19,7 +19,6 @@
       preservation.preserveAt."/persist/var" = {
         # core files to persist
         directories = [
-          "/var/lib/systemd/coredump"
           "/var/log"
           {
             directory = "/var/lib/nixos";
@@ -42,8 +41,6 @@
             directories = [
               "dev"
               "res"
-              ".local/state/nix"
-              ".cache/nix"
               {
                 directory = ".ssh";
                 mode = "0700";
