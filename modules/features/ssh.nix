@@ -1,5 +1,4 @@
 { den, ... }: {
-  den.default.includes = [ den.aspects.ssh ];
   den.aspects.ssh = {
     nixos = {
       services.openssh = {
