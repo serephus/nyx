@@ -8,6 +8,11 @@
       den.aspects.preservation
       den.aspects.ssh
       den.aspects.doc
+
+      den.aspects.git
+      den.aspects.fish
+      den.aspects.helix
+
       den.aspects.wifi
     ];
 
