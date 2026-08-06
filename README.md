@@ -1,10 +1,6 @@
-# Getting Started Guide
+# nyx
 
-Steps you can follow after cloning this template:
-
-- Be sure to read the [den documentation](https://den.denful.dev)
-
-- Update den input.
+My NixOS configs written with den.
 
 ```console
 nix flake update den
