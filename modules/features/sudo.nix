@@ -1,7 +1,5 @@
 { den, ... }: {
-
   den.default.includes = [ den.aspects.sudo ];
-
   # sudo-rs
   den.aspects.sudo = {
     nixos = {

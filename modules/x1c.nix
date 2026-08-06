@@ -1,5 +1,4 @@
-{ den, inputs, ... }:
-{
+{ den, inputs, ... }: {
   # host aspect
   den.aspects.x1c = {
     includes = [
@@ -11,58 +10,54 @@
     ];
 
     # host NixOS configuration
-    nixos =
-      { lib, config, ... }:
-      {
-        imports = [
-          inputs.nixos-hardware.nixosModules.common-cpu-intel
-          inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
-        ];
+    nixos = { lib, config, ... }: {
+      imports = [
+        inputs.nixos-hardware.nixosModules.common-cpu-intel
+        inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+      ];
 
-        # timezone
-        time.timeZone = "Asia/Shanghai";
+      # timezone
+      time.timeZone = "Asia/Shanghai";
 
-        # let try systemd-boot
-        boot.loader = {
-          systemd-boot = {
-            enable = true;
-            configurationLimit = 10;
-          };
-          efi = {
-            canTouchEfiVariables = true;
-          };
+      # let try systemd-boot
+      boot.loader = {
+        systemd-boot = {
+          enable = true;
+          configurationLimit = 10;
         };
-
-        # hardware related configs
-        boot = {
-          initrd = {
-            systemd.enable = true;
-            availableKernelModules = [
-              "xhci_pci"
-              "ehci_pci"
-              "ahci"
-              "usb_storage"
-              "sd_mod"
-              "sdhci_pci"
-            ];
-            kernelModules = [ ];
-          };
-          kernelModules = [ "kvm-intel" ];
-          extraModulePackages = [ ];
+        efi = {
+          canTouchEfiVariables = true;
         };
-
-        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-        # firmware
-        hardware.enableRedistributableFirmware = true;
-        services.fwupd.enable = true;
       };
+
+      # hardware related configs
+      boot = {
+        initrd = {
+          systemd.enable = true;
+          availableKernelModules = [
+            "xhci_pci"
+            "ehci_pci"
+            "ahci"
+            "usb_storage"
+            "sd_mod"
+            "sdhci_pci"
+          ];
+          kernelModules = [ ];
+        };
+        kernelModules = [ "kvm-intel" ];
+        extraModulePackages = [ ];
+      };
+
+      hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+      # firmware
+      hardware.enableRedistributableFirmware = true;
+      services.fwupd.enable = true;
+    };
 
     # host provides default home environment for its users
-    provides.to-users.homeManager =
-      { pkgs, ... }:
-      {
-        # home manager configs
-      };
+    provides.to-users.homeManager = { pkgs, ... }: {
+      # home manager configs
+    };
   };
 }

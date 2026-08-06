@@ -4,8 +4,6 @@
     includes = [
       den.batteries.define-user
       den.batteries.primary-user
-
-      den.aspects.ssh
     ];
 
     homeManager = { pkgs, ... }: {

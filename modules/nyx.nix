@@ -11,46 +11,42 @@
     ];
 
     # host NixOS configuration
-    nixos =
-      { pkgs, ... }:
-      {
-        # timezone
-        time.timeZone = "Asia/Shanghai";
+    nixos = { pkgs, ... }: {
+      # timezone
+      time.timeZone = "Asia/Shanghai";
 
-        # let try systemd-boot
-        boot.loader = {
-          systemd-boot = {
-            enable = true;
-            configurationLimit = 10;
-          };
-          efi = {
-            canTouchEfiVariables = true;
-          };
+      # let try systemd-boot
+      boot.loader = {
+        systemd-boot = {
+          enable = true;
+          configurationLimit = 10;
         };
-
-        # hardware related configs
-        boot = {
-          initrd.availableKernelModules = [
-            "xhci_pci"
-            "nvme"
-            "usbhid"
-            "usb_storage"
-            "sd_mod"
-          ];
-          kernelModules = [ "kvm-intel" ];
+        efi = {
+          canTouchEfiVariables = true;
         };
-        hardware.cpu.intel.updateMicrocode = true;
-
-        # firmware
-        hardware.enableRedistributableFirmware = true;
-        services.fwupd.enable = true;
       };
+
+      # hardware related configs
+      boot = {
+        initrd.availableKernelModules = [
+          "xhci_pci"
+          "nvme"
+          "usbhid"
+          "usb_storage"
+          "sd_mod"
+        ];
+        kernelModules = [ "kvm-intel" ];
+      };
+      hardware.cpu.intel.updateMicrocode = true;
+
+      # firmware
+      hardware.enableRedistributableFirmware = true;
+      services.fwupd.enable = true;
+    };
 
     # host provides default home environment for its users
-    provides.to-users.homeManager =
-      { pkgs, ... }:
-      {
-        # home manager configs
-      };
+    provides.to-users.homeManager = { pkgs, ... }: {
+      # home manager configs
+    };
   };
 }
