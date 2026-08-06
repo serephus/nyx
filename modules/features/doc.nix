@@ -1,5 +1,4 @@
 { den, ... }: {
-  den.default.includes = [ den.aspects.doc ];
   den.aspects.doc = {
     nixos = { pkgs, ... }: {
       environment.systemPackages = [
