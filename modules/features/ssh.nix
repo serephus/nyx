@@ -37,42 +37,40 @@
       };
     };
 
-    provides.to-users = {
-      homeManager = {
-        programs.ssh = {
-          enable = true;
-          enableDefaultConfig = false;
-          settings = {
-            router = {
-              hostname = "192.168.8.1";
-              user = "root";
-              # my router need some old ssh config
-              hostKeyAlgorithms = "ssh-rsa";
-              fingerprintHash = "md5";
-            };
-            gh = {
-              hostname = "github.com";
-              user = "git";
-            };
-            gl = {
-              hostname = "gitlab.com";
-              user = "git";
-            };
-            # TODO: add gitcode/codeberg/etc
+    provides.to-users.homeManager = {
+      programs.ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+        settings = {
+          router = {
+            hostname = "192.168.8.1";
+            user = "root";
+            # my router need some old ssh config
+            hostKeyAlgorithms = "ssh-rsa";
+            fingerprintHash = "md5";
           };
+          gh = {
+            hostname = "github.com";
+            user = "git";
+          };
+          gl = {
+            hostname = "gitlab.com";
+            user = "git";
+          };
+          # TODO: add gitcode/codeberg/etc
         };
-        programs.git.settings.url = {
-          "git@github.com:".insteadOf = [
-            "gh:"
-            "github:"
-            "https://github.com"
-          ];
-          "git@gitlab.com:".insteadOf = [
-            "gl:"
-            "gitlab:"
-            "https://gitlab.com"
-          ];
-        };
+      };
+      programs.git.settings.url = {
+        "git@github.com:".insteadOf = [
+          "gh:"
+          "github:"
+          "https://github.com"
+        ];
+        "git@gitlab.com:".insteadOf = [
+          "gl:"
+          "gitlab:"
+          "https://gitlab.com"
+        ];
       };
     };
   };
