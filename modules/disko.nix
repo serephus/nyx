@@ -19,13 +19,13 @@
         mkStatedPath =
           stateless: path:
           let
-            prefix = if stateless then "/persist" else "/";
+            prefix = if stateless then "/persist" else "";
           in
           "${prefix}${path}";
         mkPath = mkStatedPath stateless;
-        rootPath = mkPath "";
-        homePath = mkPath "home";
-        varPath = mkPath "var";
+        rootPath = mkPath "/";
+        homePath = mkPath "/home";
+        varPath = mkPath "/var";
         mkSubvol = path: {
           mountpoint = path;
           mountOptions = [
