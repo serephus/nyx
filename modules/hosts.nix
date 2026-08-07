@@ -1,4 +1,4 @@
-{ den, lib, ... }: {
+{ lib, ... }: {
   # serephus user at nyx host.
   den.hosts.x86_64-linux.nyx.users.serephus = { };
 

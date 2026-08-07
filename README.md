@@ -1,28 +1,22 @@
 # nyx
 
-My NixOS configs written with den.
+My NixOS configs written from scratch with den.
 
 ```console
-nix flake update den
+nix flake update
 ```
-
-- Edit [modules/hosts.nix](modules/hosts.nix)
 
 - Build
 
 ```console
 # default action is build
-nix run .#igloo
+nix run .#nyx
 
 # pass any other nh action
-nix run .#igloo -- switch
+nix run .#nyx -- switch
 ```
 
 - Run the VM
-
-We recommend to use a VM develop cycle so you can play with the system before applying to your hardware.
-
-See [modules/vm.nix](modules/vm.nix)
 
 ```console
 nix run .#vm

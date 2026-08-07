@@ -1,4 +1,6 @@
-{ den, ... }: {
+{
+  # fish configs
+  # TODO: maybe we should rewrite some of these
   den.aspects.fish = {
     nixos = {
       programs.fish = {
@@ -30,6 +32,7 @@
             enable = true;
 
             shellAbbrs = {
+              # farseer's pastebin service
               pb = "curl -F 'c=@-' 'https://fars.ee'";
               cargo-git = "cargo --config net.git-fetch-with-cli=true ";
             };

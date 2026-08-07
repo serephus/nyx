@@ -1,6 +1,7 @@
-{ den, ... }: {
+{
   den.aspects.helix = {
     nixos = { pkgs, ... }: {
+      # helix on nixos doesn't have any defined configs
       environment.systemPackages = [
         pkgs.helix
       ];
@@ -32,6 +33,7 @@
                 "collapse_selection"
                 "keep_primary_selection"
               ];
+              # tries to use gw more
               ret = "goto_word";
             };
           };

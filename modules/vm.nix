@@ -1,5 +1,5 @@
-{ inputs, den, ... }: {
-
+{ inputs, ... }: {
+  # nix run .#vm
   perSystem = { pkgs, ... }: {
     packages.vm = pkgs.writeShellApplication {
       name = "vm";

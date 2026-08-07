@@ -1,12 +1,13 @@
 { den, inputs, ... }: {
-
   flake-file.inputs.home-manager = {
     url = "github:nix-community/home-manager/release-26.05";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  # TODO: what does it do?
   imports = [ inputs.home-manager.flakeModules.home-manager ];
 
+  # do we want hm everywhere?
   den.default.includes = [ den.aspects.home ];
 
   den.aspects.home = {

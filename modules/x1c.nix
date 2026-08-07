@@ -1,5 +1,5 @@
 { den, inputs, ... }: {
-  # host aspect
+  # x1c host aspect
   den.aspects.x1c =
     let
       stateless = true;
@@ -83,7 +83,7 @@
       };
 
       # host provides default home environment for its users
-      provides.to-users.homeManager = { pkgs, ... }: {
+      provides.to-users.homeManager = {
         # home manager configs
       };
     };

@@ -1,5 +1,5 @@
 { den, inputs, ... }: {
-  # host aspect
+  # nyx host aspect
   den.aspects.nyx =
     let
       stateless = true;
@@ -30,10 +30,8 @@
 
       # host NixOS configuration
       nixos = { lib, config, ... }: {
-        imports = [
-          inputs.nixos-hardware.nixosModules.common-cpu-intel
-          inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
-        ];
+        # technically nyx is x1c 8th gen, but I think this is okay
+        imports = [ inputs.hardware.nixosModules.lenovo-thinkpad-x1-7th-gen ];
 
         # timezone
         time.timeZone = "Asia/Shanghai";
@@ -48,7 +46,6 @@
           };
 
           # hardware related configs
-
           initrd = {
             systemd.enable = true;
             kernelModules = [ ];
@@ -60,6 +57,9 @@
               "sd_mod"
             ];
             # we don't want to pregenerate the host keys
+            # which means we may won't able to decrypt with ssh
+            # we would also need config wireless in initrd if we want this
+            # since x1c 8th doesn't have internet cable
             # network = {
             #   enable = stateless;
             #   ssh = {
@@ -77,11 +77,12 @@
 
         # firmware
         hardware.enableRedistributableFirmware = true;
+        # enable fwupd to update our firmware
         services.fwupd.enable = true;
       };
 
       # host provides default home environment for its users
-      provides.to-users.homeManager = { pkgs, ... }: {
+      provides.to-users.homeManager = {
         # home manager configs
       };
     };

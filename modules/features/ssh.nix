@@ -1,4 +1,4 @@
-{ den, ... }: {
+{
   den.aspects.ssh = {
     nixos = {
       services.openssh = {
@@ -10,6 +10,7 @@
           PermitRootLogin = "no";
         };
       };
+      # we have to preserve ssh host keys, otherwise each reboot regenerate it
       preservation.preserveAt."/persist" = {
         files = [
           {

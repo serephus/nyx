@@ -4,6 +4,7 @@
     (inputs.den.flakeModules.dendritic or { })
   ];
 
+  # TODO: add secure boot?
   flake-file = {
     # other inputs may be defined at a module using them.
     inputs = {
@@ -11,6 +12,6 @@
       flake-file.url = "github:vic/flake-file";
     };
 
-    description = "NixOS configuration written with den.";
+    description = "My NixOS configs written from scratch with den.";
   };
 }

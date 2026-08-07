@@ -1,5 +1,4 @@
-{ den, inputs, ... }: {
-
+{ inputs, ... }: {
   flake-file.inputs.preservation.url = "github:nix-community/preservation";
 
   den.aspects.preservation = stateless: {
@@ -10,6 +9,7 @@
         # core files to persist
         files = [
           {
+            # must preseve for various service
             file = "/etc/machine-id";
             inInitrd = true;
           }
@@ -26,18 +26,19 @@
           }
         ];
       };
+
       # systemd-machine-id-commit.service would fail, but it is not relevant
       # in this specific setup for a persistent machine-id so we disable it
-      #
       # see the firstboot example below for an alternative approach
       systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
     };
 
     provides.to-users = { user, ... }: {
-      nixos = { pkgs, ... }: {
+      nixos = {
         preservation.preserveAt."/persist/home" = {
           users."${user.userName}" = {
             # my directory habits
+            # TODO: maybe add bash history here?
             directories = [
               "dev"
               "res"

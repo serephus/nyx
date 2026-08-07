@@ -1,5 +1,4 @@
 { self, inputs, ... }: {
-
   flake-file.inputs.vaultix = {
     url = "github:milieuim/vaultix";
     inputs = {
@@ -8,6 +7,7 @@
     };
   };
 
+  # vaultix flake-level options
   imports = [ inputs.vaultix.flakeModules.default ];
 
   # vaultix flake-level config: identities and node mappings
@@ -15,9 +15,12 @@
     # TODO: filter hosts
     nodes = inputs.self.nixosConfigurations;
     # yubikey identity
+    # it's not recommand to add it to store
+    # but I guess I'm too lazy to carry it around
     identity = ../secrets/age-yubikey-identity-af10df80.txt;
   };
 
+  # parameterized vaultix aspect, takes the public key as parameter
   den.aspects.vaultix = key: {
     nixos = {
       imports = [ inputs.vaultix.nixosModules.default ];

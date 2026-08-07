@@ -1,13 +1,17 @@
 { inputs, lib, ... }: {
+  # TODO: add dataFileSystem
 
   flake-file.inputs.disko = {
     url = "github:nix-community/disko";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  # what this does again?
   imports = [ inputs.disko.flakeModules.disko ];
 
   den.aspects = {
+    # create disko configs for root file system
+    # support full disk encryption, "stateless" root
     rootFileSystem =
       {
         device,
@@ -68,16 +72,16 @@
             mountOptions = [ "umask=0077" ];
           };
         };
-        efiPartition = mkEFI "/boot";
-        rawPartition = mkRootPartition stateless;
-        rootPartition = {
-          size = "100%";
-          content = if encrypted then mkLuks rawPartition else rawPartition;
-        };
       in
       {
         nixos =
           let
+            efiPartition = mkEFI "/boot";
+            rawPartition = mkRootPartition stateless;
+            rootPartition = {
+              size = "100%";
+              content = if encrypted then mkLuks rawPartition else rawPartition;
+            };
             tmpfs_root_dev = lib.optionalAttrs stateless {
               nodev."/" = {
                 fsType = "tmpfs";
