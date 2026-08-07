@@ -4,6 +4,7 @@
     let
       stateless = true;
       encrypted = true;
+      fido2 = true;
     in
     {
       includes = [
@@ -12,6 +13,7 @@
           device = "/dev/nvme0n1";
           stateless = stateless;
           encrypted = encrypted;
+          fido2 = fido2;
         })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)

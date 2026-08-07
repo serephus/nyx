@@ -13,6 +13,7 @@
         device,
         stateless ? true,
         encrypted ? true,
+        fido2 ? true,
       }:
       let
         mkStatedPath =
@@ -53,7 +54,7 @@
           type = "luks";
           name = "crypted";
           settings.allowDiscards = true;
-          enrollFido2 = true;
+          enrollFido2 = fido2;
           # Do not wait for recovery displaying and blocking formatting.
           enrollRecovery = false;
           # interactive password login
