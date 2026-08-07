@@ -3,7 +3,7 @@
   den.aspects.nyx = {
     includes = [
       den.batteries.hostname
-      (den.aspects.mkEncryptedRoot "/dev/nvme0n1")
+      (den.aspects.rootFileSystem { device = "/dev/nvme0n1"; })
       (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
       den.aspects.preservation
       den.aspects.ssh
