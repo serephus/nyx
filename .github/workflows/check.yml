@@ -1,9 +1,13 @@
+name: "Nix flake check"
+
 on:
   pull_request:
   push:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   flake-check:
     strategy:
