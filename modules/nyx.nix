@@ -33,7 +33,7 @@
       # host NixOS configuration
       nixos = { lib, config, ... }: {
         # technically nyx is x1c 8th gen, but I think this is okay
-        imports = [ inputs.hardware.nixosModules.lenovo-thinkpad-x1-7th-gen ];
+        imports = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen ];
 
         # timezone
         time.timeZone = "Asia/Shanghai";
