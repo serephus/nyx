@@ -58,15 +58,16 @@
               "sd_mod"
               "sdhci_pci"
             ];
-            network = {
-              enable = stateless;
-              ssh = {
-                enable = stateless;
-                authorizedKeys = [
-                  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCl8X5dDv+19y323NZkCbSMiou8phYjbTvTUou5Ju+w i@sereph.us"
-                ];
-              };
-            };
+            # we don't want to pregenerate the host keys
+            # network = {
+            #   enable = stateless;
+            #   ssh = {
+            #     enable = stateless;
+            #     authorizedKeys = [
+            #       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCl8X5dDv+19y323NZkCbSMiou8phYjbTvTUou5Ju+w i@sereph.us"
+            #     ];
+            #   };
+            # };
           };
           kernelModules = [ "kvm-intel" ];
           extraModulePackages = [ ];
