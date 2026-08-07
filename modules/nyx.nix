@@ -73,10 +73,5 @@
         # enable fwupd to update our firmware
         services.fwupd.enable = true;
       };
-
-      # host provides default home environment for its users
-      provides.to-users.homeManager = {
-        # home manager configs
-      };
     };
 }
