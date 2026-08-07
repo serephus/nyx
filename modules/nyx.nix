@@ -1,4 +1,4 @@
-{ den, ... }: {
+{ den, inputs, ... }: {
   # host aspect
   den.aspects.nyx =
     let
@@ -29,7 +29,12 @@
       ];
 
       # host NixOS configuration
-      nixos = { pkgs, ... }: {
+      nixos = { lib, config, ... }: {
+        imports = [
+          inputs.nixos-hardware.nixosModules.common-cpu-intel
+          inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+        ];
+
         # timezone
         time.timeZone = "Asia/Shanghai";
         boot = {
@@ -46,6 +51,7 @@
 
           initrd = {
             systemd.enable = true;
+            kernelModules = [ ];
             availableKernelModules = [
               "xhci_pci"
               "nvme"
@@ -65,9 +71,9 @@
             # };
           };
           kernelModules = [ "kvm-intel" ];
-
+          extraModulePackages = [ ];
         };
-        hardware.cpu.intel.updateMicrocode = true;
+        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
         # firmware
         hardware.enableRedistributableFirmware = true;
