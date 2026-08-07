@@ -2,10 +2,10 @@
 
   flake-file.inputs.preservation.url = "github:nix-community/preservation";
 
-  den.aspects.preservation = {
+  den.aspects.preservation = stateless: {
     nixos = {
       imports = [ inputs.preservation.nixosModules.preservation ];
-      preservation.enable = true;
+      preservation.enable = stateless;
       preservation.preserveAt."/persist" = {
         # core files to persist
         files = [
