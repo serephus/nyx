@@ -16,16 +16,9 @@
         fido2 ? true,
       }:
       let
-        mkStatedPath =
-          stateless: path:
-          let
-            prefix = if stateless then "/persist" else "";
-          in
-          "${prefix}${path}";
-        mkPath = mkStatedPath stateless;
-        rootPath = mkPath "/";
-        homePath = mkPath "/home";
-        varPath = mkPath "/var";
+        rootPath = if stateless then "/persist" else "/";
+        homePath = if stateless then "/persist/home" else "/home";
+        varPath = if stateless then "/persist/var" else "/var";
         mkSubvol = path: {
           mountpoint = path;
           mountOptions = [
