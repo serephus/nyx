@@ -17,6 +17,8 @@
         })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)
+        den.aspects.systemd-boot
+
         den.aspects.ssh
         den.aspects.doc
 
@@ -38,17 +40,7 @@
         # timezone
         time.timeZone = "Asia/Shanghai";
         boot = {
-          # let try systemd-boot
-          loader = {
-            systemd-boot = {
-              enable = true;
-              configurationLimit = 10;
-            };
-            efi.canTouchEfiVariables = true;
-          };
-
           # hardware related configs
-
           initrd = {
             systemd.enable = true;
             kernelModules = [ ];
