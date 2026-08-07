@@ -3,11 +3,16 @@
   den.aspects.x1c =
     let
       stateless = true;
+      encrypted = true;
     in
     {
       includes = [
         den.batteries.hostname
-        (den.aspects.rootFileSystem { device = "/dev/sda"; })
+        (den.aspects.rootFileSystem {
+          device = "/dev/sda";
+          stateless = stateless;
+          encrypted = encrypted;
+        })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)
         den.aspects.ssh
@@ -30,20 +35,18 @@
 
         # timezone
         time.timeZone = "Asia/Shanghai";
-
-        # let try systemd-boot
-        boot.loader = {
-          systemd-boot = {
-            enable = true;
-            configurationLimit = 10;
-          };
-          efi = {
-            canTouchEfiVariables = true;
-          };
-        };
-
-        # hardware related configs
         boot = {
+          # let try systemd-boot
+          loader = {
+            systemd-boot = {
+              enable = true;
+              configurationLimit = 10;
+            };
+            efi.canTouchEfiVariables = true;
+          };
+
+          # hardware related configs
+
           initrd = {
             systemd.enable = true;
             kernelModules = [ ];
@@ -55,11 +58,14 @@
               "sd_mod"
               "sdhci_pci"
             ];
-            network.ssh = {
+            network = {
               enable = stateless;
-              authorizedKeys = [
-                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCl8X5dDv+19y323NZkCbSMiou8phYjbTvTUou5Ju+w i@sereph.us"
-              ];
+              ssh = {
+                enable = stateless;
+                authorizedKeys = [
+                  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCl8X5dDv+19y323NZkCbSMiou8phYjbTvTUou5Ju+w i@sereph.us"
+                ];
+              };
             };
           };
           kernelModules = [ "kvm-intel" ];
