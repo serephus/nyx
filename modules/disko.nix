@@ -52,10 +52,10 @@
           name = "crypted";
           settings.allowDiscards = true;
           enrollFido2 = fido2;
+          # interactive login as fallback
+          additionalKeyFiles = [ "/tmp/secret.key" ];
           # Do not wait for recovery displaying and blocking formatting.
           enrollRecovery = false;
-          # interactive password login
-          passwordFile = "/tmp/secret.key";
           content = content;
         };
         mkEFI = path: {
