@@ -39,6 +39,7 @@
         den.aspects.tmux
 
         den.aspects.wifi
+        den.aspects.yubikey
       ];
 
       # host NixOS configuration
