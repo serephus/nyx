@@ -51,12 +51,14 @@
         mkLuks = content: {
           type = "luks";
           name = "crypted";
-          settings.allowDiscards = true;
+          # TODO: failed to make both yubikey & password works in disko
+          # let just stick to either yubikey or password for now
+          settings =
+            let
+              passwd = lib.optionalAttrs (!fido2) { keyFile = "/tmp/secret.key"; };
+            in
+            passwd // { allowDiscards = true; };
           enrollFido2 = fido2;
-          # interactive login as fallback
-          # TODO: none of these works, let just stick to yubikey for now
-          # passwordFile = "/tmp/password.txt";
-          # additionalKeyFiles = [ "/tmp/password.txt" ];
           # Do not wait for recovery displaying and blocking formatting.
           # enrollRecovery = false;
           content = content;
@@ -70,8 +72,7 @@
           content = {
             type = "filesystem";
             format = "vfat";
-            # does luks requires mount EFI partition at /boot?
-            # seems like no
+            # does luks requires mount EFI partition at /boot? seems like no
             mountpoint = path;
             mountOptions = [ "umask=0077" ];
           };
