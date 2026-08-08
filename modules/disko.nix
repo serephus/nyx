@@ -55,7 +55,7 @@
           # Do not wait for recovery displaying and blocking formatting.
           enrollRecovery = false;
           # interactive password login
-          # passwordFile = "/tmp/secret.key";
+          passwordFile = "/tmp/secret.key";
           content = content;
         };
         mkEFI = path: {
