@@ -4,7 +4,7 @@
     let
       stateless = true;
       encrypted = true;
-      fido2 = false;
+      fido2 = true;
       secureboot = true;
     in
     {
