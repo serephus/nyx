@@ -20,6 +20,7 @@
       boot.lanzaboote = {
         enable = secureboot;
         pkiBundle = "/var/lib/sbctl";
+        # TODO: use yubikey once lanzaboote supported?
         autoGenerateKeys.enable = true;
         autoEnrollKeys = {
           autoReboot = true;
