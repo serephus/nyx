@@ -24,13 +24,6 @@
       time.timeZone = "Asia/Shanghai";
       boot.zfs.forceImportRoot = lib.mkForce false;
       networking.networkmanager.enable = lib.mkForce false;
-
-      # enable ssh service for liveiso
-      services.openssh = {
-        enable = true;
-        openFirewall = true;
-        allowSFTP = true;
-      };
     };
   };
 
