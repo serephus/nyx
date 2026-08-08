@@ -15,6 +15,7 @@
     rootFileSystem =
       {
         device,
+        efiMountPoint ? "/boot/efi",
         stateless ? true,
         encrypted ? true,
         fido2 ? true,
@@ -68,6 +69,7 @@
             type = "filesystem";
             format = "vfat";
             # does luks requires mount EFI partition at /boot?
+            # seems like no
             mountpoint = path;
             mountOptions = [ "umask=0077" ];
           };
@@ -76,7 +78,7 @@
       {
         nixos =
           let
-            efiPartition = mkEFI "/boot";
+            efiPartition = mkEFI efiMountPoint;
             rawPartition = mkRootPartition stateless;
             rootPartition = {
               size = "100%";

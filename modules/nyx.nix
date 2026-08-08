@@ -4,6 +4,7 @@
     let
       stateless = true;
       encrypted = true;
+      efiMountPoint = "/boot/efi";
       fido2 = true;
       # with secure boot, there is no way to bootstrap the whole system in
       # one single step, we have to
@@ -21,6 +22,7 @@
         den.batteries.hostname
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
+          efiMountPoint = efiMountPoint;
           stateless = stateless;
           encrypted = encrypted;
           fido2 = fido2;
@@ -28,7 +30,7 @@
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)
         (den.aspects.lanzaboote secureboot)
-        den.aspects.systemd-boot
+        (den.aspects.systemd-boot efiMountPoint)
 
         den.aspects.ssh
         den.aspects.doc
