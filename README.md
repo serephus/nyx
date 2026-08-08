@@ -2,8 +2,10 @@
 
 My NixOS configs written from scratch with den.
 
+- Install with nixos-anywhere
+
 ```console
-nix flake update
+nix run nixpkgs#nixos-anywhere -- --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store" --option trusted-substituters "https://mirrors.ustc.edu.cn/nix-channels/store" --build-on local --no-substitute-on-destination --flake .#<host> -L <target>
 ```
 
 - Build
