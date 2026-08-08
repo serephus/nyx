@@ -5,7 +5,6 @@
       den.batteries.hostname
       (den.aspects.preservation false)
 
-      den.aspects.ssh
       den.aspects.doc
 
       den.aspects.git
@@ -25,6 +24,13 @@
       time.timeZone = "Asia/Shanghai";
       boot.zfs.forceImportRoot = lib.mkForce false;
       networking.networkmanager.enable = lib.mkForce false;
+
+      # enable ssh service for liveiso
+      services.openssh = {
+        enable = true;
+        openFirewall = true;
+        allowSFTP = true;
+      };
     };
   };
 
@@ -37,7 +43,7 @@
         host = inputs.self.nixosConfigurations.liveiso.config;
       in
       {
-        buildiso = host.system.build.isoImage;
+        iso = host.system.build.isoImage;
       };
   };
 }
