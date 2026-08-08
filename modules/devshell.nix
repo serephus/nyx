@@ -1,3 +1,3 @@
-{ den, inputs, ... }: {
+{ den, ... }: {
   den.schema.flake-system.includes = [ den.aspects.devshells ];
 }
