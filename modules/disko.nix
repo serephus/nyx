@@ -54,9 +54,11 @@
           settings.allowDiscards = true;
           enrollFido2 = fido2;
           # interactive login as fallback
-          additionalKeyFiles = [ "/tmp/secret.key" ];
+          # TODO: none of these works, let just stick to yubikey for now
+          # passwordFile = "/tmp/password.txt";
+          # additionalKeyFiles = [ "/tmp/password.txt" ];
           # Do not wait for recovery displaying and blocking formatting.
-          enrollRecovery = false;
+          # enrollRecovery = false;
           content = content;
         };
         mkEFI = path: {
