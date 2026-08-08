@@ -6,6 +6,7 @@
       encrypted = true;
       fido2 = true;
       secureboot = true;
+      swapSize = 10;
       efiMountPoint = "/boot/efi";
     in
     {
@@ -14,6 +15,7 @@
         (den.aspects.rootFileSystem {
           device = "/dev/sda";
           efiMountPoint = efiMountPoint;
+          swapSize = swapSize;
           stateless = stateless;
           encrypted = encrypted;
           fido2 = fido2;
@@ -77,11 +79,6 @@
         # firmware
         hardware.enableRedistributableFirmware = true;
         services.fwupd.enable = true;
-      };
-
-      # host provides default home environment for its users
-      provides.to-users.homeManager = {
-        # home manager configs
       };
     };
 }

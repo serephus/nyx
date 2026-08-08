@@ -19,6 +19,7 @@
         stateless ? true,
         encrypted ? true,
         fido2 ? true,
+        swapSize ? 20,
       }:
       let
         rootPath = if stateless then "/persist" else "/";
@@ -42,7 +43,7 @@
             "@swap" = {
               mountpoint = "/.swapvol";
               swap.swapfile = {
-                size = "20480M";
+                size = "${swapSize}GiB";
                 path = "swapfile";
               };
             };

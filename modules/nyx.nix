@@ -5,6 +5,7 @@
       stateless = true;
       encrypted = true;
       efiMountPoint = "/boot/efi";
+      swapSize = 20;
       fido2 = true;
       # with secure boot, there is no way to bootstrap the whole system in
       # one single step, we have to
@@ -24,6 +25,7 @@
         den.batteries.hostname
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
+          swapSize = swapSize;
           efiMountPoint = efiMountPoint;
           stateless = stateless;
           encrypted = encrypted;
