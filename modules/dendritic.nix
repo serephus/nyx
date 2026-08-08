@@ -4,7 +4,6 @@
     (inputs.den.flakeModules.dendritic or { })
   ];
 
-  # TODO: add secure boot?
   flake-file = {
     # other inputs may be defined at a module using them.
     inputs = {
