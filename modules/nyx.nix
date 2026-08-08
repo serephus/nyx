@@ -9,8 +9,10 @@
       # with secure boot, there is no way to bootstrap the whole system in
       # one single step, we have to
       #  1. disable secureboot, install the whole system
-      #  2. create keys with sbctl create-keys
-      #  3. enable secureboot, rebuild the system
+      #  2. create keys with sbctl create-keys, rebuild the system
+      #  3. enable secureboot, enter setup mode, enroll the keys
+      # with lanzaboote supported auto key gen and auto enroll
+      # we only need minimal intervention
       # we have similar problems with vaultix, since the host ssh keys are not
       # generated until the very first boot
       # but vaultix won't stop us from building and booting, it just failes to
