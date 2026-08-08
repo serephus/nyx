@@ -5,6 +5,7 @@
       stateless = true;
       encrypted = true;
       fido2 = false;
+      secureboot = false;
     in
     {
       includes = [
@@ -17,6 +18,7 @@
         })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)
+        (den.aspects.lanzaboote secureboot)
         den.aspects.systemd-boot
 
         den.aspects.ssh
