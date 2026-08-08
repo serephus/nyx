@@ -5,6 +5,16 @@
       stateless = true;
       encrypted = true;
       fido2 = true;
+      # with secure boot, there is no way to bootstrap the whole system in
+      # one single step, we have to
+      #  1. disable secureboot, install the whole system
+      #  2. create keys with sbctl create-keys
+      #  3. enable secureboot, rebuild the system
+      # we have similar problems with vaultix, since the host ssh keys are not
+      # generated until the very first boot
+      # but vaultix won't stop us from building and booting, it just failes to
+      # decrypt our secrets
+      secureboot = true;
     in
     {
       includes = [
@@ -17,6 +27,7 @@
         })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXvckmMZo48If0O1qTTnQRjMeiARAp7sfWNDbX8p6Eu")
         (den.aspects.preservation stateless)
+        (den.aspects.lanzaboote secureboot)
         den.aspects.systemd-boot
 
         den.aspects.ssh

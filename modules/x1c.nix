@@ -5,7 +5,7 @@
       stateless = true;
       encrypted = true;
       fido2 = false;
-      secureboot = false;
+      secureboot = true;
     in
     {
       includes = [
