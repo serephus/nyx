@@ -7,6 +7,7 @@
       den.aspects.wofi
       den.aspects.waybar
       den.aspects.hypridle
+      den.aspects.hyprlock
     ];
   };
 }
