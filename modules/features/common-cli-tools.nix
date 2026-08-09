@@ -1,0 +1,46 @@
+{
+  den.aspects.common-cli-tools = {
+    nixos = { pkgs, ... }: {
+      environment.systemPackages = [
+        pkgs.bat
+        pkgs.bottom
+        pkgs.btrfs-progs
+        pkgs.choose
+        pkgs.comma
+        pkgs.compsize
+        pkgs.duf
+        pkgs.dufs
+        pkgs.e2fsprogs
+        pkgs.fd
+        pkgs.git-filter-repo
+        pkgs.gitui
+        pkgs.gh
+        pkgs.grex
+        pkgs.hexyl
+        pkgs.hgrep
+        pkgs.jid
+        pkgs.jq
+        pkgs.lsof
+        pkgs.manix
+        pkgs.ncdu
+        pkgs.nix-diff
+        pkgs.nix-du
+        pkgs.nix-index
+        pkgs.nix-melt
+        pkgs.nix-tree
+        pkgs.nix-output-monitor
+        pkgs.nh
+        pkgs.pfetch-rs
+        pkgs.procs
+        pkgs.rage
+        pkgs.ripgrep
+        pkgs.tokei
+        pkgs.wget
+        pkgs.xh
+        pkgs.yt-dlp
+        pkgs.you-get
+        pkgs.zola
+      ];
+    };
+  };
+}

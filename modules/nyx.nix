@@ -42,6 +42,9 @@
         den.aspects.helix
         den.aspects.tmux
 
+        # common cli utils
+        den.aspects.common-cli-tools
+
         # credential stuff
         den.aspects.yubikey
 
