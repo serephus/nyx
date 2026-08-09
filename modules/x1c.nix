@@ -61,6 +61,7 @@
 
         den.aspects.common-gui-tools
         den.aspects.alacritty
+        den.aspects.qutebrowser
       ];
 
       # host NixOS configuration
