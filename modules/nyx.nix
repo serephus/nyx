@@ -60,6 +60,7 @@
         den.aspects.hyprwm
 
         den.aspects.common-gui-tools
+        den.aspects.alacritty
       ];
 
       # host NixOS configuration
