@@ -46,6 +46,7 @@
         den.aspects.common-cli-tools
         den.aspects.difftastic
         den.aspects.yazi
+        den.aspects.tealdeer
 
         # credential stuff
         den.aspects.yubikey
