@@ -10,6 +10,7 @@
       den.aspects.hyprlock
       den.aspects.mako
       den.aspects.pipewire
+      den.aspects.wpaperd
     ];
   };
 }
