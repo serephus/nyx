@@ -48,6 +48,7 @@
         den.aspects.yazi
         den.aspects.tealdeer
         den.aspects.eza
+        den.aspects.direnv
 
         # credential stuff
         den.aspects.yubikey
