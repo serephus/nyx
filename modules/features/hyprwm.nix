@@ -6,6 +6,7 @@
       den.aspects.hyprland
       den.aspects.wofi
       den.aspects.waybar
+      den.aspects.hypridle
     ];
   };
 }
