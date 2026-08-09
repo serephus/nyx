@@ -67,6 +67,7 @@
         den.aspects.telegram
         den.aspects.obs
         den.aspects.blender
+        den.aspects.freecad
       ];
 
       # host NixOS configuration
