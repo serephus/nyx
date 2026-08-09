@@ -58,6 +58,8 @@
         den.aspects.wifi
 
         den.aspects.hyprwm
+
+        den.aspects.common-gui-tools
       ];
 
       # host NixOS configuration
