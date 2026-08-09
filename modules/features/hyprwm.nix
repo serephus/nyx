@@ -3,6 +3,7 @@
     includes = [
       den.aspects.font
       den.aspects.greet
+      den.aspects.hyprland
     ];
   };
 }
