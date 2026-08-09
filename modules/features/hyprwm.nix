@@ -13,6 +13,7 @@
       den.aspects.wpaperd
       den.aspects.copyq
       den.aspects.bibata
+      den.aspects.fcitx5
     ];
   };
 }
