@@ -57,6 +57,7 @@
         # mostly laptop stuff
         den.aspects.wifi
         den.aspects.libinput
+        den.aspects.bluetooth
 
         den.aspects.hyprwm
 
