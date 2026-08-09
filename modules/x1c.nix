@@ -47,6 +47,7 @@
         den.aspects.difftastic
         den.aspects.yazi
         den.aspects.tealdeer
+        den.aspects.eza
 
         # credential stuff
         den.aspects.yubikey
