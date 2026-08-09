@@ -4,6 +4,7 @@
       den.aspects.font
       den.aspects.greet
       den.aspects.hyprland
+      den.aspects.wofi
     ];
   };
 }
