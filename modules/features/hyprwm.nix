@@ -1,5 +1,7 @@
-{
+{ den, ... }: {
   den.aspects.hyprwm = {
-    includes = [ ];
+    includes = [
+      den.aspects.font
+    ];
   };
 }
