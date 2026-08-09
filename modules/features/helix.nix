@@ -1,0 +1,125 @@
+{
+  den.aspects.helix = {
+    nixos = { pkgs, ... }: {
+      # helix on nixos doesn't have any defined configs
+      environment.systemPackages = [
+        pkgs.helix
+      ];
+    };
+
+    provides.to-users.homeManager = {
+      programs.helix = {
+        enable = true;
+        defaultEditor = true;
+        settings = {
+          theme = "gruvbox";
+          editor = {
+            soft-wrap.enable = true;
+            line-number = "relative";
+            rulers = [ 80 ];
+            lsp = {
+              display-messages = true;
+              display-inlay-hints = true;
+            };
+          };
+          keys.normal = {
+            space = {
+              space = "file_picker";
+              w = ":w";
+              q = ":q";
+            };
+            esc = [
+              "collapse_selection"
+              "keep_primary_selection"
+            ];
+            # tries to use gw more
+            ret = "goto_word";
+          };
+        };
+        ignores = [
+          "target"
+          "!.gitignore"
+          "!.gitattributes"
+          "!.github/"
+          "!.gitlab/"
+          "!.cargo/"
+          "!.clang-*"
+        ];
+        languages = {
+          language = [
+            {
+              name = "python";
+              scope = "source.python";
+              injection-regex = "python";
+              file-types = [
+                "py"
+                "pyi"
+                "py3"
+                "pyw"
+                ".pythonstartup"
+                ".pythonrc"
+              ];
+              shebangs = [ "python" ];
+              roots = [
+                "."
+                "pyproject.toml"
+                "pyrightconfig.json"
+              ];
+              comment-token = "#";
+              language-servers = [
+                "pyright"
+                "ruff"
+              ];
+              indent = {
+                tab-width = 4;
+                unit = "    ";
+              };
+              auto-format = true;
+              formatter = {
+                command = "black";
+                args = [
+                  "-"
+                  "--quiet"
+                  "--line-length=80"
+                ];
+              };
+            }
+            {
+              name = "nix";
+              auto-format = true;
+              formatter.command = "nixfmt";
+            }
+          ];
+          language-server = {
+            rust-analyzer.config = {
+              checkOnSave.command = "clippy";
+              inlayHints = {
+                bindingModeHints.enable = true;
+                closingBraceHints.minLines = 10;
+                closureReturnTypeHints.enable = "with_block";
+                discriminantHints.enable = "fieldless";
+                lifetimeElisionHints.enable = "skip_trivial";
+                typeHints.hideClosureInitialization = false;
+              };
+            };
+            pyright = {
+              command = "basedpyright-langserver";
+              args = [ "--stdio" ];
+              config = {
+                reportMissingTypeStubs = false;
+                python.analysis = {
+                  typeCheckingMode = "basic";
+                  autoImportCompletions = true;
+                };
+              };
+            };
+            ruff = {
+              command = "ruff";
+              config.settings.args = [ ];
+            };
+          };
+        };
+      };
+    };
+  };
+}
