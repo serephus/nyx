@@ -12,6 +12,7 @@
       den.aspects.pipewire
       den.aspects.wpaperd
       den.aspects.copyq
+      den.aspects.bibata
     ];
   };
 }
