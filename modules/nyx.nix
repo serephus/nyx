@@ -65,6 +65,7 @@
         den.aspects.alacritty
         den.aspects.qutebrowser
         den.aspects.telegram
+        den.aspects.obs
       ];
 
       # host NixOS configuration
