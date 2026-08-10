@@ -52,6 +52,7 @@
 
         # credential stuff
         den.aspects.yubikey
+        den.aspects.openpgp
 
         # mostly laptop stuff
         den.aspects.wifi
