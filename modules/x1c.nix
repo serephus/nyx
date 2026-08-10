@@ -56,6 +56,8 @@
 
         # mostly laptop stuff
         den.aspects.wifi
+
+        den.aspects.hyprwm
       ];
 
       # host NixOS configuration
