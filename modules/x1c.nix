@@ -44,6 +44,7 @@
 
         # common cli utils
         den.aspects.common-cli-tools
+        den.aspects.difftastic
 
         # credential stuff
         den.aspects.yubikey
