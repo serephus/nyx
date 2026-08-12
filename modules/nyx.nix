@@ -42,11 +42,33 @@
         den.aspects.helix
         den.aspects.tmux
 
+        # common cli utils
+        den.aspects.common-cli-tools
+        den.aspects.difftastic
+        den.aspects.yazi
+        den.aspects.tealdeer
+        den.aspects.eza
+        den.aspects.direnv
+
         # credential stuff
         den.aspects.yubikey
+        den.aspects.openpgp
 
         # mostly laptop stuff
         den.aspects.wifi
+        den.aspects.libinput
+        den.aspects.bluetooth
+
+        den.aspects.hyprwm
+
+        den.aspects.common-gui-tools
+        den.aspects.alacritty
+        den.aspects.qutebrowser
+        den.aspects.telegram
+        den.aspects.obs
+        den.aspects.blender
+        den.aspects.freecad
+        den.aspects.kicad
       ];
 
       # host NixOS configuration
