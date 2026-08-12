@@ -79,6 +79,8 @@
         # timezone
         time.timeZone = "Asia/Shanghai";
         boot = {
+          zswap.enable = config.swapDevices != [ ];
+
           # hardware related configs
           initrd = {
             systemd.enable = true;
@@ -104,6 +106,7 @@
           };
           kernelModules = [ "kvm-intel" ];
           extraModulePackages = [ ];
+
         };
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       };
