@@ -31,7 +31,7 @@
   flake.vaultix = {
     nodes = {
       # minimal does not have any secrets
-      inherit (inputs.self.nixosConfigurations) nyx x1c;
+      inherit (inputs.self.nixosConfigurations) nyx x1c nova;
     };
     # yubikey identity
     # it's not recommand to add it to store

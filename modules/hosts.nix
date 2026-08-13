@@ -5,6 +5,9 @@
   # serephus user at x1c host.
   den.hosts.x86_64-linux.x1c.users.serephus = { };
 
+  # serephus user at x1c host.
+  den.hosts.x86_64-linux.nova.users.serephus = { };
+
   # minimal host for livecd, etc
   den.hosts.x86_64-linux.minimal.users = { };
 
