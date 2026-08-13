@@ -2,9 +2,6 @@ name: "Nix flake check"
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
