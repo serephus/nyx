@@ -12,7 +12,6 @@
       };
       homeManager = { pkgs, ... }: {
         home.packages = [ pkgs.blender ];
-        # TODO: preserve config
       };
     };
   };
