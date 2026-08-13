@@ -2,104 +2,36 @@
   # x1c host aspect
   den.aspects.x1c =
     let
-      ephemeralRoot = true;
-      encrypted = true;
-      fido2 = true;
-      secureboot = true;
-      swapSize = 10;
       efiMountPoint = "/boot/efi";
-    in
-    {
-      includes = [
-        # mostly hardware stuff
-        (den.aspects.rootFileSystem {
-          device = "/dev/sda";
-          efiMountPoint = efiMountPoint;
-          swapSize = swapSize;
-          ephemeralRoot = ephemeralRoot;
-          encrypted = encrypted;
-          fido2 = fido2;
-        })
-        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILJqleV+Jw3ZlPxoz3tB4eDuwT3oBbq0lNcbokjgXvuT")
-        (den.aspects.preservation ephemeralRoot)
-        (den.aspects.lanzaboote secureboot)
-        (den.aspects.systemd-boot efiMountPoint)
-        den.aspects.firmware
-        den.aspects.root
-
-        # extra nix configs
-        den.aspects.nix-mirror-ustc
-        den.aspects.clean-flake-registry
-
-        # essential services and programs
-        den.aspects.ssh
-        den.aspects.doc
-
-        # core cli programs
-        den.aspects.git
-        den.aspects.fish
-        den.aspects.helix
-        den.aspects.tmux
-
-        # common cli utils
-        den.aspects.common-cli-tools
-        den.aspects.difftastic
-        den.aspects.yazi
-        den.aspects.tealdeer
-        den.aspects.eza
-        den.aspects.direnv
-
-        # credential stuff
-        den.aspects.yubikey
-        den.aspects.openpgp
-
-        # mostly laptop stuff
-        den.aspects.wifi
-        den.aspects.libinput
-        den.aspects.bluetooth
-
-        den.aspects.hyprwm
-
-        den.aspects.common-gui-tools
-        den.aspects.alacritty
-        den.aspects.qutebrowser
-        den.aspects.telegram
-        den.aspects.obs
-        den.aspects.blender
-        den.aspects.freecad
-        den.aspects.kicad
-      ];
-
-      # host NixOS configuration
-      nixos = { lib, config, ... }: {
+      ephemeralRoot = true;
+      spec = {
+        efiMountPoint = efiMountPoint;
+        secureboot = true;
+        disks = [
+          (den.aspects.rootFileSystem {
+            device = "/dev/sda";
+            ephemeralRoot = ephemeralRoot;
+            encrypted = true;
+            swapSize = 10;
+            fido2 = true;
+            efiMountPoint = efiMountPoint;
+          })
+          (den.aspects.preservation ephemeralRoot)
+        ];
         imports = [
           inputs.nixos-hardware.nixosModules.common-cpu-intel
           inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
         ];
-
-        # timezone
-        time.timeZone = "Asia/Shanghai";
-        boot = {
-          zswap.enable = config.swapDevices != [ ];
-
-          # hardware related configs
-          initrd = {
-            systemd.enable = true;
-            kernelModules = [ ];
-            availableKernelModules = [
-              "xhci_pci"
-              "ehci_pci"
-              "ahci"
-              "usb_storage"
-              "sd_mod"
-              "sdhci_pci"
-            ];
-          };
-          kernelModules = [ "kvm-intel" ];
-          extraModulePackages = [ ];
-        };
-
-        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        hostPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILJqleV+Jw3ZlPxoz3tB4eDuwT3oBbq0lNcbokjgXvuT";
+        kernelModules = [
+          "xhci_pci"
+          "ehci_pci"
+          "ahci"
+          "usb_storage"
+          "sd_mod"
+          "sdhci_pci"
+        ];
       };
-    };
+    in
+    den.aspects.laptop spec;
 }
