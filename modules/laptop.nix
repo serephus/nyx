@@ -43,6 +43,7 @@
         # credential stuff
         den.aspects.yubikey
         (den.aspects.openpgp "DD961903")
+        den.aspects.mihomo
 
         # mostly laptop stuff
         den.aspects.wifi
