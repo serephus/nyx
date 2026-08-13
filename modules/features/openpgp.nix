@@ -1,5 +1,5 @@
 {
-  den.aspects.openpgp = {
+  den.aspects.openpgp = fingerprint: {
     nixos = { pkgs, ... }: {
       programs.gnupg.agent = {
         enable = true;
@@ -42,9 +42,10 @@
       };
       homeManager = {
         programs.fish.shellAbbrs = {
-          gts = "git tag -SDD961903";
-          gms = "git commit -SDD961903";
+          gts = "git tag -S${fingerprint}";
+          gms = "git commit -S${fingerprint}";
         };
+
         programs.gpg = {
           enable = true;
           scdaemonSettings = {
