@@ -12,7 +12,6 @@
     {
       includes = [
         # mostly hardware stuff
-        den.batteries.hostname
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
           swapSize = swapSize;

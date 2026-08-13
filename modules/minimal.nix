@@ -2,7 +2,6 @@
   # minimal installation live iso
   den.aspects.minimal = {
     includes = [
-      den.batteries.hostname
       # for the preservation nixosModule import
       (den.aspects.preservation false)
 
