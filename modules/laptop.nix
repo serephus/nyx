@@ -91,6 +91,9 @@
           extraModulePackages = [ ];
         };
         hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+        # enable power management for laptop
+        services.tlp.enable = true;
       };
     };
 }
