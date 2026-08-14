@@ -14,3 +14,29 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  # for templates
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/rust"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/tpyst"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/bevy"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/python"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/cpp"
+    schedule:
+      interval: "monthly"
