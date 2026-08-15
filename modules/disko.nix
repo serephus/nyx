@@ -34,7 +34,7 @@ in
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # what this does again?
+  # adds the flake.diskoConfigurations output (unused here — disko is wired in via nixosModules.disko below)
   imports = [ inputs.disko.flakeModules.disko ];
 
   den.aspects = {
