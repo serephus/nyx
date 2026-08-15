@@ -174,6 +174,8 @@ in
       {
         nixos = {
           imports = [ inputs.disko.nixosModules.disko ];
+          # let just make it global readable and writable for now
+          systemd.tmpfiles.rules = [ "d ${mountpoint} 0777 root root - -" ];
           disko.devices.disk.data = {
             type = "disk";
             device = device;
