@@ -13,7 +13,7 @@
           secrets.serephusHashedPasswordFile.file = ./serephus-hashed-password-file.age;
         };
         users.users.serephus = {
-          # we should comment out this line during bootstrap?
+          # comment this out only while bootstrapping a fresh machine
           hashedPasswordFile = config.vaultix.secrets.serephusHashedPasswordFile.path;
           openssh.authorizedKeys.keyFiles = [
             ./id_ed25519_sk.pub

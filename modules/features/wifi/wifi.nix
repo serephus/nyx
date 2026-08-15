@@ -7,7 +7,7 @@
       };
       networking.wireless = {
         enable = true;
-        # TODO: do we have a bootstrap problem here?
+        # the secret here may cause trouble during bootstrapping
         secretsFile = config.vaultix.secrets.wifiSecrets.path;
         networks."glwifi-5g" = {
           pskRaw = "ext:psk_glwifi";
