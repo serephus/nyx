@@ -13,11 +13,13 @@
         gri = "git rebase -i";
         gt = "git tag";
         gma = "git commit --amend";
+        gw = "git worktree";
       };
     in
     {
       nixos = {
         programs = {
+          # we only use minimal configs for root user
           git = {
             enable = true;
             config.init.defaultBranch = "main";
@@ -40,6 +42,8 @@
               init.defaultBranch = "main";
               # let use pull --ff-only
               pull.ff = "only";
+              merge.ff = "only";
+              fetch.prune = true;
             };
           };
           # add git alias to fish
