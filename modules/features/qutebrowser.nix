@@ -28,6 +28,7 @@
             cf = "https://cloudflare.com";
             lc = "https://leetcode.com";
             lcr = "https://leetcode.com/problems/random-one-question/all";
+            dw = "https://deepwiki.com";
           };
           searchEngines = {
             DEFAULT = "https://google.com/search?q={}";

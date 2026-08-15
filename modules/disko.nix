@@ -34,7 +34,7 @@ in
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # what this does again?
+  # adds the flake.diskoConfigurations output (unused here — disko is wired in via nixosModules.disko below)
   imports = [ inputs.disko.flakeModules.disko ];
 
   den.aspects = {
@@ -174,6 +174,8 @@ in
       {
         nixos = {
           imports = [ inputs.disko.nixosModules.disko ];
+          # let just make it global readable and writable for now
+          systemd.tmpfiles.rules = [ "d ${mountpoint} 0777 root root - -" ];
           disko.devices.disk.data = {
             type = "disk";
             device = device;

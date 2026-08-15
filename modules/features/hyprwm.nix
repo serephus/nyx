@@ -5,6 +5,7 @@
       den.aspects.greet
       den.aspects.hyprland
       den.aspects.wofi
+      den.aspects.fuzzel
       den.aspects.waybar
       den.aspects.hypridle
       den.aspects.hyprlock

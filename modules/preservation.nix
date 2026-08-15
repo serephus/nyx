@@ -20,6 +20,7 @@
             inInitrd = true;
           }
         ];
+        users.root.files = [ ".bash_history" ];
       };
 
       # systemd-machine-id-commit.service would fail, but it is not relevant
@@ -33,7 +34,7 @@
         preservation.preserveAt."/persist" = {
           users."${user.userName}" = {
             # my directory habits
-            # TODO: maybe add bash history here?
+            files = [ ".bash_history" ];
             directories = [
               "dev"
               "res"

@@ -5,8 +5,8 @@
       secrets.rootHashedPasswordFile.file = ./root-hashed-password-file.age;
     };
     users.users.root = {
-      # every hosts share the same root password
-      # we should comment out this line during bootstrap?
+      # every host shares the same root password
+      # comment this out only while bootstrapping a fresh machine
       hashedPasswordFile = config.vaultix.secrets.rootHashedPasswordFile.path;
       openssh.authorizedKeys.keyFiles = [
         ./id_ed25519_sk.pub

@@ -1,6 +1,6 @@
 {
   den.aspects.waybar = {
-    provides.to-users.homeManager = { lib, ... }: {
+    provides.to-users.homeManager = { lib, osConfig, ... }: {
       programs.waybar = {
         enable = true;
         systemd.enable = true;
@@ -23,7 +23,7 @@
             # enable calendar tooltip
             tooltip = true;
             tooltip-format = "<tt>{calendar}</tt>";
-            timezone = "Asia/Shanghai";
+            timezone = osConfig.time.timeZone;
           };
 
           network = {

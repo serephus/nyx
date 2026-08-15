@@ -2,7 +2,6 @@
   # minimal installation live iso
   den.aspects.minimal = {
     includes = [
-      den.batteries.hostname
       # for the preservation nixosModule import
       (den.aspects.preservation false)
 
@@ -23,7 +22,7 @@
       time.timeZone = "Asia/Shanghai";
       boot.zfs.forceImportRoot = lib.mkForce false;
       users.users.root = {
-        # should we use plain password here
+        # we may want to set root password here
         # hashedPassword = "";
         openssh.authorizedKeys.keyFiles = [ ./user/id_ed25519_sk.pub ];
       };
