@@ -4,7 +4,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # TODO: what does it do?
+  # provides the homeConfigurations output used by the standalone homes in modules/hosts.nix
   imports = [ inputs.home-manager.flakeModules.home-manager ];
 
   # do we want hm everywhere?
