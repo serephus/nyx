@@ -10,6 +10,23 @@
   # vaultix flake-level options
   imports = [ inputs.vaultix.flakeModules.default ];
 
+  # this make it easier to call renc
+  # nix run .#seal => nix run .#vaultix.app.<system>.renc
+  perSystem = { system, ... }: {
+    apps = {
+      seal = {
+        type = "app";
+        meta.description = "Shortcut to re-encrypt all vaultix secrets.";
+        program = inputs.self.vaultix.app.${system}.renc;
+      };
+      edit = {
+        type = "app";
+        meta.description = "Shortcut to edit the specified vaultix secret.";
+        program = inputs.self.vaultix.app.${system}.edit;
+      };
+    };
+  };
+
   # vaultix flake-level config: identities and node mappings
   flake.vaultix = {
     nodes = {
