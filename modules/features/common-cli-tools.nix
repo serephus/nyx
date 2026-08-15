@@ -11,6 +11,7 @@
         pkgs.duf
         pkgs.dufs
         pkgs.e2fsprogs
+        pkgs.efibootmgr
         pkgs.fd
         pkgs.git-filter-repo
         pkgs.gitui
@@ -30,11 +31,13 @@
         pkgs.nix-tree
         pkgs.nix-output-monitor
         pkgs.nh
+        pkgs.pciutils
         pkgs.pfetch-rs
         pkgs.procs
         pkgs.rage
         pkgs.ripgrep
         pkgs.tokei
+        pkgs.usbutils
         pkgs.wget
         pkgs.xh
         pkgs.yt-dlp
