@@ -23,7 +23,7 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = [
-            # we need both python available to mix uv & nix
+            # do we need both python available to mix uv & nix
             python
             python'
             pkgs.basedpyright
@@ -31,6 +31,10 @@
             pkgs.ruff
             pkgs.uv
           ];
+
+          # Force uv to use the Python interpreter provided by Nix
+          UV_PYTHON_DOWNLOADS = "never";
+          UV_PYTHON = nixpkgs.lib.getExe python;
         };
       }
     );
