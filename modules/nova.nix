@@ -78,6 +78,9 @@
         time.timeZone = "Asia/Shanghai";
 
         boot = {
+          # mainly for my raspberry pi
+          binfmt.emulatedSystems = [ "aarch64-linux" ];
+
           zswap.enable = true;
           initrd = {
             systemd.enable = true;

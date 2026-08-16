@@ -29,6 +29,9 @@
             lc = "https://leetcode.com";
             lcr = "https://leetcode.com/problems/random-one-question/all";
             dw = "https://deepwiki.com";
+            ds = "https://chat.deepseek.com";
+            gc = "https://gitcode.com";
+            cb = "https://codeberg.org";
           };
           searchEngines = {
             DEFAULT = "https://google.com/search?q={}";

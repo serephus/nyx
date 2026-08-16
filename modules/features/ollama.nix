@@ -12,6 +12,7 @@
           cudaArches = [ "61" ];
         };
       };
+      networking.firewall.allowedTCPPorts = [ 11434 ];
       preservation.preserveAt."/persist" = {
         directories = [ "/var/lib/private/ollama" ];
       };

@@ -99,19 +99,32 @@
               hostname = "gitlab.com";
               user = "git";
             };
-            # TODO: add gitcode/codeberg/etc
+            gc = {
+              hostname = "gitcode.com";
+              user = "git";
+            };
+            cb = {
+              hostname = "codeberg.org";
+              user = "git";
+            };
           };
         };
         programs.git.settings.url = {
           "git@github.com:".insteadOf = [
             "gh:"
             "github:"
-            "https://github.com"
           ];
           "git@gitlab.com:".insteadOf = [
             "gl:"
             "gitlab:"
-            "https://gitlab.com"
+          ];
+          "git@gitcode.com:".insteadOf = [
+            "gc:"
+            "gitcode:"
+          ];
+          "git@codeberg.org:".insteadOf = [
+            "cb:"
+            "codeberg:"
           ];
         };
       };
