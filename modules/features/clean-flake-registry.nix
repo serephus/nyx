@@ -14,7 +14,14 @@
           };
           nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
           # Opinionated: make flake registry and nix path match flake inputs
-          registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+          registry = {
+            nyx.to = {
+              type = "github";
+              owner = "serephus";
+              repo = "nyx";
+            };
+          }
+          // (lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs);
         };
     };
   };
