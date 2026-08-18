@@ -65,6 +65,7 @@
 
         den.aspects.ollama
         den.aspects.gotty
+        den.aspects.miniserve
       ];
 
       # host NixOS configuration
