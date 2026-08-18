@@ -98,11 +98,8 @@
           extraModulePackages = [ ];
         };
 
-        services.xserver = {
-          # we don't know if this is necessary, but let enable it for now
-          enable = true;
-          videoDrivers = [ "nvidia" ];
-        };
+        services.xserver.videoDrivers = [ "nvidia" ];
+
         hardware = {
           graphics.enable = true;
           cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
