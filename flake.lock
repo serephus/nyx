@@ -295,7 +295,8 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "preservation": "preservation",
-        "vaultix": "vaultix"
+        "vaultix": "vaultix",
+        "wallpaper": "wallpaper"
       }
     },
     "rust-overlay": {
@@ -341,6 +342,22 @@
       "original": {
         "owner": "milieuim",
         "repo": "vaultix",
+        "type": "github"
+      }
+    },
+    "wallpaper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787065268,
+        "narHash": "sha256-Pax0G0/sC/HN0DnkiaiToyx912aKDX4t1vvVdbnimWM=",
+        "owner": "serephus",
+        "repo": "wallpaper",
+        "rev": "fc7a70c6823cf9a3f05611f4c9ab8ae6d1625271",
+        "type": "github"
+      },
+      "original": {
+        "owner": "serephus",
+        "repo": "wallpaper",
         "type": "github"
       }
     }
