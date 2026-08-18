@@ -64,6 +64,7 @@
         den.aspects.mihomo
 
         den.aspects.ollama
+        den.aspects.gotty
       ];
 
       # host NixOS configuration
