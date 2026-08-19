@@ -41,5 +41,9 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    wallpaper = {
+      url = "github:serephus/wallpaper";
+      flake = false;
+    };
   };
 }

@@ -1,6 +1,6 @@
-{
+{ inputs, ... }: {
   den.aspects.wpaperd = {
-    provides.to-users.homeManager = { config, ... }: {
+    provides.to-users.homeManager = {
       services.wpaperd = {
         enable = true;
         settings = {
@@ -9,7 +9,7 @@
             mode = "stretch";
             sorting = "random";
           };
-          any.path = "${config.home.homeDirectory}/res/images/wallpaper";
+          any.path = inputs.wallpaper;
         };
       };
     };
