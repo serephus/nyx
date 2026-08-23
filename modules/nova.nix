@@ -21,8 +21,18 @@
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;
+          includeHome = false;
+        })
+        (den.aspects.homeFileSystem {
+          name = "home";
+          device = "/dev/nvme1n1";
+          mountpoint = (if ephemeralRoot then "/persist/home" else "/home");
+          rootPath = (if ephemeralRoot then "/persist" else "/");
+          encrypted = encrypted;
+          fido2 = fido2;
         })
         (den.aspects.dataFileSystem {
+          name = "data";
           device = "/dev/sda";
           mountpoint = "/data";
           encrypted = encrypted;
@@ -83,7 +93,7 @@
           # mainly for my raspberry pi
           binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-          zswap.enable = true;
+          zswap.enable = config.swapDevices != [ ];
           initrd = {
             systemd.enable = true;
             availableKernelModules = [

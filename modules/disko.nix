@@ -42,12 +42,14 @@ in
     # support full disk encryption, ephemeral root, etc
     rootFileSystem =
       {
+        name ? "main",
         device,
         efiMountPoint ? "/boot/efi",
         ephemeralRoot ? true,
         encrypted ? true,
         fido2 ? true,
         swapSize ? 20,
+        includeHome ? true,
       }:
       let
         rootPath = if ephemeralRoot then "/persist" else "/";
@@ -57,22 +59,25 @@ in
           mountpoint = path;
           mountOptions = btrfsMountOptions;
         };
+        subvols = {
+          "@root" = mkSubvol rootPath;
+          "@nix" = mkSubvol "/nix";
+          "@var" = mkSubvol varPath;
+          "@swap" = {
+            mountpoint = "/.swapvol";
+            swap.swapfile = {
+              size = "${lib.toString swapSize}G";
+              path = "swapfile";
+            };
+          };
+        };
+        homeSubvols = lib.optionalAttrs includeHome {
+          "@home" = mkSubvol homePath;
+        };
         rootPartitionConfig = {
           type = "btrfs";
           extraArgs = [ "-f" ];
-          subvolumes = {
-            "@root" = mkSubvol rootPath;
-            "@nix" = mkSubvol "/nix";
-            "@home" = mkSubvol homePath;
-            "@var" = mkSubvol varPath;
-            "@swap" = {
-              mountpoint = "/.swapvol";
-              swap.swapfile = {
-                size = "${lib.toString swapSize}G";
-                path = "swapfile";
-              };
-            };
-          };
+          subvolumes = subvols // homeSubvols;
         };
         mkEFI = path: {
           priority = 1;
@@ -119,7 +124,7 @@ in
               };
             };
             disks = {
-              disk.main = {
+              disk."${name}" = {
                 type = "disk";
                 device = device;
                 content = {
@@ -131,29 +136,83 @@ in
                 };
               };
             };
+            fileSystems = {
+              "/nix" = {
+                neededForBoot = true;
+              };
+              "${rootPath}" = {
+                neededForBoot = true;
+              };
+              "${varPath}" = {
+                neededForBoot = true;
+                depends = [ "${rootPath}" ];
+              };
+            };
+            homeFileSystems = lib.optionalAttrs includeHome {
+              "${homePath}" = {
+                depends = [ "${rootPath}" ];
+              };
+            };
           in
           {
             imports = [ inputs.disko.nixosModules.disko ];
             disko.devices = tmpfsRootDev // disks;
-            fileSystems."/nix" = {
-              neededForBoot = true;
-            };
-            fileSystems."${rootPath}" = {
-              neededForBoot = true;
-            };
-            fileSystems."${varPath}" = {
-              neededForBoot = true;
-              depends = [ "${rootPath}" ];
-            };
-            fileSystems."${homePath}" = {
-              depends = [ "${rootPath}" ];
+            fileSystems = fileSystems // homeFileSystems;
+          };
+      };
+
+    # create a simple btrfs home disk
+    homeFileSystem =
+      {
+        name ? "home",
+        device,
+        mountpoint ? "/home",
+        rootPath ? "/",
+        encrypted ? true,
+        fido2 ? true,
+      }:
+      let
+        rawPartition = {
+          type = "btrfs";
+          extraArgs = [ "-f" ];
+          subvolumes = {
+            "@home" = {
+              mountpoint = mountpoint;
+              mountOptions = btrfsMountOptions;
             };
           };
+        };
+      in
+      {
+        nixos = {
+          imports = [ inputs.disko.nixosModules.disko ];
+          disko.devices.disk."${name}" = {
+            type = "disk";
+            device = device;
+            content = {
+              type = "gpt";
+              partitions.home = {
+                size = "100%";
+                content =
+                  if encrypted then
+                    mkLuks {
+                      name = "crypted-home";
+                      inherit fido2;
+                      content = rawPartition;
+                    }
+                  else
+                    rawPartition;
+              };
+            };
+          };
+          fileSystems."${mountpoint}".depends = [ "${rootPath}" ];
+        };
       };
 
     # create a simple btrfs data disk
     dataFileSystem =
       {
+        name ? "data",
         device,
         mountpoint ? "/data",
         encrypted ? true,
@@ -176,7 +235,7 @@ in
           imports = [ inputs.disko.nixosModules.disko ];
           # let just make it global readable and writable for now
           systemd.tmpfiles.rules = [ "d ${mountpoint} 0777 root root - -" ];
-          disko.devices.disk.data = {
+          disko.devices.disk."${name}" = {
             type = "disk";
             device = device;
             content = {
