@@ -6,7 +6,7 @@
       # and I'm too lazy to setup secure boot, ssh unlock, etc
       ephemeralRoot = true;
       efiMountPoint = "/boot/efi";
-      swapSize = 20;
+      swapSize = 40;
       encrypted = false;
       fido2 = false;
       secureboot = false;
