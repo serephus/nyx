@@ -38,7 +38,7 @@
           encrypted = encrypted;
           fido2 = fido2;
         })
-        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBg5IuJhTwtFCQr1F0+ffDtVQqPJcvOeEP/VQ/C/zrLu")
+        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeyzLpt5O11kU2sSD85ySM7KUhpzWd5QlLDxKXR3Hj0")
         (den.aspects.preservation ephemeralRoot)
         (den.aspects.lanzaboote secureboot)
         (den.aspects.systemd-boot efiMountPoint)
