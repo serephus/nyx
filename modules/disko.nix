@@ -210,6 +210,7 @@ in
       };
 
     # create a simple btrfs data disk
+    # ! data partition will be formatted during installation
     dataFileSystem =
       {
         name ? "data",
