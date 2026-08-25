@@ -21,16 +21,11 @@
             cudaArches = [ "61" ];
           };
         };
-        services.open-webui = {
+        # open-webui is not worth it, I have to compile a complete Python ecosystem
+        services.nextjs-ollama-llm-ui = {
           enable = true;
-          openFirewall = true;
           port = webuiPort;
-          host = "0.0.0.0";
-          environment = {
-            OLLAMA_API_BASE_URL = "http://127.0.0.1:${lib.toString ollamaPort}";
-            # Disable authentication
-            WEBUI_AUTH = "False";
-          };
+          ollamaUrl = "http://127.0.0.1:${lib.toString ollamaPort}";
         };
         networking.firewall.allowedTCPPorts = [
           ollamaPort
