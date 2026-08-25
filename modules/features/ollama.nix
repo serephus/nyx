@@ -20,6 +20,11 @@
             # capacities 6.1, so we have to override it here
             cudaArches = [ "61" ];
           };
+          environmentVariables = {
+            OLLAMA_CONTEXT_LENGTH = "65536";
+            OLLAMA_FLASH_ATTENTION = "1";
+            OLLAMA_KV_CACHE_TYPE = "q4_0";
+          };
         };
         # open-webui is not worth it, I have to compile a complete Python ecosystem
         services.nextjs-ollama-llm-ui = {
