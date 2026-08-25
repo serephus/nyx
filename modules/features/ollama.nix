@@ -20,17 +20,17 @@
             # capacities 6.1, so we have to override it here
             cudaArches = [ "61" ];
           };
-        };
-        services.open-webui = {
-          enable = true;
-          openFirewall = true;
-          port = webuiPort;
-          host = "0.0.0.0";
-          environment = {
-            OLLAMA_API_BASE_URL = "http://127.0.0.1:${lib.toString ollamaPort}";
-            # Disable authentication
-            WEBUI_AUTH = "False";
+          environmentVariables = {
+            OLLAMA_CONTEXT_LENGTH = "65536";
+            OLLAMA_FLASH_ATTENTION = "1";
+            OLLAMA_KV_CACHE_TYPE = "q4_0";
           };
+        };
+        # open-webui is not worth it, I have to compile a complete Python ecosystem
+        services.nextjs-ollama-llm-ui = {
+          enable = true;
+          port = webuiPort;
+          ollamaUrl = "http://127.0.0.1:${lib.toString ollamaPort}";
         };
         networking.firewall.allowedTCPPorts = [
           ollamaPort

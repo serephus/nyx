@@ -6,7 +6,7 @@
       # and I'm too lazy to setup secure boot, ssh unlock, etc
       ephemeralRoot = true;
       efiMountPoint = "/boot/efi";
-      swapSize = 20;
+      swapSize = 40;
       encrypted = false;
       fido2 = false;
       secureboot = false;
@@ -21,14 +21,24 @@
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;
+          includeHome = false;
+        })
+        (den.aspects.homeFileSystem {
+          name = "home";
+          device = "/dev/nvme1n1";
+          mountpoint = (if ephemeralRoot then "/persist/home" else "/home");
+          rootPath = (if ephemeralRoot then "/persist" else "/");
+          encrypted = encrypted;
+          fido2 = fido2;
         })
         (den.aspects.dataFileSystem {
+          name = "data";
           device = "/dev/sda";
           mountpoint = "/data";
           encrypted = encrypted;
           fido2 = fido2;
         })
-        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBg5IuJhTwtFCQr1F0+ffDtVQqPJcvOeEP/VQ/C/zrLu")
+        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeyzLpt5O11kU2sSD85ySM7KUhpzWd5QlLDxKXR3Hj0")
         (den.aspects.preservation ephemeralRoot)
         (den.aspects.lanzaboote secureboot)
         (den.aspects.systemd-boot efiMountPoint)
@@ -83,7 +93,7 @@
           # mainly for my raspberry pi
           binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-          zswap.enable = true;
+          zswap.enable = config.swapDevices != [ ];
           initrd = {
             systemd.enable = true;
             availableKernelModules = [
