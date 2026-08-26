@@ -1,7 +1,6 @@
 {
   den.aspects.greet.nixos = { pkgs, ... }: {
     services.greetd.enable = true;
-    programs.uwsm.enable = true;
     programs.regreet = {
       enable = true;
       # TODO: not working right now

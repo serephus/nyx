@@ -2,16 +2,9 @@
   den.aspects.hyprland = {
     nixos = {
       programs = {
-        uwsm = {
-          waylandCompositors.hyprland = {
-            prettyName = "Hyprland";
-            comment = "Hyprland compositor managed by UWSM";
-            binPath = "/run/current-system/sw/bin/start-hyprland";
-          };
-        };
         hyprland = {
           enable = true;
-          withUWSM = true;
+          withUWSM = false;
           xwayland.enable = false;
         };
       };
