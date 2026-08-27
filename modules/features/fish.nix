@@ -23,6 +23,33 @@
         else
             set -g __fish_git_prompt_char_dirtystate '+'
         end
+
+        # Gruvbox colors (dark).
+        set -g fish_color_normal ebdbb2
+        set -g fish_color_command b8bb26
+        set -g fish_color_param ebdbb2
+        set -g fish_color_error fb4934
+        set -g fish_color_quote b8bb26
+        set -g fish_color_redirection fabd2f
+        set -g fish_color_end fabd2f
+        set -g fish_color_operator fe8019
+        set -g fish_color_escape fe8019
+        set -g fish_color_comment 928374
+        set -g fish_color_autosuggestion 928374
+        set -g fish_color_selection --background=3c3836 ebdbb2
+        set -g fish_color_search_match --background=d79921 282828
+        set -g fish_color_user b8bb26
+        set -g fish_color_host 83a598
+        set -g fish_color_cwd 458588
+        set -g fish_color_cwd_root fb4934
+        set -g fish_color_valid_path --underline
+
+        # Completion menu (pager) colors.
+        set -g fish_pager_color_prefix 83a598
+        set -g fish_pager_color_completion ebdbb2
+        set -g fish_pager_color_description 928374
+        set -g fish_pager_color_progress 928374
+        set -g fish_pager_color_selected_completion --background=3c3836 ebdbb2
       '';
     in
     {
@@ -55,47 +82,62 @@
               inherit shellAbbrs interactiveShellInit;
 
               functions = {
-                __nyx_cwd_color = ''
-                  function __nyx_cwd_color
-                      if not command -q sha256sum
-                          set_color $fish_color_cwd
-                          return
+                __nyx_git_branch = ''
+                  function __nyx_git_branch
+                      set -l branch (git symbolic-ref -q --short HEAD 2>/dev/null)
+                      if test -z "$branch"
+                          set branch (git rev-parse --short HEAD 2>/dev/null)
                       end
-
-                      set -l pairs (pwd -P | sha256sum | string sub -l 6 | string match -ra ..)
-                      set -l channels
-                      for pair in $pairs
-                          set -a channels (math --base=hex "min(255, 0x$pair + 0x30)")
+                      if test -n "$branch"
+                          set_color fabd2f
+                          echo -n "[$branch]"
+                          set_color normal
                       end
+                  end
+                '';
 
-                      set -l color (string replace -a 0x "" -- $channels | string pad -c 0 -w 2 | string join "")
-                      set_color $color
+                __nyx_git_status = ''
+                  function __nyx_git_status
+                      # fish_git_prompt prints (branch|status...) — keep only the status part,
+                      # the branch is already shown on the left prompt.
+                      set -l vcs (fish_git_prompt 2>/dev/null)
+                      string match -q '*|*' -- $vcs; or return
+
+                      string replace -r '^ *\([^|]*\|' "" -- $vcs | string trim -c ')'
                   end
                 '';
 
                 fish_prompt = ''
                   function fish_prompt
-                      set -l last_status $status
-                      set -l normal (set_color normal)
-                      set -l delim "> "
+                      set -g __nyx_last_status $status
 
-                      fish_is_root_user; and set delim "#"
+                      set -l parts
 
-                      set -l host
-                      if set -q SSH_TTY
-                          or begin
-                              command -sq systemd-detect-virt
-                              and systemd-detect-virt -q
-                          end
-                          set host (string join "" (set_color $fish_color_user) "$USER" $normal "@" (set_color $fish_color_host) (hostname) $normal ":")
+                      # env-ctx: python venv / nix-shell
+                      if set -q VIRTUAL_ENV
+                          set -a parts (set_color b8bb26)"("(string replace -r '.*/' "" -- "$VIRTUAL_ENV")")"(set_color normal)
+                      end
+                      if set -q IN_NIX_SHELL
+                          set -a parts (set_color fe8019)"(nix)"(set_color normal)
                       end
 
-                      set -l status_marker
-                      if test $last_status -ne 0
-                          set status_marker (set_color $fish_color_error)"[$last_status]"$normal
+                      # abbr-pwd
+                      set -a parts (set_color $fish_color_cwd)(prompt_pwd)(set_color normal)
+
+                      # git-branch
+                      set -l branch (__nyx_git_branch)
+                      if test -n "$branch"
+                          set -a parts $branch
                       end
 
-                      echo -n -s $host (__nyx_cwd_color)(prompt_pwd) $normal $status_marker $delim
+                      # prompt-sym
+                      if fish_is_root_user
+                          set -a parts (set_color fb4934)'# '(set_color normal)
+                      else
+                          set -a parts '> '
+                      end
+
+                      string join " " -- $parts
                   end
                 '';
 
@@ -103,16 +145,30 @@
                   function fish_right_prompt
                       set -l parts
 
-                      if set -q VIRTUAL_ENV
-                          set -a parts (string replace -r '.*/' "" -- "$VIRTUAL_ENV")
+                      # exit-code
+                      if set -q __nyx_last_status; and test $__nyx_last_status -ne 0
+                          set -a parts (set_color fb4934)"[$__nyx_last_status]"(set_color normal)
                       end
 
-                      if set -q cmd_duration; and test "$cmd_duration" -gt 100
-                          set -a parts (math "$cmd_duration" / 1000)"s"
+                      # time-elapsed
+                      if set -q CMD_DURATION; and test "$CMD_DURATION" -gt 100
+                          set -a parts (set_color 928374)(math "$CMD_DURATION" / 1000)"s"(set_color normal)
                       end
 
-                      set -a parts (fish_vcs_prompt 2>/dev/null)
-                      set -a parts (set_color brgrey)(date "+%R")(set_color normal)
+                      # git-status (branch-free, branch lives on the left prompt)
+                      set -l git_status (__nyx_git_status)
+                      if test -n "$git_status"
+                          set -a parts $git_status
+                      end
+
+                      # identity, only when relevant (ssh / vm)
+                      if set -q SSH_TTY
+                          or begin
+                              command -sq systemd-detect-virt
+                              and systemd-detect-virt -q
+                          end
+                          set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
+                      end
 
                       set_color reset
                       string join " " -- $parts
