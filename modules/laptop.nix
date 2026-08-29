@@ -51,6 +51,7 @@
         den.aspects.bluetooth
 
         den.aspects.hyprwm
+        den.aspects.niri
 
         den.aspects.common-gui-tools
         den.aspects.alacritty
