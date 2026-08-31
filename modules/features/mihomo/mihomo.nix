@@ -94,6 +94,7 @@
           "<Ctrl-l>" = "config-cycle content.proxy socks5://localhost:7890 none";
           "zz" = "hint links spawn yt-dlp -P ~/res/downloads --proxy socks5://localhost:7890 {hint-url}";
         };
+        settings.content.proxy = "socks5://localhost:7890";
       };
     };
   };
