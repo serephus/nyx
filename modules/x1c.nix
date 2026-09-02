@@ -20,8 +20,8 @@
           (den.aspects.preservation ephemeralRoot)
         ];
         imports = [
-          inputs.nixos-hardware.nixosModules.common-cpu-intel
-          inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+          # we're 1st gen
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
         ];
         hostPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILJqleV+Jw3ZlPxoz3tB4eDuwT3oBbq0lNcbokjgXvuT";
         kernelModules = [

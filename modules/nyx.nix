@@ -19,8 +19,10 @@
           })
           (den.aspects.preservation ephemeralRoot)
         ];
-        # we're actually 8th gen, but I think it is okay?
-        imports = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen ];
+        imports = [
+          # we're actually 8th gen, but I think it is okay?
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
+        ];
         hostPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8KwCDs9Db33i+eDX8yaoafNqwfYDldQa2ZIkio7ph3";
         kernelModules = [
           "xhci_pci"
