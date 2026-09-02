@@ -49,6 +49,7 @@
         den.aspects.wifi
         den.aspects.libinput
         den.aspects.bluetooth
+        den.aspects.logind
 
         den.aspects.hyprwm
         den.aspects.niri
