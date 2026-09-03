@@ -14,6 +14,12 @@
         gt = "git tag";
         gma = "git commit --amend";
         gw = "git worktree";
+        gwa = "git worktree add";
+        gra = "git rebase --abort";
+        grc = "git rebase --continue";
+        gcp = "git cherry-pick";
+        gcpa = "git cherry-pick --abort";
+        gcpc = "git cherry-pick --continue";
       };
     in
     {
