@@ -21,6 +21,7 @@
           den.aspects.hotspot
           den.aspects.github
           den.aspects.steam
+          den.aspects.termusic
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?
