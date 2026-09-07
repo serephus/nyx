@@ -17,6 +17,7 @@
         (den.aspects.systemd-boot efiMountPoint)
         den.aspects.firmware
         den.aspects.root
+        den.aspects.kernel-parameter
 
         # extra nix configs
         den.aspects.nix-mirror-ustc
