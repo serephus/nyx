@@ -71,29 +71,64 @@
             # let try turn off xwayland support
             xwayland.enabled = false;
 
+            # Mod          = focus / open
+            # Mod+Shift    = move / close / quit
+            # Mod+Ctrl     = move the focused window/column
+            # Mod+Shift+Ctrl = send the focused thing to another monitor
             bind = [
+              # applications & session
               "$mod, Return, exec, $terminal"
-              "$mod, S, exec, ${lib.getExe pkgs.slurp} | ${lib.getExe pkgs.grim} -g - | ${lib.getExe pkgs.swappy} -f -"
-              "$mod, P, exec, $menu"
+              "$mod, D, exec, $menu"
               "$mod, Q, killactive"
-              "$mod, Space, togglefloating"
-              "$mod, F, fullscreen"
-              "$mod, K, layoutmsg, cycleprev"
-              "$mod, J, layoutmsg, cyclenext"
-              "$mod, G, layoutmsg, swapprev"
-              "$mod, Y, layoutmsg, swapnext"
-              "$mod, A, layoutmsg, swapwithmaster"
-              "$mod, R, layoutmsg, orientationright"
-              "$mod, H, layoutmsg, mfact -0.2"
-              "$mod, L, layoutmsg, mfact +0.2"
-              "$mod, X, exec, hyprlock"
-              "$mod SHIFT, Q, exit"
+              "$mod, L, exec, hyprlock"
+              "$mod, S, exec, ${lib.getExe pkgs.slurp} | ${lib.getExe pkgs.grim} -g - | ${lib.getExe pkgs.swappy} -f -"
+              "$mod SHIFT, S, exec, ${lib.getExe pkgs.grim} - | ${lib.getExe pkgs.swappy} -f -"
+              "$mod SHIFT, E, exit"
+
+              # scratchpad / magic workspace (heavily used)
               "$mod, M, togglespecialworkspace, magic"
               "$mod SHIFT, M, movetoworkspace, special:magic"
+
+              # focus (master layout)
+              "$mod, left, layoutmsg, cycleprev"
+              "$mod, up, layoutmsg, cycleprev"
+              "$mod, right, layoutmsg, cyclenext"
+              "$mod, down, layoutmsg, cyclenext"
+              "$mod, Home, layoutmsg, focusmaster"
+
+              # move / swap windows
+              "$mod CTRL, left, layoutmsg, swapprev"
+              "$mod CTRL, up, layoutmsg, swapprev"
+              "$mod CTRL, right, layoutmsg, swapnext"
+              "$mod CTRL, down, layoutmsg, swapnext"
+              "$mod CTRL, Home, layoutmsg, swapwithmaster"
+
+              # monitors
+              "$mod SHIFT, left, focusmonitor, l"
+              "$mod SHIFT, up, focusmonitor, u"
+              "$mod SHIFT, right, focusmonitor, r"
+              "$mod SHIFT, down, focusmonitor, d"
+              "$mod SHIFT CTRL, left, movecurrentworkspacetomonitor, l"
+              "$mod SHIFT CTRL, right, movecurrentworkspacetomonitor, r"
+
+              # workspaces
+              "$mod, tab, workspace, previous"
+              "$mod, Page_Down, workspace, e+1"
+              "$mod, Page_Up, workspace, e-1"
+
+              # layout & sizing
+              "$mod, F, fullscreen"
+              "$mod SHIFT, F, fullscreen, 1"
+              "$mod, space, togglefloating"
+              "$mod, P, pseudo"
+              "$mod, R, layoutmsg, orientationright"
+              "$mod SHIFT, R, layoutmsg, orientationleft"
+              "$mod, minus, layoutmsg, mfact -0.05"
+              "$mod, equal, layoutmsg, mfact +0.05"
             ]
             ++ (
-              # workspaces
-              # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+              # workspaces: $mod + N focuses workspace N,
+              # $mod + SHIFT + N moves the focused window to workspace N
               let
                 mkWorkspaceRule =
                   idx:
