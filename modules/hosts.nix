@@ -13,6 +13,10 @@
   den.hosts.x86_64-linux.nova.users.serephus = { };
   den.homes.x86_64-linux."serephus@nova" = { };
 
+  # serephus user at vex host.
+  den.hosts.x86_64-linux.vex.users.serephus = { };
+  den.homes.x86_64-linux."serephus@vex" = { };
+
   # minimal host for livecd, etc
   den.hosts.x86_64-linux.minimal.users = { };
 
