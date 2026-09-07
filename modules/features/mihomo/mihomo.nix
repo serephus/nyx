@@ -2,7 +2,10 @@
   den.aspects.mihomo = {
     nixos = { config, ... }: {
       vaultix = {
-        secrets.kittyUrl.file = ./kitty-url.age;
+        secrets = {
+          kittyUrl.file = ./kitty-url.age;
+          sttUrl.file = ./stt-url.age;
+        };
         templates.mihomoConfig = {
           mode = "0644";
           content =
@@ -41,6 +44,21 @@
                       expected-status = 204;
                     };
                   };
+                  stt = {
+                    type = "http";
+                    url = config.vaultix.placeholder.sttUrl;
+                    interval = 7200;
+                    path = "./stt-nodes.yaml";
+                    override.additional-prefix = "[stt] ";
+                    health-check = {
+                      enable = true;
+                      url = "https://www.gstatic.com/generate_204";
+                      interval = 300;
+                      timeout = 5000;
+                      lazy = true;
+                      expected-status = 204;
+                    };
+                  };
                 };
 
                 proxy-groups = [
@@ -48,12 +66,18 @@
                     name = "PROXY";
                     type = "select";
                     proxies = [ "AUTO" ];
-                    use = [ "kitty" ];
+                    use = [
+                      "kitty"
+                      "stt"
+                    ];
                   }
                   {
                     name = "AUTO";
                     type = "url-test";
-                    use = [ "kitty" ];
+                    use = [
+                      "kitty"
+                      "stt"
+                    ];
                     url = "http://www.gstatic.com/generate_204";
                     interval = 300;
                     tolerance = 50;
