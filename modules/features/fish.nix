@@ -117,8 +117,11 @@
                       if set -q VIRTUAL_ENV
                           set -a parts (set_color b8bb26)"("(string replace -r '.*/' "" -- "$VIRTUAL_ENV")")"(set_color normal)
                       end
+                      # nix develop exposes devShell name to $name
+                      # this will remove any parts containing shell or env separated by "-"
+                      # I think this is good enough
                       if set -q IN_NIX_SHELL
-                          set -a parts (set_color fe8019)"(nix)"(set_color normal)
+                          set -a parts (set_color fe8019)"("(string split - $name | grep -v "\(shell\|env\)" | string join "-")")"(set_color normal)
                       end
 
                       # abbr-pwd

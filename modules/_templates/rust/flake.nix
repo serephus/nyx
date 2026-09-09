@@ -42,6 +42,7 @@
         devShell =
           with pkgs;
           mkShell {
+            name = "rust";
             buildInputs = [ rust ];
           };
       }

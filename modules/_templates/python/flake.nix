@@ -22,6 +22,7 @@
       in
       {
         devShell = pkgs.mkShell {
+          name = "python";
           buildInputs = [
             # do we need both python available to mix uv & nix
             python
