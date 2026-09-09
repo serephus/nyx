@@ -3,6 +3,7 @@
     devShells = { pkgs, ... }: rec {
       default = nix;
       nix = pkgs.mkShell {
+        name = "nyx";
         buildInputs = [
           pkgs.nil
           pkgs.nixd
