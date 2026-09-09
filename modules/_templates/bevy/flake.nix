@@ -58,6 +58,7 @@
       in
       {
         devShell = pkgs.mkShell rec {
+          name = "bevy";
           nativeBuildInputs = nativeDeps ++ linker;
           buildInputs = [ rust ] ++ deps;
           # xkbcommon use dlopen to load, so we need this envvar in dev shell

@@ -19,6 +19,7 @@
         devShell =
           with pkgs;
           mkShell {
+            name = "typst";
             buildInputs = [
               typst
               tinymist
