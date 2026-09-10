@@ -65,6 +65,9 @@
         den.aspects.blender
         den.aspects.freecad
         den.aspects.kicad
+
+        # ai related stuff
+        den.aspects.pi-coding-agent
       ];
 
       # host NixOS configuration
