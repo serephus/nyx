@@ -83,99 +83,91 @@
 
               functions = {
                 __nyx_git_branch = ''
-                  function __nyx_git_branch
-                      set -l branch (git symbolic-ref -q --short HEAD 2>/dev/null)
-                      if test -z "$branch"
-                          set branch (git rev-parse --short HEAD 2>/dev/null)
-                      end
-                      if test -n "$branch"
-                          set_color fabd2f
-                          echo -n "[$branch]"
-                          set_color normal
-                      end
+                  set -l branch (git symbolic-ref -q --short HEAD 2>/dev/null)
+                  if test -z "$branch"
+                      set branch (git rev-parse --short HEAD 2>/dev/null)
+                  end
+                  if test -n "$branch"
+                      set_color fabd2f
+                      echo -n "[$branch]"
+                      set_color normal
                   end
                 '';
 
                 __nyx_git_status = ''
-                  function __nyx_git_status
-                      # fish_git_prompt prints (branch|status...) — keep only the status part,
-                      # the branch is already shown on the left prompt.
-                      set -l vcs (fish_git_prompt 2>/dev/null)
-                      string match -q '*|*' -- $vcs; or return
+                  # fish_git_prompt prints (branch|status...) — keep only the status part,
+                  # the branch is already shown on the left prompt.
+                  set -l vcs (fish_git_prompt 2>/dev/null)
+                  string match -q '*|*' -- $vcs; or return
 
-                      string replace -r '^ *\([^|]*\|' "" -- $vcs | string trim -c ')'
-                  end
+                  string replace -r '^ *\([^|]*\|' "" -- $vcs | string trim -c ')'
                 '';
 
                 fish_prompt = ''
-                  function fish_prompt
-                      set -g __nyx_last_status $status
+                  set -g __nyx_last_status $status
 
-                      set -l parts
+                  set -l parts
 
-                      # env-ctx: python venv / nix-shell
-                      if set -q VIRTUAL_ENV
-                          set -a parts (set_color b8bb26)"("(string replace -r '.*/' "" -- "$VIRTUAL_ENV")")"(set_color normal)
-                      end
-                      # nix develop exposes devShell name to $name
-                      # this will remove any parts containing shell or env separated by "-"
-                      # I think this is good enough
-                      if set -q IN_NIX_SHELL
-                          set -a parts (set_color fe8019)"("(string split - $name | grep -v "\(shell\|env\)" | string join "-")")"(set_color normal)
-                      end
-
-                      # abbr-pwd
-                      set -a parts (set_color $fish_color_cwd)(prompt_pwd)(set_color normal)
-
-                      # git-branch
-                      set -l branch (__nyx_git_branch)
-                      if test -n "$branch"
-                          set -a parts $branch
-                      end
-
-                      # prompt-sym
-                      if fish_is_root_user
-                          set -a parts (set_color fb4934)'# '(set_color normal)
-                      else
-                          set -a parts '> '
-                      end
-
-                      string join " " -- $parts
+                  # env-ctx: python venv / nix-shell
+                  if set -q VIRTUAL_ENV
+                      set -a parts (set_color b8bb26)"("(string replace -r '.*/' "" -- "$VIRTUAL_ENV")")"(set_color normal)
                   end
+                  # nix develop exposes devShell name to $name
+                  # this will remove any parts containing shell or env separated by "-"
+                  # I think this is good enough
+                  if set -q IN_NIX_SHELL
+                      set -a parts (set_color fe8019)"("(string split - $name | grep -v "\(shell\|env\)" | string join "-")")"(set_color normal)
+                  end
+
+                  # abbr-pwd
+                  set -a parts (set_color $fish_color_cwd)(prompt_pwd)(set_color normal)
+
+                  # git-branch
+                  set -l branch (__nyx_git_branch)
+                  if test -n "$branch"
+                      set -a parts $branch
+                  end
+
+                  # prompt-sym
+                  if fish_is_root_user
+                      set -a parts (set_color fb4934)'# '(set_color normal)
+                  else
+                      set -a parts '> '
+                  end
+
+                  string join " " -- $parts
                 '';
 
                 fish_right_prompt = ''
-                  function fish_right_prompt
-                      set -l parts
+                  set -l parts
 
-                      # exit-code
-                      if set -q __nyx_last_status; and test $__nyx_last_status -ne 0
-                          set -a parts (set_color fb4934)"[$__nyx_last_status]"(set_color normal)
-                      end
-
-                      # time-elapsed
-                      if set -q CMD_DURATION; and test "$CMD_DURATION" -gt 100
-                          set -a parts (set_color 928374)(math "$CMD_DURATION" / 1000)"s"(set_color normal)
-                      end
-
-                      # git-status (branch-free, branch lives on the left prompt)
-                      set -l git_status (__nyx_git_status)
-                      if test -n "$git_status"
-                          set -a parts $git_status
-                      end
-
-                      # identity, only when relevant (ssh / vm)
-                      if set -q SSH_TTY
-                          or begin
-                              command -sq systemd-detect-virt
-                              and systemd-detect-virt -q
-                          end
-                          set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
-                      end
-
-                      set_color reset
-                      string join " " -- $parts
+                  # exit-code
+                  if set -q __nyx_last_status; and test $__nyx_last_status -ne 0
+                      set -a parts (set_color fb4934)"[$__nyx_last_status]"(set_color normal)
                   end
+
+                  # time-elapsed
+                  if set -q CMD_DURATION; and test "$CMD_DURATION" -gt 100
+                      set -a parts (set_color 928374)(math "$CMD_DURATION" / 1000)"s"(set_color normal)
+                  end
+
+                  # git-status (branch-free, branch lives on the left prompt)
+                  set -l git_status (__nyx_git_status)
+                  if test -n "$git_status"
+                      set -a parts $git_status
+                  end
+
+                  # identity, only when relevant (ssh / vm)
+                  if set -q SSH_TTY
+                      or begin
+                          command -sq systemd-detect-virt
+                          and systemd-detect-virt -q
+                      end
+                      set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
+                  end
+
+                  set_color reset
+                  string join " " -- $parts
                 '';
               };
             };
