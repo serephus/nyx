@@ -7,7 +7,7 @@
       spec = {
         efiMountPoint = efiMountPoint;
         secureboot = true;
-        disks = [
+        includes = [
           (den.aspects.rootFileSystem {
             device = "/dev/sda";
             ephemeralRoot = ephemeralRoot;

@@ -2,7 +2,7 @@
   # laptop host aspect
   den.aspects.laptop =
     {
-      disks,
+      includes,
       imports,
       kernelModules,
       hostPubKey,
@@ -10,7 +10,7 @@
       secureboot ? true,
     }:
     {
-      includes = disks ++ [
+      includes = includes ++ [
         # mostly hardware stuff
         (den.aspects.vaultix hostPubKey)
         (den.aspects.lanzaboote secureboot)
