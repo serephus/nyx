@@ -45,5 +45,9 @@
       url = "github:serephus/wallpaper";
       flake = false;
     };
+    xmm7360 = {
+      url = "github:serephus/xmm7360.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

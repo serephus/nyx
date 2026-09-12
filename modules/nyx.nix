@@ -7,7 +7,7 @@
       spec = {
         efiMountPoint = efiMountPoint;
         secureboot = true;
-        disks = [
+        includes = [
           (den.aspects.rootFileSystem {
             device = "/dev/nvme0n1";
             ephemeralRoot = ephemeralRoot;
@@ -18,6 +18,7 @@
             includeHome = true;
           })
           (den.aspects.preservation ephemeralRoot)
+          den.aspects.xmm7360
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?
