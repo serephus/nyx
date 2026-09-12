@@ -5,7 +5,13 @@
         # TODO: this does not preserve chromium state, just configs
         preservation.preserveAt."/persist" = {
           users."${user.userName}" = {
-            directories = [ ".config/chromium" ];
+            directories = [
+              ".config/chromium"
+              # stops chromium from requesting keyring creation every launch
+              # we don't have any other programs requesting keyring
+              # so we just put it here right now
+              ".local/share/keyrings"
+            ];
           };
         };
       };
