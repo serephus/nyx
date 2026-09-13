@@ -6,7 +6,7 @@
       # and I'm too lazy to setup secure boot, ssh unlock, etc
       ephemeralRoot = true;
       efiMountPoint = "/boot/efi";
-      swapSize = 40;
+      swapSize = 20;
       encrypted = false;
       fido2 = false;
       secureboot = false;
@@ -21,15 +21,6 @@
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;
-          includeHome = false;
-        })
-        (den.aspects.homeFileSystem {
-          name = "home";
-          device = "/dev/nvme1n1";
-          mountpoint = (if ephemeralRoot then "/persist/home" else "/home");
-          rootPath = (if ephemeralRoot then "/persist" else "/");
-          encrypted = encrypted;
-          fido2 = fido2;
         })
         (den.aspects.dataFileSystem {
           name = "data";
@@ -38,7 +29,7 @@
           encrypted = encrypted;
           fido2 = fido2;
         })
-        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeyzLpt5O11kU2sSD85ySM7KUhpzWd5QlLDxKXR3Hj0")
+        (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDvN4ghEAka+UtJnULPssqK07nC85mIDo3ww3C3rInkH")
         (den.aspects.preservation ephemeralRoot)
         (den.aspects.lanzaboote secureboot)
         (den.aspects.systemd-boot efiMountPoint)
