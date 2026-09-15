@@ -403,11 +403,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789205886,
-        "narHash": "sha256-R0HwbK8VkkOCM+gD5rhEwFv68748CFNr9dm9ktdnvBM=",
+        "lastModified": 1789522188,
+        "narHash": "sha256-i7HvuvsnTb+kltUJFutKTafTMSEYEQEq4HlTHI6MZ0U=",
         "owner": "serephus",
         "repo": "xmm7360.nix",
-        "rev": "a145e9f5180bba85424b2f52b1398ac2db11315c",
+        "rev": "e5e7e8b12465ede0c01dfffe9cbe736f68ff4a2d",
         "type": "github"
       },
       "original": {
