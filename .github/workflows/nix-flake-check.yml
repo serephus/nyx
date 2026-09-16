@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: wimpysworld/nothing-but-nix@v10
         if: matrix.os == 'ubuntu-latest'
-      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/nix-installer-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v14
       - uses: actions/checkout@v7
       - run: nix flake metadata
