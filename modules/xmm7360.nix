@@ -9,7 +9,7 @@
   den.aspects.xmm7360 = {
     nixos = {
       imports = [ inputs.xmm7360.nixosModules.default ];
-      xmm7360 = {
+      hardware.xmm7360 = {
         enable = true;
         autoStart = true;
         config = {
