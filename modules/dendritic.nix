@@ -8,7 +8,7 @@
     # other inputs may be defined at a module using them.
     inputs = {
       den.url = "github:denful/den";
-      flake-file.url = "github:vic/flake-file";
+      flake-file.url = "github:denful/flake-file";
     };
 
     description = "My NixOS configs written from scratch with den.";
