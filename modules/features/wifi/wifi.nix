@@ -14,6 +14,10 @@
           priority = 1000;
         };
       };
+      networking.dhcpcd.extraConfig = ''
+        interface wlp0s20f3
+        metric 500
+      '';
     };
   };
 }
