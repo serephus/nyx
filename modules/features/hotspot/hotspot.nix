@@ -121,23 +121,38 @@
               ExecStart = pkgs.writeShellScript "hotspot-follow" ''
                 set -u
 
+                stop_ap() {
+                  ${pkgs.systemd}/bin/systemctl stop hostapd.service || true
+                  ${pkgs.iproute2}/bin/ip addr del ${apAddress}/24 dev ${apInterface} 2>/dev/null || true
+                  ${pkgs.iproute2}/bin/ip link set ${apInterface} down || true
+                }
+
+                start_ap() {
+                  # hostapd flips the VIF to AP mode and brings it up; then give
+                  # it the gateway address dnsmasq serves on.
+                  ${pkgs.systemd}/bin/systemctl restart hostapd.service || true
+                  ${pkgs.iproute2}/bin/ip addr replace ${apAddress}/24 dev ${apInterface}
+                }
+
                 apply() {
                   link=$(${pkgs.iw}/bin/iw dev ${radio} link 2>/dev/null || true)
-                  if printf '%s' "$link" | ${pkgs.gnugrep}/bin/grep -q '^Connected to'; then
-                    # hostapd flips the VIF to AP mode and brings it up; then give
-                    # it the gateway address dnsmasq serves on.
-                    ${pkgs.systemd}/bin/systemctl restart hostapd.service || true
-                    ${pkgs.iproute2}/bin/ip addr replace ${apAddress}/24 dev ${apInterface}
-                  else
-                    ${
-                      if keepApOnDisconnect then
-                        "true"
-                      else
-                        "${pkgs.systemd}/bin/systemctl stop hostapd.service || true; "
-                        + "${pkgs.iproute2}/bin/ip addr del ${apAddress}/24 dev ${apInterface} 2>/dev/null || true; "
-                        + "${pkgs.iproute2}/bin/ip link set ${apInterface} down || true"
-                    }
+                  if ! printf '%s' "$link" | ${pkgs.gnugrep}/bin/grep -q '^Connected to'; then
+                    ${if keepApOnDisconnect then "true" else "stop_ap"}
+                    return
                   fi
+
+                  # A self-managed (LAR) regulatory domain can mark the client's
+                  # channel passive ("no IR"); hostapd cannot beacon there, so
+                  # don't even try (and don't crash-loop).
+                  channel=$(${pkgs.iw}/bin/iw dev ${radio} info 2>/dev/null | ${pkgs.gawk}/bin/awk '/channel/ { print $2; exit }')
+                  if [ -n "$channel" ] && ${pkgs.iw}/bin/iw list 2>/dev/null \
+                       | ${pkgs.gnugrep}/bin/grep -E "MHz \\[$channel\\]" \
+                       | ${pkgs.gnugrep}/bin/grep -qE '\(no IR\)|\(disabled\)'; then
+                    stop_ap
+                    return
+                  fi
+
+                  start_ap
                 }
 
                 # `iw event` only reports changes, so sync the current state once.
