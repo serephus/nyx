@@ -1,15 +1,15 @@
 { inputs, ... }: {
   flake-file.inputs = {
-    xmm7360 = {
-      url = "github:serephus/xmm7360.nix";
+    xmmrpc = {
+      url = "github:serephus/xmmrpc";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  den.aspects.xmm7360 = {
+  den.aspects.xmmrpc = {
     nixos = {
-      imports = [ inputs.xmm7360.nixosModules.default ];
-      hardware.xmm7360 = {
+      imports = [ inputs.xmmrpc.nixosModules.default ];
+      services.xmmrpc = {
         enable = true;
         autoStart = true;
         config = {
