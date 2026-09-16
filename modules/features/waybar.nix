@@ -11,7 +11,7 @@
 
           modules-right = lib.mkOrder 10000 (
             [ "network" ]
-            ++ lib.optionals (osConfig.hardware.xmm7360.enable or false) [ "network#wwan" ]
+            ++ lib.optionals (osConfig.services.xmmrpc.enable or false) [ "network#wwan" ]
             ++ [
               "cpu"
               "memory"
