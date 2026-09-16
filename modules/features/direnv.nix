@@ -13,6 +13,7 @@
             "${config.home.homeDirectory}/dev/python"
             "${config.home.homeDirectory}/dev/cpp"
             "${config.home.homeDirectory}/dev/misc"
+            "${config.home.homeDirectory}/dev/nix"
           ];
         };
       };
