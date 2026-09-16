@@ -9,14 +9,16 @@
 
           modules-left = lib.mkOrder 100 [ "clock" ];
 
-          modules-right = lib.mkOrder 10000 ([ "network" ]
-            ++ lib.optionals (osConfig.xmm7360.enable or false) [ "network#wwan" ]
+          modules-right = lib.mkOrder 10000 (
+            [ "network" ]
+            ++ lib.optionals (osConfig.hardware.xmm7360.enable or false) [ "network#wwan" ]
             ++ [
               "cpu"
               "memory"
               "battery"
               "tray"
-            ]);
+            ]
+          );
 
           clock = {
             interval = 1;
