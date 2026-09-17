@@ -67,6 +67,8 @@
         den.aspects.ollama
         den.aspects.gotty
         den.aspects.miniserve
+
+        (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
       ];
 
       # host NixOS configuration

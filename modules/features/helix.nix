@@ -12,7 +12,7 @@
         enable = true;
         defaultEditor = true;
         settings = {
-          theme = "gruvbox";
+          theme = "gruvbox-material";
           editor = {
             soft-wrap.enable = true;
             line-number = "relative";
