@@ -9,16 +9,13 @@
 
           modules-left = lib.mkOrder 100 [ "clock" ];
 
-          modules-right = lib.mkOrder 10000 (
-            [ "network" ]
-            ++ lib.optionals (osConfig.services.xmmrpc.enable or false) [ "network#wwan" ]
-            ++ [
-              "cpu"
-              "memory"
-              "battery"
-              "tray"
-            ]
-          );
+          modules-right = lib.mkOrder 10000 [
+            "network"
+            "cpu"
+            "memory"
+            "battery"
+            "tray"
+          ];
 
           clock = {
             interval = 1;
@@ -33,17 +30,6 @@
             format-disconnected = "󰯡";
             format-wifi = "󰖩 {essid}";
             interval = 1;
-          };
-
-          # Fibocom L850-GL WWAN modem (xmm7360), exposed as wwan0.
-          "network#wwan" = {
-            interface = "wwan0";
-            interval = 1;
-            format = "󰒢 {ipaddr}";
-            # hide the module entirely until wwan0 actually has an IP
-            format-disconnected = "";
-            format-linked = "";
-            tooltip-format = "{ifname} · {ipaddr}";
           };
 
           cpu = {
@@ -140,9 +126,6 @@
           }
           #network {
             border-bottom: 2px solid #8f3f71;
-          }
-          #network.wwan {
-            border-bottom: 2px solid #d79921;
           }
           #tray {
             padding: 1px 2px;

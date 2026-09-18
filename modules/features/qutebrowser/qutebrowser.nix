@@ -127,7 +127,7 @@
             from qutebrowser.api import cmdutils, message
 
             GITHUB_OWNER = "serephus"
-            GITHUB_REPO = "blog"
+            GITHUB_REPO = "ripple"
             GITHUB_TOKEN_FILE = "${osConfig.vaultix.secrets.tokenLeetcodeSecrets.path}"
             LEETCODE_SESSION_SECRET = "LEETCODE_SESSION"
             CSRF_TOKEN_SECRET = "LEETCODE_CSRF_TOKEN"
