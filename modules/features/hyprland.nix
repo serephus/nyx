@@ -81,8 +81,10 @@
               "$mod, D, exec, $menu"
               "$mod, Q, killactive"
               "$mod, L, exec, hyprlock"
-              "$mod, S, exec, ${lib.getExe pkgs.slurp} | ${lib.getExe pkgs.grim} -g - | ${lib.getExe pkgs.swappy} -f -"
-              "$mod SHIFT, S, exec, ${lib.getExe pkgs.grim} - | ${lib.getExe pkgs.swappy} -f -"
+              # hyprshot saves to ~/res/images/screenshots and copies to the
+              # clipboard (timestamped filenames, no spaces).
+              "$mod, S, exec, ${lib.getExe pkgs.hyprshot} -m region -o ~/res/images/screenshots"
+              "$mod SHIFT, S, exec, ${lib.getExe pkgs.hyprshot} -m output -m active -o ~/res/images/screenshots"
               "$mod SHIFT, E, exit"
 
               # scratchpad / magic workspace (heavily used)
