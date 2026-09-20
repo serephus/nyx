@@ -28,15 +28,22 @@ xwayland-satellite {
 }
 
 // Output names: `niri msg outputs`.
-output "eDP-1" {
+output "DP-2" {
     mode "2560x1440@60.000"
     scale 1
     transform "normal"
-    position x=2560 y=0
+    position x=-5120 y=0
 }
 
 output "HDMI-A-1" {
-    mode "2560x1440@60"
+    mode "2560x1440@60.000"
+    scale 1
+    transform "normal"
+    position x=-2560 y=0
+}
+
+output "eDP-1" {
+    mode "2560x1440@60.000"
     scale 1
     transform "normal"
     position x=0 y=0
