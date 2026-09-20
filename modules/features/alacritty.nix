@@ -14,9 +14,15 @@
     provides.to-users.homeManager = { pkgs, lib, ... }: {
       programs.alacritty = {
         enable = true;
-        # this font have no korean or japanese variant?
-        # set default fonts for alacritty
-        settings.font.normal.family = "FiraCode Nerd Font Mono";
+        settings = {
+          font = {
+            size = 20;
+            # this font have no korean or japanese variant?
+            # set default fonts for alacritty
+            normal.family = "FiraCode Nerd Font Mono";
+          };
+        };
+        theme = "gruvbox_dark";
       };
 
       wayland.windowManager.hyprland.settings."$terminal" =
