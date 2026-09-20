@@ -18,10 +18,10 @@
           };
           style = ''
             * {
-              font-size: 24px;
+              font-size: 16px;
             }
             window#waybar {
-              min-height: 32px;
+              min-height: 24px;
             }
           '';
         };
