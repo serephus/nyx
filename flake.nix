@@ -46,7 +46,7 @@
       flake = false;
     };
     xmmrpc = {
-      url = "github:serephus/xmmrpc";
+      url = "github:serephus/xmmrpc/rust";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

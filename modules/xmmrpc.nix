@@ -1,7 +1,7 @@
 { inputs, ... }: {
   flake-file.inputs = {
     xmmrpc = {
-      url = "github:serephus/xmmrpc";
+      url = "github:serephus/xmmrpc/rust";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -12,9 +12,10 @@
       services.xmmrpc = {
         enable = true;
         autoStart = true;
-        config = {
+        settings = {
           apn = "bjlenovo12.njm2mapn";
-          noresolv = true;
+          writeResolv = false;
+          metric = 10000;
         };
       };
       networking.nameservers = [
