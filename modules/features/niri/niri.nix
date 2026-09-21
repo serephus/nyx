@@ -23,6 +23,9 @@
             window#waybar {
               min-height: 24px;
             }
+            #workspaces button.active {
+              border-bottom: 2px solid #d65d0e;
+            }
           '';
         };
         xdg.configFile."niri/config.kdl".source = ./config.kdl;
