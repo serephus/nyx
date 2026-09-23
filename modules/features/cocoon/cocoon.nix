@@ -16,7 +16,7 @@
       };
       preservation.preserveAt."/persist" = {
         directories = [
-          "/var/lib/cocoon-paste"
+          "/var/lib/private/cocoon-paste"
         ];
       };
     };
