@@ -14,6 +14,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 10
 
   # for templates: for a non-root directory the github-actions ecosystem only scans the
   # top level for *.yml/*.yaml, so point at the workflows dir itself.
