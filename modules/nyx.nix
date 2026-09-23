@@ -20,6 +20,7 @@
           (den.aspects.preservation ephemeralRoot)
           den.aspects.xmmrpc
           den.aspects.hotspot
+          den.aspects.github
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?
