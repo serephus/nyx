@@ -1,7 +1,7 @@
 {
   flake-file.inputs = {
-    xmmrpc = {
-      url = "github:serephus/xmmrpc/rust";
+    cocoon = {
+      url = "github:serephus/cocoon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

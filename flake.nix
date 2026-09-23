@@ -6,6 +6,10 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
+    cocoon = {
+      url = "github:serephus/cocoon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     den.url = "github:denful/den";
     disko = {
       url = "github:nix-community/disko";
@@ -46,7 +50,7 @@
       flake = false;
     };
     xmmrpc = {
-      url = "github:serephus/xmmrpc";
+      url = "github:serephus/xmmrpc/rust";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
