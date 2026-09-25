@@ -14,7 +14,11 @@
         settings = {
           theme = "gruvbox-material";
           editor = {
-            soft-wrap.enable = true;
+            text-width = 80;
+            soft-wrap = {
+              enable = true;
+              wrap-at-text-width = true;
+            };
             line-number = "relative";
             rulers = [ 80 ];
             lsp = {
