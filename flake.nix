@@ -8,7 +8,13 @@
   inputs = {
     cocoon = {
       url = "github:serephus/cocoon";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        naersk.follows = "naersk";
+        nixit.follows = "nixit";
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+      };
     };
     den.url = "github:denful/den";
     disko = {
@@ -20,6 +26,7 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,6 +37,21 @@
       inputs = {
         crane.follows = "vaultix/crane";
         nixpkgs.follows = "nixpkgs";
+        pre-commit.follows = "pre-commit-hooks";
+        rust-overlay.follows = "rust-overlay";
+      };
+    };
+    naersk = {
+      url = "github:nix-community/naersk";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixit = {
+      url = "github:serephus/nixit";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        naersk.follows = "naersk";
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
       };
     };
     nixos-hardware = {
@@ -37,12 +59,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     preservation.url = "github:nix-community/preservation";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     vaultix = {
       url = "github:milieuim/vaultix";
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
+        pre-commit-hooks.follows = "pre-commit-hooks";
       };
     };
     wallpaper = {
@@ -51,7 +82,12 @@
     };
     xmmrpc = {
       url = "github:serephus/xmmrpc/rust";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        nixit.follows = "nixit";
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+      };
     };
   };
 }

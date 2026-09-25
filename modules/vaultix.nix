@@ -4,6 +4,7 @@
     inputs = {
       flake-parts.follows = "flake-parts";
       nixpkgs.follows = "nixpkgs";
+      pre-commit-hooks.follows = "pre-commit-hooks";
     };
   };
 

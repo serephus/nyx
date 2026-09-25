@@ -1,8 +1,12 @@
 { lib, inputs, ... }: {
   flake-file.inputs.lanzaboote = {
     url = "github:nix-community/lanzaboote";
-    inputs.nixpkgs.follows = "nixpkgs";
-    inputs.crane.follows = "vaultix/crane";
+    inputs = {
+      crane.follows = "vaultix/crane";
+      nixpkgs.follows = "nixpkgs";
+      pre-commit.follows = "pre-commit-hooks";
+      rust-overlay.follows = "rust-overlay";
+    };
   };
 
   den.aspects.lanzaboote = secureboot: {
