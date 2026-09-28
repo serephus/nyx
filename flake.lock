@@ -495,16 +495,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1789959579,
-        "narHash": "sha256-Det2p+QkeuBTrU+8V/qWdQl5AumhyRfBhiB87FRox2M=",
+        "lastModified": 1790596466,
+        "narHash": "sha256-uOF3w7jiUlIQskVVgGuXAgYiVCFQj7OoKFDjDXHdVSc=",
         "owner": "serephus",
         "repo": "xmmrpc",
-        "rev": "97266626c68477acd6711b6733e3a2d3431c34ca",
+        "rev": "0dda1812593676f51ecfb50d8b7f1638996f0f6a",
         "type": "github"
       },
       "original": {
         "owner": "serephus",
-        "ref": "rust",
         "repo": "xmmrpc",
         "type": "github"
       }

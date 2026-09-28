@@ -81,7 +81,7 @@
       flake = false;
     };
     xmmrpc = {
-      url = "github:serephus/xmmrpc/rust";
+      url = "github:serephus/xmmrpc";
       inputs = {
         flake-utils.follows = "flake-utils";
         nixit.follows = "nixit";
