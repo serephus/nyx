@@ -16,7 +16,7 @@
         enable = true;
         settings = {
           font = {
-            size = 20;
+            size = 18;
             # this font have no korean or japanese variant?
             # set default fonts for alacritty
             normal.family = "FiraCode Nerd Font Mono";
