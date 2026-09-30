@@ -3,7 +3,6 @@
     nixos = { pkgs, ... }: {
       nixpkgs.config = {
         allowUnfree = true;
-        cudaSupport = true;
         nvidia.acceptLicense = true;
       };
 
