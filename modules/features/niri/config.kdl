@@ -3,9 +3,16 @@
 input {
     keyboard {
         xkb {
-            // niri has no per-device input config (26.04), so anything set
-            // here affects every keyboard. Leave empty to inherit the system
-            // layout and keep a programmable keyboard (Corne) untouched.
+            // Norman layout with Ctrl and Caps Lock swapped, mirroring the
+            // Hyprland per-device config (kb_variant norman, ctrl:swapcaps).
+            //
+            // NOTE: niri has no per-device input config (26.04), so this is
+            // applied to every keyboard, including the Corne whose firmware
+            // already emits Norman (that would be remapped twice).
+            // So we commented this out for now
+            // layout "us"
+            // variant "norman"
+            // options "ctrl:swapcaps"
         }
 
         numlock
