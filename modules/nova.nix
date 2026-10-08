@@ -70,6 +70,8 @@
         den.aspects.cocoon
 
         (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
+
+        den.aspects.frpc
       ];
 
       # host NixOS configuration
