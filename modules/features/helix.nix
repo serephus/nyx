@@ -14,13 +14,13 @@
         settings = {
           theme = "gruvbox-material";
           editor = {
-            text-width = 80;
+            text-width = 100;
             soft-wrap = {
               enable = true;
               wrap-at-text-width = true;
             };
             line-number = "relative";
-            rulers = [ 80 ];
+            rulers = [ 100 ];
             lsp = {
               display-messages = true;
               display-inlay-hints = true;
