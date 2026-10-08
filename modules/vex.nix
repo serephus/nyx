@@ -76,6 +76,8 @@
       den.aspects.fish
       den.aspects.helix
       den.aspects.tmux
+
+      den.aspects.frps
     ];
 
     # host NixOS configuration
