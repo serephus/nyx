@@ -45,12 +45,15 @@
   den.aspects.frps = {
     includes = [ den.aspects.frp-secret ];
     nixos = { config, ... }: {
+      networking.firewall.allowedTCPPorts = builtins.genList (i: i + 7000) 1000;
       services.frp = {
         instances = {
           aliyun = {
             enable = true;
             role = "server";
             settings = {
+              bindAddr = "0.0.0.0";
+              bindPort = 7000;
               auth = {
                 method = "token";
                 tokenSource = {
