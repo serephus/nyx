@@ -29,7 +29,7 @@
                 method = "token";
                 tokenSource = {
                   type = "file";
-                  file = config.vaultix.secrets.frpToken.path;
+                  file.path = config.vaultix.secrets.frpToken.path;
                 };
               };
             };
@@ -52,7 +52,7 @@
                 method = "token";
                 tokenSource = {
                   type = "file";
-                  file = config.vaultix.secrets.frpToken.path;
+                  file.path = config.vaultix.secrets.frpToken.path;
                 };
               };
             };
