@@ -1,7 +1,10 @@
 { den, ... }: {
   den.aspects.frp-secret = {
     nixos = {
-      vaultix.secrets.frpToken.file = ./frp-token.age;
+      vaultix.secrets.frpToken = {
+        file = ./frp-token.age;
+        mode = "0644";
+      };
     };
   };
 
