@@ -1,0 +1,6 @@
+/.direnv
+/result
+
+# Koka build cache and output binary
+.koka/
+/template

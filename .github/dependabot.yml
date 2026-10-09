@@ -33,3 +33,8 @@ updates:
     directory: "/modules/_templates/cpp/.github/workflows"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/koka/.github/workflows"
+    schedule:
+      interval: "monthly"

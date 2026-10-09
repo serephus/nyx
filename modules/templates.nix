@@ -17,6 +17,10 @@
         path = ./_templates/cpp;
         description = "C++ template with CMake";
       };
+      koka = {
+        path = ./_templates/koka;
+        description = "Koka template";
+      };
       typst = {
         path = ./_templates/typst;
         description = "typst template";
