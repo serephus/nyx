@@ -2,7 +2,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     utils.url = "github:numtide/flake-utils";
-    nixit.url = "github:serephus/nixit";
+    nixit = {
+      url = "github:serephus/nixit";
+      inputs.flake-utils.follows = "utils";
+    };
   };
 
   outputs =

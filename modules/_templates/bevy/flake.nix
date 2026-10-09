@@ -6,7 +6,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nixit.url = "github:serephus/nixit";
+    nixit = {
+      url = "github:serephus/nixit";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
   };
 
   outputs =

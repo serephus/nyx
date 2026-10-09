@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    nixit.url = "github:serephus/nixit";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -10,6 +9,12 @@
     naersk = {
       url = "github:nix-community/naersk";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixit = {
+      url = "github:serephus/nixit";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
+      inputs.naersk.follows = "naersk";
     };
   };
 
