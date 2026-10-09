@@ -21,6 +21,10 @@
         path = ./_templates/koka;
         description = "Koka template";
       };
+      haskell = {
+        path = ./_templates/haskell;
+        description = "Haskell template with Cabal";
+      };
       zig = {
         path = ./_templates/zig;
         description = "Zig template";

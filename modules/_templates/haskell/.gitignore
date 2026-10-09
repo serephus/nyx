@@ -1,0 +1,13 @@
+/.direnv
+/result
+
+# Cabal build output
+/dist-newstyle/
+/dist/
+cabal.project.local
+cabal.project.local~
+
+# GHC artifacts
+*.hi
+*.o
+.ghc.environment.*

@@ -1,0 +1,38 @@
+name: Development
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.envrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Setup Haskell
+      uses: haskell-actions/setup@v2
+      id: setup
+      with:
+        ghc-version: '9.10'
+        cabal-version: 'latest'
+
+    - name: Configure
+      run: cabal configure --enable-tests
+
+    - name: Build
+      run: cabal build all
+
+    - name: Test
+      run: cabal test all
+
+    - name: Run
+      run: cabal run template
