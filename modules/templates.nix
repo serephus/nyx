@@ -21,6 +21,10 @@
         path = ./_templates/koka;
         description = "Koka template";
       };
+      zig = {
+        path = ./_templates/zig;
+        description = "Zig template";
+      };
       typst = {
         path = ./_templates/typst;
         description = "typst template";

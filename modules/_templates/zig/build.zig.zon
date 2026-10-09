@@ -1,0 +1,16 @@
+.{
+    .name = .template,
+    .version = "0.1.0",
+    // A globally unique package identifier. When forking this template,
+    // delete this field and run `zig build`; the toolchain will suggest a
+    // fresh fingerprint to use here.
+    .fingerprint = 0x97601f833b8934da,
+    .minimum_zig_version = "0.16.0",
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+    },
+}
