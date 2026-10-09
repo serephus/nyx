@@ -44,15 +44,62 @@
                 };
               };
 
-              addons.pinyin = {
-                globalSection = {
-                  # pinyin only support one custom profile
-                  # it's name is fixed "Custom"
-                  ShuangpinProfile = "Custom";
-                  ShuangpinMode = true;
-                  PageSize = 7;
+              addons = {
+                pinyin = {
+                  globalSection = {
+                    # pinyin only support one custom profile
+                    # it's name is fixed "Custom"
+                    ShuangpinProfile = "Custom";
+                    ShuangpinMode = true;
+                    PageSize = 7;
+                  };
+                  sections = { };
                 };
-                sections = { };
+
+                # Panel/theme appearance (migrated from conf/classicui.conf).
+                classicui.globalSection = {
+                  "Vertical Candidate List" = true;
+                  WheelForPaging = false;
+                  Font = "Sans 14";
+                  MenuFont = "Sans 12";
+                  TrayFont = "Sans Bold 12";
+                  TrayOutlineColor = "#000000";
+                  TrayTextColor = "#ffffff";
+                  PreferTextIcon = true;
+                  ShowLayoutNameInIcon = true;
+                  UseInputMethodLanguageToDisplayText = true;
+                  Theme = "Tokyonight-Day";
+                  DarkTheme = "default-dark";
+                  UseDarkTheme = false;
+                  UseAccentColor = true;
+                  PerScreenDPI = false;
+                  ForceWaylandDPI = 0;
+                  EnableFractionalScale = true;
+                };
+
+                # Migrated from conf/notifications.conf.
+                notifications.globalSection.HiddenNotifications = "";
+
+                # Punctuation behaviour and hotkey (migrated from conf/punctuation.conf).
+                punctuation = {
+                  globalSection = {
+                    HalfWidthPuncAfterLetterOrNumber = true;
+                    TypePairedPunctuationsTogether = false;
+                    Enabled = true;
+                  };
+                  sections.Hotkey."0" = "Control+period";
+                };
+
+                # Simplified/Traditional conversion (migrated from conf/chttrans.conf).
+                chttrans = {
+                  globalSection = {
+                    Engine = "OpenCC";
+                    EnabledIM = "";
+                    OpenCCS2TProfile = "default";
+                    OpenCCT2SProfile = "default";
+                  };
+                  sections.Hotkey."0" = "Control+Shift+F";
+                };
               };
             };
           };
