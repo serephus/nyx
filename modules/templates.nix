@@ -25,6 +25,10 @@
         path = ./_templates/haskell;
         description = "Haskell template with Cabal";
       };
+      idris2 = {
+        path = ./_templates/idris2;
+        description = "Idris2 template";
+      };
       zig = {
         path = ./_templates/zig;
         description = "Zig template";
