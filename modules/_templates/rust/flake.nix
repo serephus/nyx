@@ -12,6 +12,7 @@
     };
     nixit = {
       url = "github:serephus/nixit";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
       inputs.naersk.follows = "naersk";
