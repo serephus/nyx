@@ -4,6 +4,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     nixit = {
       url = "github:serephus/nixit";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
   };
