@@ -1,67 +1,24 @@
-{ den, inputs, ... }: {
+{ den, ... }: {
   # vex host aspect
   den.aspects.vex = {
     includes = [
-      {
-        nixos = {
-          imports = [ inputs.disko.nixosModules.disko ];
-          disko.devices.disk.main = {
-            type = "disk";
-            device = "/dev/vda";
-            content = {
-              type = "gpt";
-              partitions = {
-                ESP = {
-                  priority = 1;
-                  name = "ESP";
-                  start = "1M";
-                  end = "128M";
-                  type = "EF00";
-                  content = {
-                    type = "filesystem";
-                    format = "vfat";
-                    mountpoint = "/boot";
-                    mountOptions = [ "umask=0077" ];
-                  };
-                };
-                root =
-                  let
-                    mkSubvol = path: {
-                      mountpoint = path;
-                      mountOptions = [
-                        "compress=zstd"
-                        "noatime"
-                      ];
-                    };
-                  in
-                  {
-                    size = "100%";
-                    content = {
-                      type = "btrfs";
-                      extraArgs = [ "-f" ];
-                      subvolumes = {
-                        "@root" = mkSubvol "/";
-                        "@nix" = mkSubvol "/nix";
-                        "@var" = mkSubvol "/var";
-                        "@home" = mkSubvol "/home";
-                        "@swap" = {
-                          mountpoint = "/.swapvol";
-                          swap.swapfile = {
-                            size = "4G";
-                            path = "swapfile";
-                          };
-                        };
-                      };
-                    };
-                  };
-              };
-            };
-          };
-        };
-      }
-      (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0FY+WlY4qMfr3PbRNbUfhX5d3WNB5Jsv+ZO7Qv5ypu")
-      (den.aspects.preservation true)
+      # stateless (ephemeral tmpfs root) on a hybrid (SeaBIOS + UEFI) disk;
+      # the @root/@nix/@var/@home subvolumes live under /persist
+      (den.aspects.rootFileSystem {
+        device = "/dev/vda";
+        scheme = "efi";
+        ephemeralRoot = true;
+        encrypted = false;
+        fido2 = false;
+        swapSize = 4;
+        tmpfsSize = "128M";
+        efiMountPoint = "/boot";
+        espSize = "128M";
+        includeHome = true;
+      })
       (den.aspects.systemd-boot "/boot")
+      (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICnS0tQY6it20pzID6VWtGas1vl4dcCSj/egYP34aV0+")
+      (den.aspects.preservation true)
       den.aspects.firmware
       den.aspects.root
 
@@ -76,14 +33,12 @@
       den.aspects.fish
       den.aspects.helix
       den.aspects.tmux
-
-      den.aspects.frps
     ];
 
     # host NixOS configuration
     nixos = { lib, config, ... }: {
       # timezone
-      time.timeZone = "Asia/Shanghai";
+      time.timeZone = "America/New_York";
 
       boot = {
         zswap.enable = config.swapDevices != [ ];
@@ -103,7 +58,7 @@
       };
 
       hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-      virtualisation.hypervGuest.enable = true;
+      services.qemuGuest.enable = true;
     };
   };
 }
