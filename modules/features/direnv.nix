@@ -14,6 +14,10 @@
             "${config.home.homeDirectory}/dev/cpp"
             "${config.home.homeDirectory}/dev/misc"
             "${config.home.homeDirectory}/dev/nix"
+            "${config.home.homeDirectory}/dev/koka"
+            "${config.home.homeDirectory}/dev/idris2"
+            "${config.home.homeDirectory}/dev/haskell"
+            "${config.home.homeDirectory}/dev/zig"
           ];
         };
       };
