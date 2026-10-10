@@ -495,11 +495,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790596466,
-        "narHash": "sha256-uOF3w7jiUlIQskVVgGuXAgYiVCFQj7OoKFDjDXHdVSc=",
+        "lastModified": 1791194977,
+        "narHash": "sha256-FKg0TGxPgRh218iF5pwIYYBXJ/UgXUzdtcs36SJV6vw=",
         "owner": "serephus",
         "repo": "xmmrpc",
-        "rev": "0dda1812593676f51ecfb50d8b7f1638996f0f6a",
+        "rev": "0474579bd9cfc23c4cf8029db18f815e448309d6",
         "type": "github"
       },
       "original": {
