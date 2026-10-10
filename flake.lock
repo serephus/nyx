@@ -450,11 +450,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788981358,
-        "narHash": "sha256-XijESLY+NC+KEzcIs+/06Pc6dAW8dJJHgWoFQ8LjomE=",
+        "lastModified": 1791154051,
+        "narHash": "sha256-nrha+qCXqJBV7kmvUQB1acc/YzO9YLicR6rdiCaUWYs=",
         "owner": "milieuim",
         "repo": "vaultix",
-        "rev": "f882a39f249eeac27f884e6ea9618ba106ef0ebe",
+        "rev": "8e6331194139366a0398d936b68ff9926ecf3221",
         "type": "github"
       },
       "original": {
