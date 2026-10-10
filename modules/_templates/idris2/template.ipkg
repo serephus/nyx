@@ -1,0 +1,7 @@
+package template
+version = 0.1.0
+authors = "serephus"
+main = Main
+executable = template
+sourcedir = "src"
+depends = base

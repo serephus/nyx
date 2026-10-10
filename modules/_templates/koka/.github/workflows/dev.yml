@@ -1,0 +1,29 @@
+name: Development
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.envrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - uses: cachix/install-nix-action@v31
+
+    - name: Build
+      run: nix develop --command koka -o template src/main.kk
+
+    - name: Run
+      run: |
+        chmod +x template
+        ./template

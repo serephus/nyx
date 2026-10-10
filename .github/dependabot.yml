@@ -33,3 +33,23 @@ updates:
     directory: "/modules/_templates/cpp/.github/workflows"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/koka/.github/workflows"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/zig/.github/workflows"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/haskell/.github/workflows"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/idris2/.github/workflows"
+    schedule:
+      interval: "monthly"

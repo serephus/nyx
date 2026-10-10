@@ -17,6 +17,22 @@
         path = ./_templates/cpp;
         description = "C++ template with CMake";
       };
+      koka = {
+        path = ./_templates/koka;
+        description = "Koka template";
+      };
+      haskell = {
+        path = ./_templates/haskell;
+        description = "Haskell template with Cabal";
+      };
+      idris2 = {
+        path = ./_templates/idris2;
+        description = "Idris2 template";
+      };
+      zig = {
+        path = ./_templates/zig;
+        description = "Zig template";
+      };
       typst = {
         path = ./_templates/typst;
         description = "typst template";

@@ -1,0 +1,5 @@
+/.direnv
+/result
+
+# Idris2 build output
+/build/
