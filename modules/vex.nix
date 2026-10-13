@@ -33,6 +33,8 @@
       den.aspects.fish
       den.aspects.helix
       den.aspects.tmux
+
+      den.aspects.v2server
     ];
 
     # host NixOS configuration

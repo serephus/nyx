@@ -63,6 +63,7 @@
         den.aspects.yubikey
         (den.aspects.openpgp "DD961903")
         den.aspects.mihomo
+        den.aspects.v2client
 
         den.aspects.ollama
         den.aspects.gotty
