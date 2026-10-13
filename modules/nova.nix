@@ -72,7 +72,7 @@
 
         (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
 
-        den.aspects.frpc
+        (den.aspects.frpc { server = "aly"; })
       ];
 
       # host NixOS configuration
