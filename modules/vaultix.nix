@@ -37,6 +37,7 @@
         x1c
         nova
         vex
+        aly
         ;
     };
     # yubikey identity
