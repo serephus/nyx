@@ -63,6 +63,7 @@
         den.aspects.yubikey
         (den.aspects.openpgp "DD961903")
         den.aspects.mihomo
+        den.aspects.v2client
 
         den.aspects.ollama
         den.aspects.gotty
@@ -71,7 +72,7 @@
 
         (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
 
-        den.aspects.frpc
+        (den.aspects.frpc { server = "aly"; })
       ];
 
       # host NixOS configuration

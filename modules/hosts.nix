@@ -17,6 +17,10 @@
   den.hosts.x86_64-linux.vex.users.serephus = { };
   den.homes.x86_64-linux."serephus@vex" = { };
 
+  # serephus user at aly host.
+  den.hosts.x86_64-linux.aly.users.serephus = { };
+  den.homes.x86_64-linux."serephus@aly" = { };
+
   # minimal host for livecd, etc
   den.hosts.x86_64-linux.minimal.users = { };
 

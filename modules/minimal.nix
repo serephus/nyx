@@ -19,6 +19,11 @@
     nixos = { lib, modulesPath, ... }: {
       imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
 
+      isoImage = {
+        makeEfiBootable = true;
+        makeUsbBootable = lib.mkForce false;
+        forceTextMode = true;
+      };
       time.timeZone = "Asia/Shanghai";
       boot.zfs.forceImportRoot = lib.mkForce false;
       users.users.root = {

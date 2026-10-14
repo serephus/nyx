@@ -91,6 +91,8 @@ layout {
         offset x=0 y=5
         color "#0007"
     }
+
+    background-color "transparent"
 }
 
 hotkey-overlay {
@@ -118,6 +120,14 @@ window-rule {
 window-rule {
     match is-active=false
     opacity 0.94
+}
+
+// Put the wallpaper inside the backdrop (stationary layer)
+layer-rule {
+    // Adjust the namespace to match your wallpaper tool.
+    // Run `niri msg layers` to find the correct namespace.
+    match namespace="^wpaperd"
+    place-within-backdrop true
 }
 
 binds {
