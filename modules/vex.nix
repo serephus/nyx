@@ -10,7 +10,7 @@
         ephemeralRoot = true;
         encrypted = false;
         fido2 = false;
-        swapSize = 4;
+        swapSize = 2;
         tmpfsSize = "128M";
         efiMountPoint = "/boot";
         espSize = "128M";
@@ -19,7 +19,6 @@
       (den.aspects.systemd-boot "/boot")
       (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICnS0tQY6it20pzID6VWtGas1vl4dcCSj/egYP34aV0+")
       (den.aspects.preservation true)
-      den.aspects.firmware
       den.aspects.root
 
       # extra nix configs
@@ -41,6 +40,19 @@
     nixos = { lib, config, ... }: {
       # timezone
       time.timeZone = "America/New_York";
+      documentation = {
+        enable = lib.mkForce false;
+        nixos.enable = lib.mkForce false;
+      };
+      services.journald.extraConfig = ''
+        Storage=volatile
+        RuntimeMaxUse=32M
+      '';
+      # Use chrony instead of timesyncd for a lighter time sync
+      services.timesyncd.enable = false;
+      services.chrony.enable = true;
+      hardware.enableRedistributableFirmware = false;
+      hardware.enableAllFirmware = false;
 
       boot = {
         zswap.enable = config.swapDevices != [ ];

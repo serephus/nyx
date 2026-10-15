@@ -73,9 +73,12 @@
         # timezone
         time.timeZone = "Asia/Shanghai";
         boot = {
-          # this condition here fix the check of the vm packages
-          # I think some vm specific option forces empty the swap devices.
-          zswap.enable = config.swapDevices != [ ];
+          zswap = {
+            # this condition here fix the check of the vm packages
+            # I think some vm specific option forces empty the swap devices.
+            enable = config.swapDevices != [ ];
+            maxPoolPercent = 50;
+          };
 
           # hardware related configs
           initrd = {

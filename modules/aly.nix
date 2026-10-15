@@ -19,10 +19,10 @@
       (den.aspects.systemd-boot "/boot")
       (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ91WflJccDAniHDqNp/0ej5P4iCZilYm6rmS1wKV3YB")
       (den.aspects.preservation true)
-      den.aspects.firmware
       den.aspects.root
 
       # extra nix configs
+      den.aspects.nix-mirror-ustc
       den.aspects.clean-flake-registry
 
       # essential services and programs
@@ -40,7 +40,7 @@
     # host NixOS configuration
     nixos = { lib, config, ... }: {
       # timezone
-      time.timeZone = "America/New_York";
+      time.timeZone = "Asia/Shanghai";
 
       boot = {
         zswap.enable = config.swapDevices != [ ];
