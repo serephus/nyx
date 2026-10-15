@@ -1,5 +1,4 @@
 {
-  den,
   inputs,
   lib,
   ...
@@ -233,7 +232,7 @@ let
     in
     {
       includes = [
-        (den.aspects.disk {
+        (mkDisk {
           inherit
             device
             name
@@ -297,7 +296,7 @@ let
     }:
     {
       includes = [
-        (den.aspects.disk {
+        (mkDisk {
           inherit
             name
             device
@@ -327,7 +326,7 @@ let
     }:
     {
       includes = [
-        (den.aspects.disk {
+        (mkDisk {
           inherit
             name
             device
@@ -357,9 +356,6 @@ in
   imports = [ inputs.disko.flakeModules.disko ];
 
   den.aspects = {
-    # generic, policy-free disk layout primitive
-    disk = mkDisk;
-
     # presets (thin wrappers over `disk`)
     inherit rootFileSystem homeFileSystem dataFileSystem;
   };
