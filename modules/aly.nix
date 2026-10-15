@@ -23,6 +23,7 @@
       den.aspects.root
 
       # extra nix configs
+      den.aspects.nix-mirror-ustc
       den.aspects.clean-flake-registry
 
       # essential services and programs
@@ -40,7 +41,7 @@
     # host NixOS configuration
     nixos = { lib, config, ... }: {
       # timezone
-      time.timeZone = "America/New_York";
+      time.timeZone = "Asia/Shanghai";
 
       boot = {
         zswap.enable = config.swapDevices != [ ];
