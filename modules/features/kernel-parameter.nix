@@ -9,7 +9,7 @@
           "mitigations=off"
         ];
         kernel.sysctl = {
-          "vm.swappiness" = 30;
+          "vm.swappiness" = 100;
           "vm.vfs_cache_pressure" = 50;
           "kernel.sysrq" = 1;
         };
