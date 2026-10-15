@@ -10,7 +10,7 @@
         ephemeralRoot = true;
         encrypted = false;
         fido2 = false;
-        swapSize = 4;
+        swapSize = 2;
         tmpfsSize = "128M";
         efiMountPoint = "/boot";
         espSize = "128M";
