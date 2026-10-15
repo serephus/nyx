@@ -40,6 +40,19 @@
     nixos = { lib, config, ... }: {
       # timezone
       time.timeZone = "America/New_York";
+      documentation = {
+        enable = lib.mkForce false;
+        nixos.enable = lib.mkForce false;
+      };
+      services.journald.extraConfig = ''
+        Storage=volatile
+        RuntimeMaxUse=32M
+      '';
+      # Use chrony instead of timesyncd for a lighter time sync
+      services.timesyncd.enable = false;
+      services.chrony.enable = true;
+      hardware.enableRedistributableFirmware = false;
+      hardware.enableAllFirmware = false;
 
       boot = {
         zswap.enable = config.swapDevices != [ ];
