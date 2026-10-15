@@ -19,7 +19,6 @@
       (den.aspects.systemd-boot "/boot")
       (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICnS0tQY6it20pzID6VWtGas1vl4dcCSj/egYP34aV0+")
       (den.aspects.preservation true)
-      den.aspects.firmware
       den.aspects.root
 
       # extra nix configs
