@@ -14,7 +14,6 @@
             encrypted = true;
             swapSize = 10;
             fido2 = true;
-            efiMountPoint = efiMountPoint;
             includeHome = true;
           })
           (den.aspects.preservation ephemeralRoot)

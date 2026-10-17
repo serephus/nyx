@@ -55,11 +55,6 @@ anything until its host key exists and matches the `hostPubKey` baked into the a
    `secrets/cache/` files, then rebuild and switch. Once decryption works, restore the
    commented-out secrets.
 
-The `rpi` host aspect (`modules/rpi.nix`) automates step 1 with its `bootstrap = true`
-flag: vaultix activation is disabled and root/serephus get an empty initial password
-(SSH still requires the authorized keys). Set `bootstrap = false`, put the real host
-key in `hostPubKey`, and seal after the first boot.
-
 ## Build the installation iso
 
 ```console

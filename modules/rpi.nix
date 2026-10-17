@@ -1,29 +1,13 @@
 # Raspberry Pi 4B (8G) host.
-#
-# Bootstrap note: a fresh Pi has no re-encrypted vaultix cache yet. While
-# `bootstrap = true`, the vaultix activation services are disabled and the
-# root/serephus accounts get an empty initial password (SSH still only accepts
-# the authorized keys from modules/user/serephus.nix). After the first boot:
-#
-#   1. read the real host key: ssh-keyscan rpi (or
-#      cat /etc/ssh/ssh_host_ed25519_key.pub on the Pi)
-#   2. put it into `hostPubKey` below and set `bootstrap = false`
-#   3. add `rpi` to `flake.vaultix.nodes` in modules/vaultix.nix
-#   4. run `nix run .#seal`, then rebuild the Pi
 {
   den,
   inputs,
   ...
 }:
 let
-  # set to false once the real host key is in place and secrets are sealed
-  bootstrap = true;
-
-  # throwaway key, only used while bootstrapping
+  # TODO: replace with the Pi's real SSH host public key
   hostPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZB9ax2NN6PEMqgYweeqAaCbwLu/ICaPsa4a5bKmlar";
 
-  efiMountPoint = "/boot";
-  firmwareMountPoint = "/boot/firmware";
   ephemeralRoot = true;
 in
 {
@@ -33,13 +17,51 @@ in
       # SD card layout: FIRMWARE + ESP + btrfs root, matching the other hosts
       (den.aspects.rootFileSystem {
         device = "/dev/mmcblk0";
-        scheme = "rpi";
+        bootPartitions = [
+          {
+            # config.txt, DTBs and U-Boot; the Required Partition attribute
+            # tells udisks to leave it alone.
+            name = "FIRMWARE";
+            size = "1024M";
+            type = "0700"; # Microsoft basic data
+            attributes = [ 0 ];
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot/firmware";
+              mountOptions = [
+                "noatime"
+                "noauto"
+                "x-systemd.automount"
+                "x-systemd.idle-timeout=1min"
+              ];
+            };
+          }
+          {
+            # extlinux/kernel/initrd; U-Boot finds extlinux.conf via the
+            # Legacy BIOS Bootable GPT attribute.
+            name = "ESP";
+            size = "1024M";
+            type = "EF00";
+            attributes = [ 2 ];
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [
+                "noatime"
+                "noauto"
+                "x-systemd.automount"
+                "x-systemd.idle-timeout=1min"
+                "umask=0077"
+              ];
+            };
+          }
+        ];
         ephemeralRoot = ephemeralRoot;
         encrypted = false;
         fido2 = false;
         swapSize = 8;
-        efiMountPoint = efiMountPoint;
-        firmwareMountPoint = firmwareMountPoint;
         includeHome = true;
       })
       (den.aspects.preservation ephemeralRoot)
@@ -64,7 +86,7 @@ in
     ];
 
     # host NixOS configuration
-    nixos = { config, lib, ... }: {
+    nixos = { config, ... }: {
       imports = [
         inputs.nixos-raspberrypi.nixosModules.raspberry-pi-4.base
       ];
@@ -87,15 +109,6 @@ in
         kernelModules = [ ];
         extraModulePackages = [ ];
       };
-
-      # Bootstrap: don't wait for vaultix secrets that don't exist yet. The
-      # authorized SSH keys are plain files, so key login still works.
-      users.users.root.hashedPasswordFile = lib.mkIf bootstrap (lib.mkForce null);
-      users.users.root.initialHashedPassword = lib.mkIf bootstrap "";
-      users.users.serephus.hashedPasswordFile = lib.mkIf bootstrap (lib.mkForce null);
-      users.users.serephus.initialHashedPassword = lib.mkIf bootstrap "";
-      systemd.services.vaultix-activate.enable = lib.mkIf bootstrap (lib.mkForce false);
-      systemd.services.vaultix-activate-before-user.enable = lib.mkIf bootstrap (lib.mkForce false);
     };
   };
 }

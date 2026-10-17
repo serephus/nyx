@@ -17,7 +17,6 @@
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
           swapSize = swapSize;
-          efiMountPoint = efiMountPoint;
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;

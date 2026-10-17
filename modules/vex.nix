@@ -6,14 +6,24 @@
       # the @root/@nix/@var/@home subvolumes live under /persist
       (den.aspects.rootFileSystem {
         device = "/dev/vda";
-        scheme = "efi";
+        bootPartitions = [
+          {
+            name = "ESP";
+            size = "128M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
+            };
+          }
+        ];
         ephemeralRoot = true;
         encrypted = false;
         fido2 = false;
         swapSize = 2;
         tmpfsSize = "128M";
-        efiMountPoint = "/boot";
-        espSize = "128M";
         includeHome = true;
       })
       (den.aspects.systemd-boot "/boot")
