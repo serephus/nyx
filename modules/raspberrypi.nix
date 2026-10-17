@@ -4,6 +4,7 @@
       url = "github:nvmd/nixos-raspberrypi/main";
       # the Pi host is built from the same nixpkgs as every other host
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-compat.follows = "flake-compat";
     };
   };
 

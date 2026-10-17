@@ -21,6 +21,11 @@
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-compat.follows = "flake-compat";
+    };
+
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
     };
   };
 }
