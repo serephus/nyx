@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, inputs, ... }: {
   # serephus user at nyx host.
   den.hosts.x86_64-linux.nyx.users.serephus = { };
   # define an standalone home-manager for serephus
@@ -20,6 +20,15 @@
   # serephus user at aly host.
   den.hosts.x86_64-linux.aly.users.serephus = { };
   den.homes.x86_64-linux."serephus@aly" = { };
+
+  # serephus user at rpi host.
+  den.hosts.aarch64-linux.rpi = {
+    users.serephus = { };
+    # nixos-raspberrypi supplies the RPi kernel/firmware overlays and the
+    # `nixos-raspberrypi` specialArg; its nixpkgs follows our global one.
+    instantiate = inputs.nixos-raspberrypi.lib.nixosSystem;
+  };
+  den.homes.aarch64-linux."serephus@rpi" = { };
 
   # minimal host for livecd, etc
   den.hosts.x86_64-linux.minimal.users = { };
