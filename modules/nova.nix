@@ -17,7 +17,6 @@
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
           swapSize = swapSize;
-          efiMountPoint = efiMountPoint;
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;
@@ -69,6 +68,7 @@
         den.aspects.gotty
         den.aspects.miniserve
         den.aspects.cocoon
+        den.aspects.truesight
 
         (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
 

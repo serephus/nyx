@@ -38,6 +38,7 @@
         nova
         vex
         aly
+        rpi
         ;
     };
     # yubikey identity
