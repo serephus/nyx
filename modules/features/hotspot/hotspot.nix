@@ -6,18 +6,19 @@
       radio = "wlp0s20f3";
       apInterface = "wlan-ap0";
 
-      # Only used if hostapd is ever started while the client is down; normally
-      # `hotspot-follow` keeps it stopped in that case and picks the real
-      # channel from the connected client at every start.
+      # The AP is a WWAN fallback: it only runs while the WiFi client is down,
+      # so there is no client channel to mirror. Keep it on 2.4 GHz; this card's
+      # self-managed (LAR) regulatory domain currently marks 5 GHz as "no IR",
+      # which hostapd cannot beacon on.
       fallbackBand = "2g";
       fallbackChannel = 11;
 
-      # When the client disconnects, keep the AP up on its last channel so
-      # hotspot clients can keep using the wwan fallback. Caveat: a running AP
-      # pins the radio to that channel, so the client may be unable to join a
-      # network on a different channel until the AP is stopped. Leave `false`
-      # if you switch WiFi often.
-      keepApOnDisconnect = false;
+      # Policy timings (seconds).
+      pollEvery = 5;   # main loop interval
+      debounce = 25;   # wait after a disconnect before bringing the AP up
+      scanEvery = 60;  # how often to look for configured SSIDs
+      wifiGrace = 300; # keep the AP down this long trying to connect
+      wifiRetry = 600; # then give the AP a turn before scanning again
 
       # Private subnet handed out to hotspot clients.
       hotspotSubnet = "10.42.0";
@@ -34,13 +35,13 @@
         {
           vaultix.secrets.hotspotWifiPassword.file = ./hotspot-wifi-password.age;
 
-          # `iw` is handy for finding the client's current channel.
+          # `iw` is used by the hotspot policy to check the link and scan.
           environment.systemPackages = [ pkgs.iw ];
 
           # Create the AP VIF as a *down* managed interface. It must not be
           # brought up until hostapd flips it to AP mode: iwlwifi only allows
           # `managed <= 1`, so a second active managed interface makes the
-          # driver refuse to bring up wlp0s20f3. `hotspot-follow` owns the
+          # driver refuse to bring up wlp0s20f3. `hotspot-policy` owns the
           # interface lifetime and address.
           networking.wlanInterfaces = {
             ${radio}.device = radio;
@@ -52,15 +53,25 @@
           networking.wireless.interfaces = [ radio ];
           networking.dhcpcd.denyInterfaces = [ apInterface ];
 
-          # `hotspot-follow` owns the AP lifecycle, so don't start hostapd at
-          # boot: doing so on a stale channel could stop the client from joining
-          # a network on a different one.
-          systemd.services.hostapd.wantedBy = lib.mkForce [ ];
+          # `hotspot-policy` owns the AP lifecycle, so don't start hostapd at
+          # boot, and don't let `nixos-rebuild switch` restart it behind the
+          # policy's back while WiFi is connected.
+          systemd.services.hostapd = {
+            wantedBy = lib.mkForce [ ];
+            restartIfChanged = false;
+            # Give the AP its gateway address however hostapd is started
+            # (`hotspot-policy`, a manual `systemctl start`, ...). dnsmasq will
+            # not answer DHCP on wlan-ap0 until the interface has an address.
+            postStart = ''
+              ${pkgs.iproute2}/bin/ip addr replace ${apAddress}/24 dev ${apInterface}
+            '';
+          };
 
           services.hostapd = {
             enable = true;
             radios.${apInterface} = {
-              # Fallback only; overwritten below from the client's channel.
+              # The AP only runs while the WiFi client is down, so there is no
+              # client channel to follow; the fixed fallback is always used.
               band = fallbackBand;
               channel = fallbackChannel;
               wifi5.enable = false; # VHT is 5 GHz only
@@ -68,34 +79,6 @@
               # start the AP alongside the client.
               wifi4.capabilities = [ "SHORT-GI-20" ];
               countryCode = "CN";
-
-              # Run at every hostapd start, after the radio's own settings, so
-              # the appended hw_mode/channel win (hostapd takes the last value).
-              dynamicConfigScripts."50-follow-client-channel" =
-                pkgs.writeShellScript "hostapd-follow-client-channel" ''
-                  set -eu
-                  HOSTAPD_CONFIG=$1
-
-                  link=$(${pkgs.iw}/bin/iw dev ${radio} link 2>/dev/null || true)
-                  freq=$(printf '%s\n' "$link" \
-                    | ${pkgs.gawk}/bin/awk '/freq:/ { print $2; exit }' \
-                    | ${pkgs.coreutils}/bin/cut -d. -f1)
-
-                  if [ -z "''${freq:-}" ]; then
-                    exit 0
-                  fi
-
-                  if [ "$freq" -ge 5000 ]; then
-                    hw_mode=a
-                    channel=$(( (freq - 5000) / 5 ))
-                  else
-                    hw_mode=g
-                    channel=$(( (freq - 2407) / 5 ))
-                  fi
-
-                  printf '\n# Added by hotspot: mirror the associated client channel.\nhw_mode=%s\nchannel=%s\n' \
-                    "$hw_mode" "$channel" >> "$HOSTAPD_CONFIG"
-                '';
 
               networks.${apInterface} = {
                 ssid = "nyx";
@@ -106,70 +89,156 @@
             };
           };
 
-          # Keep the AP in sync with the WiFi client: (re)start it on the
-          # client's channel when connected, and stop it when disconnected so
-          # the radio is free to join a network on a different channel. Driven
-          # by `iw event`, so there's no polling delay.
-          systemd.services.hotspot-follow = {
-            description = "Keep the hotspot AP on the WiFi client's channel";
-            after = [ "network.target" ];
+          # The hotspot is a WWAN fallback:
+          #
+          #   WiFi associated          -> AP down
+          #   WiFi down, WWAN up       -> AP up
+          #   configured SSID visible  -> AP down (let WiFi connect)
+          #   otherwise                -> AP down
+          #
+          # iwlwifi only allows AP+STA on one channel, so the AP has to be down
+          # before the client can associate on another channel. That is why a
+          # visible configured SSID also stops the AP. If it stays visible but
+          # never connects, the AP gets a turn again after `wifiGrace` seconds.
+          systemd.services.hotspot-policy = {
+            description = "Run the hotspot only when WiFi is down and WWAN is up";
+            after = [ "network.target" "wpa_supplicant-${radio}.service" ];
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               Type = "simple";
               Restart = "always";
               RestartSec = 5;
-              ExecStart = pkgs.writeShellScript "hotspot-follow" ''
+              ExecStart = pkgs.writeShellScript "hotspot-policy" ''
                 set -u
 
+                radio=${radio}
+                ap=${apInterface}
+                ap_address=${apAddress}
+                wpa_conf=/etc/wpa_supplicant/nixos.conf
+
+                poll_every=${toString pollEvery}
+                debounce=${toString debounce}
+                scan_every=${toString scanEvery}
+                wifi_grace=${toString wifiGrace}
+                wifi_retry=${toString wifiRetry}
+
+                log() {
+                  ${pkgs.coreutils}/bin/echo "hotspot-policy: $*" >&2
+                }
+
                 stop_ap() {
-                  ${pkgs.systemd}/bin/systemctl stop hostapd.service || true
-                  ${pkgs.iproute2}/bin/ip addr del ${apAddress}/24 dev ${apInterface} 2>/dev/null || true
-                  ${pkgs.iproute2}/bin/ip link set ${apInterface} down || true
+                  if ${pkgs.systemd}/bin/systemctl is-active --quiet hostapd.service; then
+                    ${pkgs.systemd}/bin/systemctl stop hostapd.service || true
+                    log "stopped AP"
+                  fi
+                  ${pkgs.iproute2}/bin/ip addr del "$ap_address/24" dev "$ap" 2>/dev/null || true
+                  ${pkgs.iproute2}/bin/ip link set "$ap" down 2>/dev/null || true
                 }
 
                 start_ap() {
-                  # hostapd flips the VIF to AP mode and brings it up; then give
-                  # it the gateway address dnsmasq serves on.
-                  ${pkgs.systemd}/bin/systemctl restart hostapd.service || true
-                  ${pkgs.iproute2}/bin/ip addr replace ${apAddress}/24 dev ${apInterface}
+                  if ${pkgs.systemd}/bin/systemctl is-active --quiet hostapd.service; then
+                    return 0
+                  fi
+                  # hostapd flips the VIF to AP mode and brings it up; its unit
+                  # then assigns the gateway address dnsmasq serves on.
+                  ${pkgs.iproute2}/bin/ip link set "$ap" down 2>/dev/null || true
+                  if ${pkgs.systemd}/bin/systemctl start hostapd.service; then
+                    log "started AP (WWAN uplink, no WiFi)"
+                  else
+                    log "failed to start AP"
+                  fi
                 }
 
-                apply() {
-                  link=$(${pkgs.iw}/bin/iw dev ${radio} link 2>/dev/null || true)
-                  if ! printf '%s' "$link" | ${pkgs.gnugrep}/bin/grep -q '^Connected to'; then
-                    ${if keepApOnDisconnect then "true" else "stop_ap"}
-                    return
-                  fi
+                wifi_connected() {
+                  ${pkgs.iw}/bin/iw dev "$radio" link 2>/dev/null \
+                    | ${pkgs.gnugrep}/bin/grep -q '^Connected to'
+                }
 
-                  # A self-managed (LAR) regulatory domain can mark the client's
-                  # channel passive ("no IR"); hostapd cannot beacon there, so
-                  # don't even try (and don't crash-loop).
-                  channel=$(${pkgs.iw}/bin/iw dev ${radio} info 2>/dev/null | ${pkgs.gawk}/bin/awk '/channel/ { print $2; exit }')
-                  if [ -n "$channel" ] && ${pkgs.iw}/bin/iw list 2>/dev/null \
-                       | ${pkgs.gnugrep}/bin/grep -E "MHz \\[$channel\\]" \
-                       | ${pkgs.gnugrep}/bin/grep -qE '\(no IR\)|\(disabled\)'; then
+                wwan_up() {
+                  ${pkgs.iproute2}/bin/ip -4 addr show dev wwan0 2>/dev/null \
+                    | ${pkgs.gnugrep}/bin/grep -q 'inet ' &&
+                  ${pkgs.iproute2}/bin/ip route show default 2>/dev/null \
+                    | ${pkgs.gnugrep}/bin/grep -q 'dev wwan0'
+                }
+
+                # 0: a configured SSID is visible
+                # 1: none visible
+                # 2: scan failed (keep the previous decision)
+                known_visible() {
+                  [ -r "$wpa_conf" ] || return 1
+
+                  known=$(${pkgs.gnused}/bin/sed -n 's/^[[:space:]]*ssid="\(.*\)"$/\1/p' "$wpa_conf" \
+                    | ${pkgs.coreutils}/bin/sort -u)
+                  [ -n "$known" ] || return 1
+
+                  # The client interface must be up for a scan, even while the
+                  # AP is running and the client is not associated.
+                  ${pkgs.iproute2}/bin/ip link set "$radio" up 2>/dev/null || true
+
+                  scan=$(${pkgs.iw}/bin/iw dev "$radio" scan 2>/dev/null) || return 2
+
+                  if ${pkgs.coreutils}/bin/printf '%s\n' "$scan" \
+                       | ${pkgs.gnused}/bin/sed -n 's/^[[:space:]]*SSID: //p' \
+                       | ${pkgs.gnugrep}/bin/grep -Fxq -f <(${pkgs.coreutils}/bin/printf '%s\n' "$known"); then
+                    return 0
+                  fi
+                  return 1
+                }
+
+                down_since=0
+                visible=0
+                visible_since=0
+                next_scan=0
+
+                while :; do
+                  now=$(${pkgs.coreutils}/bin/date +%s)
+
+                  if wifi_connected; then
                     stop_ap
-                    return
-                  fi
+                    down_since=0
+                    visible=0
+                    visible_since=0
+                  else
+                    [ "$down_since" -eq 0 ] && down_since=$now
 
-                  start_ap
-                }
-
-                # `iw event` only reports changes, so sync the current state once.
-                apply
-
-                # React to connect/disconnect/roam. Note "disconnected" also
-                # contains "connected", so one pattern covers both.
-                ${pkgs.iw}/bin/iw event | while IFS= read -r line; do
-                  case "$line" in
-                    *${radio}*)
-                      case "$line" in
-                        *connected*|*roamed*)
-                          apply
+                    if [ "$now" -ge "$next_scan" ]; then
+                      known_visible
+                      case $? in
+                        0)
+                          if [ "$visible" -eq 0 ]; then
+                            visible_since=$now
+                            log "a configured SSID is in range, yielding the radio to WiFi"
+                          fi
+                          visible=1
+                          ;;
+                        1)
+                          visible=0
+                          visible_since=0
+                          ;;
+                        *)
+                          # Scan failed; keep the previous decision.
                           ;;
                       esac
-                      ;;
-                  esac
+                      next_scan=$((now + scan_every))
+                    fi
+
+                    if [ "$visible" -eq 1 ] && [ $((now - visible_since)) -ge "$wifi_grace" ]; then
+                      log "could not connect to the visible network, giving the AP a turn"
+                      visible=0
+                      visible_since=0
+                      next_scan=$((now + wifi_retry))
+                    fi
+
+                    if [ "$visible" -eq 1 ]; then
+                      stop_ap
+                    elif wwan_up && [ $((now - down_since)) -ge "$debounce" ]; then
+                      start_ap
+                    else
+                      stop_ap
+                    fi
+                  fi
+
+                  ${pkgs.coreutils}/bin/sleep "$poll_every"
                 done
               '';
             };
