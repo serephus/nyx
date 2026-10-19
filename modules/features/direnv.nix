@@ -18,6 +18,7 @@
             "${config.home.homeDirectory}/dev/idris2"
             "${config.home.homeDirectory}/dev/haskell"
             "${config.home.homeDirectory}/dev/zig"
+            "${config.home.homeDirectory}/dev/llm"
           ];
         };
       };
