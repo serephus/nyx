@@ -19,6 +19,7 @@
           auto-optimise-store = true;
           # root is trusted by default
           trusted-users = [ "@wheel" ];
+          accept-flake-config = true;
         };
       };
     };
