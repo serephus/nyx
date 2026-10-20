@@ -44,6 +44,12 @@
       den.aspects.tmux
 
       den.aspects.v2server
+
+      (den.aspects.cloudflaredTunnel {
+        id = "88d3e934-107f-4f22-9395-e81c85c27c27";
+        credentialFile = ./features/cloudflared/cloudflared-credential-vex.age;
+      })
+      den.aspects.cocoon
     ];
 
     # host NixOS configuration
