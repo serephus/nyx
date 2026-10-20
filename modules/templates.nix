@@ -1,6 +1,10 @@
 {
   flake = {
     templates = {
+      android = {
+        path = ./_templates/android;
+        description = "Android template with Kotlin, Jetpack Compose and Gradle";
+      };
       rust = {
         path = ./_templates/rust;
         description = "Rust template, using Naersk";
