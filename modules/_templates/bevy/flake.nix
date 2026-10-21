@@ -22,6 +22,12 @@
       nixit,
       ...
     }:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+    in
     {
       githubRepositories.bevy = nixit.lib.githubRepository {
         owner = "serephus";
@@ -89,7 +95,7 @@
         };
       };
     }
-    // flake-utils.lib.eachDefaultSystem (
+    // flake-utils.lib.eachSystem systems (
       system:
       let
         overlays = [ (import rust-overlay) ];
