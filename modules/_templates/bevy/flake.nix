@@ -83,6 +83,7 @@
               {
                 type = "required_status_checks";
                 parameters = {
+                  do_not_enforce_on_create = true;
                   strict_required_status_checks_policy = true;
                   required_status_checks = [
                     { "context" = "ubuntu-latest-x86_64-unknown-linux-gnu-nightly"; }
