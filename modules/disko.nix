@@ -86,20 +86,18 @@ let
 
   # ---------------------------------------------------------------------------
   # A single GPT disk:
-  #   [BIOS?] [ESP?] <main partition (optionally LUKS + btrfs)> [extra partitions]
+  #   <boot partitions> <extra partitions> <main partition>
   #
-  # - scheme = "efi"    : ESP + main
-  # - scheme = "bios"   : bios_grub + main
-  # - scheme = "hybrid" : bios_grub + ESP + main (boots SeaBIOS *and* UEFI)
-  # - scheme = "none"   : main only (data disks)
+  # `bootPartitions` and `extraPartitions` are ordered lists of disko
+  # partition attrsets (each requires `name`). The main partition is always
+  # appended last. Priorities are assigned from list position; a `priority`
+  # set on an entry is ignored so the list order is authoritative.
   # ---------------------------------------------------------------------------
   mkDisk =
     {
       device,
       name ? "main",
-      scheme ? "efi", # "efi" | "bios" | "hybrid" | "none"
-      espSize ? "1024M",
-      efiMountPoint ? "/boot/efi",
+      bootPartitions ? [ ],
       subvolumes ? { },
       defaultMountOptions ? btrfsMountOptions,
       encrypted ? false,
@@ -116,7 +114,7 @@ let
       # escape hatches
       content ? null, # replace the whole main partition content
       extraDevices ? { }, # e.g. nodev."/" = tmpfs
-      extraPartitions ? { },
+      extraPartitions ? [ ],
       extraSubvolumes ? { },
       extraFileSystems ? { },
     }:
@@ -153,37 +151,23 @@ let
         else
           btrfs.content;
 
-      bootPartitions =
-        lib.optionalAttrs (scheme == "bios" || scheme == "hybrid") {
-          bios = {
-            name = "BIOS";
-            size = "1M";
-            type = "EF02"; # for GRUB on GPT; disko creates EF02 first by priority
-          };
-        }
-        // lib.optionalAttrs (scheme == "efi" || scheme == "hybrid") {
-          ESP = {
-            name = "ESP";
-            size = espSize;
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = efiMountPoint;
-              mountOptions = [ "umask=0077" ];
-            };
-          };
-        };
-
-      hasMain = allSubvolumes != { } || content != null;
-      mainPartition = lib.optionalAttrs hasMain {
-        root = {
-          size = "100%";
-          content = mainContent;
-        };
+      # The main partition is appended after every boot/extra partition, so it
+      # always comes last. Priorities are derived from the final list order.
+      mainPartition = lib.optional (allSubvolumes != { } || content != null) {
+        name = "root";
+        size = "100%";
+        content = mainContent;
       };
 
-      partitions = bootPartitions // mainPartition // extraPartitions;
+      mkPartitions =
+        parts:
+        lib.listToAttrs (
+          lib.imap0 (
+            i: p: lib.nameValuePair p.name ({ priority = 100 + i; } // builtins.removeAttrs p [ "priority" ])
+          ) parts
+        );
+
+      partitions = mkPartitions (bootPartitions ++ extraPartitions ++ mainPartition);
     in
     {
       nixos = {
@@ -207,21 +191,37 @@ let
   # Presets
   # ---------------------------------------------------------------------------
 
+  # Default root-disk boot layout: a single ESP at /boot/efi. Hosts with a
+  # different boot layout (U-Boot, SeaBIOS, tiny /boot, ...) pass their own
+  # `bootPartitions` list.
+  defaultBootPartitions = [
+    {
+      name = "ESP";
+      size = "1024M";
+      type = "EF00";
+      content = {
+        type = "filesystem";
+        format = "vfat";
+        mountpoint = "/boot/efi";
+        mountOptions = [ "umask=0077" ];
+      };
+    }
+  ];
+
   # Ephemeral (or persistent) root with the classic @root/@nix/@var/@home/@swap
-  # scheme. Old interface kept intact.
+  # layout. Old interface kept intact.
   rootFileSystem =
     {
       device,
       name ? "main",
-      scheme ? "efi",
+      bootPartitions ? defaultBootPartitions,
+      extraPartitions ? [ ],
       ephemeralRoot ? true,
       encrypted ? true,
       fido2 ? true,
       keyFile ? "/tmp/secret.key",
       swapSize ? 20,
       tmpfsSize ? "4G",
-      efiMountPoint ? "/boot/efi",
-      espSize ? "1024M",
       includeHome ? true,
     }:
     let
@@ -236,13 +236,12 @@ let
           inherit
             device
             name
-            scheme
+            bootPartitions
+            extraPartitions
             encrypted
             fido2
             keyFile
             swapSize
-            efiMountPoint
-            espSize
             ;
           swap = true;
           luksName = "crypted"; # keep existing mapper name
@@ -303,7 +302,6 @@ let
             encrypted
             fido2
             ;
-          scheme = "none";
           luksName = "crypted-home";
           subvolumes = {
             "@home" = {
@@ -333,7 +331,6 @@ let
             encrypted
             fido2
             ;
-          scheme = "none";
           luksName = "crypted-data";
           subvolumes = {
             "@data" = {

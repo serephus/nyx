@@ -17,7 +17,6 @@
         (den.aspects.rootFileSystem {
           device = "/dev/nvme0n1";
           swapSize = swapSize;
-          efiMountPoint = efiMountPoint;
           ephemeralRoot = ephemeralRoot;
           encrypted = encrypted;
           fido2 = fido2;
@@ -58,6 +57,7 @@
         den.aspects.tealdeer
         den.aspects.eza
         den.aspects.direnv
+        den.aspects.cargo
 
         # credential stuff
         den.aspects.yubikey
@@ -68,8 +68,12 @@
         den.aspects.ollama
         den.aspects.gotty
         den.aspects.miniserve
-        den.aspects.cocoon
+        den.aspects.truesight
 
+        (den.aspects.cloudflaredTunnel {
+          id = "e199d1c4-c72e-4e6b-a440-3077c0d387a0";
+          credentialFile = ./features/cloudflared/cloudflared-credential-nova.age;
+        })
         (den.aspects.cloudflared "ssh.sereph.us" "ssh://localhost:22")
 
         (den.aspects.frpc { server = "aly"; })

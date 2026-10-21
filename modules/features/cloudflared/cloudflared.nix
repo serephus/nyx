@@ -1,22 +1,37 @@
 {
-  den.aspects.cloudflared = host: url: {
-    nixos = { config, ... }: {
-      vaultix.secrets = {
-        # cert is actually not required for our setup
-        cloudflaredCertificate.file = ./cloudflared-certificate.age;
-        cloudflaredCredential.file = ./cloudflared-credential.age;
+  # Per-host tunnel: a connector can only answer for hostnames in its own ingress
+  # config, so each host that runs cloudflared needs its own tunnel (own id + creds).
+  den.aspects.cloudflaredTunnel = { id, credentialFile }: {
+    nixos = { config, lib, ... }: {
+      options.cloudflared.tunnelId = lib.mkOption {
+        type = lib.types.str;
+        description = "Cloudflare tunnel this host runs a connector for.";
       };
-      services.cloudflared = {
-        enable = true;
-        certificateFile = config.vaultix.secrets.cloudflaredCertificate.path;
-        tunnels = {
-          "e199d1c4-c72e-4e6b-a440-3077c0d387a0" = {
+
+      config = {
+        cloudflared.tunnelId = id;
+
+        vaultix.secrets.cloudflaredCredential.file = credentialFile;
+
+        services.cloudflared = {
+          enable = true;
+          tunnels."${id}" = {
             credentialsFile = config.vaultix.secrets.cloudflaredCredential.path;
             default = "http_status:404";
-            ingress."${host}".service = url;
           };
         };
       };
+    };
+  };
+
+  # Attach a public hostname to this host's tunnel. The tunnel key comes from the
+  # plain `cloudflared.tunnelId` option above, never from
+  # `config.services.cloudflared.tunnels` itself: mapping over that option while
+  # defining it needs the option's attr names, which are only known after this
+  # definition is evaluated => infinite recursion.
+  den.aspects.cloudflared = host: url: {
+    nixos = { config, ... }: {
+      services.cloudflared.tunnels."${config.cloudflared.tunnelId}".ingress."${host}".service = url;
     };
   };
 }

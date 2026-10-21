@@ -40,6 +40,7 @@
         den.aspects.tealdeer
         den.aspects.eza
         den.aspects.direnv
+        den.aspects.cargo
 
         # credential stuff
         den.aspects.yubikey
