@@ -112,7 +112,7 @@
           ];
           targets = [ "wasm32-unknown-unknown" ];
         };
-        linker = pkgs.lib.optionals pkgs.stdenv.isLinux [
+        linker = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [
           pkgs.clang
           pkgs.mold
         ];
@@ -123,10 +123,10 @@
           udev
           alsa-lib
           vulkan-loader
-          xorg.libX11
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXrandr # To use the x11 feature
+          libX11
+          libXcursor
+          libXi
+          libXrandr # To use the x11 feature
           libxkbcommon
           wayland # To use the wayland feature
         ];
@@ -134,8 +134,8 @@
         darwinDeps = [ pkgs.apple-sdk_15 ];
 
         deps =
-          (pkgs.lib.optionals pkgs.stdenv.isLinux linuxDeps)
-          ++ (pkgs.lib.optionals pkgs.stdenv.isDarwin darwinDeps);
+          (pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux linuxDeps)
+          ++ (pkgs.lib.optionals pkgs.stdenv.hostPlatform.isDarwin darwinDeps);
       in
       {
         devShell = pkgs.mkShell rec {
