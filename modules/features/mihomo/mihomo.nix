@@ -5,6 +5,7 @@
         secrets = {
           kittyUrl.file = ./kitty-url.age;
           sttUrl.file = ./stt-url.age;
+          pqjcUrl.file = ./pqjc-url.age;
         };
         templates.mihomoConfig = {
           mode = "0644";
@@ -29,6 +30,21 @@
                 };
 
                 proxy-providers = {
+                  pqjc = {
+                    type = "http";
+                    url = config.vaultix.placeholder.pqjcUrl;
+                    interval = 7200;
+                    path = "./pqjc-nodes.yaml";
+                    override.additional-prefix = "[pqjc] ";
+                    health-check = {
+                      enable = true;
+                      url = "https://www.gstatic.com/generate_204";
+                      interval = 300;
+                      timeout = 5000;
+                      lazy = true;
+                      expected-status = 204;
+                    };
+                  };
                   kitty = {
                     type = "http";
                     url = config.vaultix.placeholder.kittyUrl;
@@ -67,6 +83,7 @@
                     type = "select";
                     proxies = [ "AUTO" ];
                     use = [
+                      "pqjc"
                       "kitty"
                       "stt"
                     ];
@@ -75,6 +92,7 @@
                     name = "AUTO";
                     type = "url-test";
                     use = [
+                      "pqjc"
                       "kitty"
                       "stt"
                     ];
