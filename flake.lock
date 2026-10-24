@@ -224,6 +224,38 @@
         "type": "github"
       }
     },
+    "komi": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "naersk": [
+          "naersk"
+        ],
+        "nixit": [
+          "nixit"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792855527,
+        "narHash": "sha256-0wwhKNdv9Pq8SobY7iUXn58h4ShhI2ynMXIU8dyijMc=",
+        "owner": "serephus",
+        "repo": "komi",
+        "rev": "39e94bfcbd8933c1185c9442578feb61e45305bf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "serephus",
+        "repo": "komi",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": [
@@ -441,6 +473,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
+        "komi": "komi",
         "lanzaboote": "lanzaboote",
         "naersk": "naersk",
         "nixit": "nixit",

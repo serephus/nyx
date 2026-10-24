@@ -50,6 +50,7 @@
         credentialFile = ./features/cloudflared/cloudflared-credential-vex.age;
       })
       den.aspects.cocoon
+      den.aspects.komi
     ];
 
     # host NixOS configuration
