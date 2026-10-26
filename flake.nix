@@ -40,6 +40,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
+    komi = {
+      url = "github:serephus/komi";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        naersk.follows = "naersk";
+        nixit.follows = "nixit";
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+      };
+    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs = {

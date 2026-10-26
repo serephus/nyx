@@ -16,6 +16,12 @@
       nixit,
       ...
     }:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+    in
     {
       githubRepositories.typst = nixit.lib.githubRepository {
         owner = "serephus";
@@ -66,7 +72,7 @@
         };
       };
     }
-    // utils.lib.eachDefaultSystem (
+    // utils.lib.eachSystem systems (
       system:
       let
         pkgs = import nixpkgs { inherit system; };

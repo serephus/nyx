@@ -16,6 +16,12 @@
       nixit,
       ...
     }:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+    in
     {
       githubRepositories.zig = nixit.lib.githubRepository {
         owner = "serephus";
@@ -70,6 +76,7 @@
               {
                 type = "required_status_checks";
                 parameters = {
+                  do_not_enforce_on_create = true;
                   strict_required_status_checks_policy = true;
                   required_status_checks = [
                     { "context" = "build"; }
@@ -81,7 +88,7 @@
         };
       };
     }
-    // flake-utils.lib.eachDefaultSystem (
+    // flake-utils.lib.eachSystem systems (
       system:
       let
         pkgs = import nixpkgs { inherit system; };

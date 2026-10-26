@@ -1,0 +1,74 @@
+name: Development
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.envrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Format, lint and test
+        run: |
+          nix develop --command cargo fmt --check
+          nix develop --command cargo clippy --all-targets -- --deny warnings
+          nix develop --command cargo test
+
+  apk:
+    name: APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Build the release APK
+        run: nix build .#apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: template-release
+          path: result/template.apk
+          if-no-files-found: error
+
+  nix-build:
+    name: Nix Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Evaluate the flake
+        run: |
+          nix flake check --no-build
+          nix eval .#apps.x86_64-linux.install.program
+          nix eval .#devShells.x86_64-linux.default.name

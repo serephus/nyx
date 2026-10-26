@@ -26,8 +26,8 @@
           settings = {
             monitor = [
               # ",preferred,auto,auto"
+              "HDMI-A-1, 2560x1440@60, 0x0, auto" # this is my own monitor
               "eDP-1, 2560x1440@60, 2560x0, auto"
-              "HDMI-A-1, 2560x1440@60, 0x0, auto"
             ];
 
             # we use windows key as mod key

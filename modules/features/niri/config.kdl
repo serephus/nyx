@@ -28,24 +28,17 @@ xwayland-satellite {
 }
 
 // Output names: `niri msg outputs`.
-output "DP-2" {
-    mode "2560x1440@60.000"
-    scale 1
-    transform "normal"
-    position x=-5120 y=0
-}
-
-output "HDMI-A-1" {
-    mode "2560x1440@60.000"
-    scale 1
-    transform "normal"
+output "HDMI-A-1" {  // First external 1920x1080 monitor
+    mode "2560x1440"
+    scale 1.0
+    // Place it to the right of the internal display.
+    // Internal logical width = 2560 / 2.25 ≈ 1138.
     position x=-2560 y=0
 }
 
-output "eDP-1" {
-    mode "2560x1440@60.000"
-    scale 1
-    transform "normal"
+output "eDP-1" {  // Your internal 2560x1440 monitor
+    mode "2560x1440"
+    scale 1.935483870967742 
     position x=0 y=0
 }
 

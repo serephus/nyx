@@ -1,0 +1,21 @@
+# Nix
+/.direnv
+/result
+
+# Rust
+/target
+
+# Android
+*.apk
+*.aab
+*.idsig
+*.jks
+*.keystore
+
+# Emulator AVDs
+/.android
+
+# IDE
+.idea/
+*.iml
+.DS_Store
