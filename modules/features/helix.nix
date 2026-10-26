@@ -41,7 +41,6 @@
           };
         };
         ignores = [
-          "target"
           "!.gitignore"
           "!.gitattributes"
           "!.github/"
