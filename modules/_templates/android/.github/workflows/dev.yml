@@ -29,7 +29,7 @@ jobs:
         uses: cachix/install-nix-action@v31
 
       - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Evaluate flake
         run: nix flake check --no-build
