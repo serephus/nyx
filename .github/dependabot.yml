@@ -53,3 +53,13 @@ updates:
     directory: "/modules/_templates/idris2/.github/workflows"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/android/.github/workflows"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/modules/_templates/android-egui/.github/workflows"
+    schedule:
+      interval: "monthly"
