@@ -23,7 +23,7 @@
         encrypted = false;
         fido2 = false;
         swapSize = 4;
-        tmpfsSize = "128M";
+        tmpfsSize = "1G";
         includeHome = true;
       })
       (den.aspects.systemd-boot "/boot")
