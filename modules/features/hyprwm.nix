@@ -12,7 +12,7 @@
       den.aspects.mako
       den.aspects.pipewire
       den.aspects.wpaperd
-      den.aspects.copyq
+      den.aspects.clipcat
       den.aspects.bibata
       den.aspects.fcitx5
     ];

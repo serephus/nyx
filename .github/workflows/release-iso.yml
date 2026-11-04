@@ -1,0 +1,128 @@
+name: "Build and release minimal ISO"
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create/publish (defaults to snapshot-<date>-<sha>)"
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  NIX_CONFIG: |
+    experimental-features = nix-command flakes
+    accept-flake-config = true
+
+jobs:
+  build:
+    name: Build minimal ISO
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      iso: ${{ steps.asset.outputs.name }}
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v10
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/nix-installer-action@v23
+      - uses: DeterminateSystems/magic-nix-cache-action@v15
+
+      - name: Determine release version
+        id: version
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${INPUT_TAG:-}" ]]; then
+            version="$INPUT_TAG"
+          elif [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            version="$GITHUB_REF_NAME"
+          else
+            version="snapshot-$(date -u +%Y%m%d)-${GITHUB_SHA::7}"
+          fi
+          # Tags cannot contain spaces or slashes.
+          version="${version// /-}"
+          version="${version//\//-}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Build ISO
+        run: nix build .#iso --print-build-logs
+
+      - name: Prepare release assets
+        id: asset
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          iso=$(find result/iso -maxdepth 1 -name '*.iso' -print -quit)
+          if [[ -z "$iso" ]]; then
+            echo "No ISO found under result/iso" >&2
+            ls -la result/iso >&2 || true
+            exit 1
+          fi
+          name="nixos-minimal-${VERSION}-x86_64-linux.iso"
+          cp --reflink=auto "$iso" "$name"
+          sha256sum "$name" > "$name.sha256"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "### Built \`$name\`" >> "$GITHUB_STEP_SUMMARY"
+          cat "$name.sha256" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: minimal-iso
+          path: |
+            ${{ steps.asset.outputs.name }}
+            ${{ steps.asset.outputs.name }}.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+  release:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: minimal-iso
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+          ISO: ${{ needs.build.outputs.iso }}
+        run: |
+          set -euo pipefail
+          if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            # A re-run of an existing tag: replace the assets instead of failing.
+            gh release upload "$VERSION" "$ISO" "$ISO.sha256" \
+              --repo "$GITHUB_REPOSITORY" --clobber
+            exit 0
+          fi
+          args=(
+            --repo "$GITHUB_REPOSITORY"
+            --title "NixOS minimal ISO $VERSION"
+            --generate-notes
+          )
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$VERSION" >/dev/null 2>&1; then
+            # The tag already exists (tag push), don't try to recreate it.
+            args+=(--verify-tag)
+          else
+            # Ad-hoc/manual build: point the new tag at the built commit.
+            args+=(--target "$GITHUB_SHA")
+          fi
+          # Ad-hoc builds are not versioned releases.
+          if [[ "$VERSION" != v* ]]; then
+            args+=(--prerelease)
+          fi
+          gh release create "$VERSION" "${args[@]}" "$ISO" "$ISO.sha256"
