@@ -243,11 +243,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792855527,
-        "narHash": "sha256-0wwhKNdv9Pq8SobY7iUXn58h4ShhI2ynMXIU8dyijMc=",
+        "lastModified": 1793449527,
+        "narHash": "sha256-xEWOovlNf0pkbwdd6B9pdfNh5fIzresMv0hX1VBtwqM=",
         "owner": "serephus",
         "repo": "komi",
-        "rev": "39e94bfcbd8933c1185c9442578feb61e45305bf",
+        "rev": "9f01309c0f5828602075de5d7ea7f46b18ae1f7d",
         "type": "github"
       },
       "original": {
