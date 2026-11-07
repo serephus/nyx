@@ -20,6 +20,7 @@
           den.aspects.xmmrpc
           den.aspects.hotspot
           den.aspects.github
+          den.aspects.steam
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?
