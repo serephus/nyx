@@ -35,11 +35,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793514415,
-        "narHash": "sha256-+4gciuBHE1xje5mLADFeLVHOzdRHpQAjDV0ULGoVeOM=",
+        "lastModified": 1794105531,
+        "narHash": "sha256-4rJgD3m5tA2stKyls+gmnR4dJOQBIT1tvDmhhumk0zo=",
         "owner": "serephus",
         "repo": "cocoon",
-        "rev": "ecb1b2a38708e14c8beb283cd4e5b8f5942c74d3",
+        "rev": "5f1ac7c21bc621526989b9381b87a5a94a3c7e0a",
         "type": "github"
       },
       "original": {
