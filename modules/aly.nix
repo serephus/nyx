@@ -9,7 +9,7 @@
         bootPartitions = [
           {
             name = "ESP";
-            size = "128M";
+            size = "1G";
             type = "EF00";
             content = {
               type = "filesystem";
