@@ -32,7 +32,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
       iso: ${{ steps.asset.outputs.name }}
     steps:
-      - uses: wimpysworld/nothing-but-nix@v10
+      - uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v7
       - uses: DeterminateSystems/nix-installer-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v15
