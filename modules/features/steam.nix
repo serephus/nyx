@@ -1,12 +1,12 @@
-{
+{ den, ... }: {
   den.aspects.steam = {
-    nixos = { lib, pkgs, ... }: {
-      nixpkgs.config.allowUnfreePredicate =
-        pkg:
-        builtins.elem (lib.getName pkg) [
-          "steam"
-          "steam-unwrapped"
-        ];
+    includes = [
+      (den.batteries.unfree [
+        "steam"
+        "steam-unwrapped"
+      ])
+    ];
+    nixos = { pkgs, ... }: {
       programs.steam = {
         enable = true;
         package =

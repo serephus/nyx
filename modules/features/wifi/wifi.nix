@@ -13,6 +13,10 @@
           pskRaw = "ext:psk_glwifi";
           priority = 1000;
         };
+        networks."中国联通" = {
+          pskRaw = "ext:psk_zglt";
+          priority = 1002;
+        };
       };
     };
   };
