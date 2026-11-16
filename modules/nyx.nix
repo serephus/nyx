@@ -25,6 +25,12 @@
 
           den.aspects.steam
           den.aspects.minecraft-client
+
+          den.aspects.telegram
+          den.aspects.obs
+          den.aspects.blender
+          den.aspects.freecad
+          den.aspects.kicad
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?
