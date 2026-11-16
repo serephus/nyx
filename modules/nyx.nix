@@ -20,6 +20,7 @@
           den.aspects.xmmrpc
           den.aspects.hotspot
           den.aspects.github
+          den.aspects.nixit
           den.aspects.termusic
 
           den.aspects.steam

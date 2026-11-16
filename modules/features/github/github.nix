@@ -1,11 +1,7 @@
-{
+{ den, ... }: {
   den.aspects.github = {
-    nixos = {
-      vaultix.secrets.githubToken = {
-        file = ./github-token.age;
-        mode = "0644";
-      };
-    };
+    includes = [ den.aspects.github-token ];
+
     provides.to-users = {
       homeManager = { osConfig, pkgs, ... }: {
         programs.gh = {
