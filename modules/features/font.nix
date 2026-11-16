@@ -12,6 +12,7 @@
           noto-fonts-cjk-serif
           wqy_microhei
           lxgw-wenkai
+          sarasa-gothic
         ];
       };
     };
