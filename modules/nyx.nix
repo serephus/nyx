@@ -20,8 +20,17 @@
           den.aspects.xmmrpc
           den.aspects.hotspot
           den.aspects.github
-          den.aspects.steam
+          den.aspects.nixit
           den.aspects.termusic
+
+          den.aspects.steam
+          den.aspects.minecraft-client
+
+          den.aspects.telegram
+          den.aspects.obs
+          den.aspects.blender
+          den.aspects.freecad
+          den.aspects.kicad
         ];
         imports = [
           # we're actually 8th gen, but I think it is okay?

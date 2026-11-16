@@ -1,12 +1,12 @@
 {
   den.aspects.hyprlock = {
-    provides.to-users.homeManager = { lib, ... }: {
+    provides.to-users.homeManager = {
       programs.hyprlock = {
         enable = true;
         settings = {
           general = {
             disable_loading_bar = true;
-            grace = 300;
+            grace = 0;
             hide_cursor = true;
             no_fade_in = false;
           };
@@ -38,11 +38,11 @@
 
       services.hypridle = {
         settings = {
-          general.lock_cmd = "hyprlock";
-          listener = lib.mkOrder 100 [
+          general.lock_cmd = "pidof hyprlock || hyprlock";
+          listener = [
             {
               timeout = 900;
-              on-timeout = "hyprlock";
+              on-timeout = "loginctl lock-session";
             }
           ];
         };

@@ -60,11 +60,6 @@
         den.aspects.common-gui-tools
         den.aspects.alacritty
         den.aspects.qutebrowser
-        den.aspects.telegram
-        den.aspects.obs
-        den.aspects.blender
-        den.aspects.freecad
-        den.aspects.kicad
 
         # ai related stuff
         den.aspects.pi-coding-agent
