@@ -27,7 +27,7 @@
         includeHome = true;
       })
       (den.aspects.systemd-boot "/boot")
-      (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ91WflJccDAniHDqNp/0ej5P4iCZilYm6rmS1wKV3YB")
+      (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE5jb5FGLAllnZOJu58PBl1gv6cIJRzpG4qaw/DqQeh/")
       (den.aspects.preservation true)
       den.aspects.root
 
@@ -45,6 +45,12 @@
       den.aspects.tmux
 
       den.aspects.frps
+      (den.aspects.cloudflaredTunnel {
+        id = "5de57f09-faf3-4f2b-a4b7-aa570028056e";
+        credentialFile = ./features/cloudflared/cloudflared-credential-aly.age;
+      })
+      den.aspects.cocoon
+      den.aspects.komi
     ];
 
     # host NixOS configuration

@@ -1,8 +1,8 @@
 { den, ... }: {
   den.aspects.github = {
-    includes = [ den.aspects.github-token ];
+    provides.to-users = { user, ... }: {
+      includes = [ (den.aspects.github-token user.userName) ];
 
-    provides.to-users = {
       homeManager = { osConfig, pkgs, ... }: {
         programs.gh = {
           enable = true;
@@ -11,7 +11,7 @@
             git_protocol = "ssh";
           };
           package = pkgs.writeShellScriptBin "gh" ''
-            export GITHUB_TOKEN="$(cat ${osConfig.vaultix.secrets.githubToken.path})"
+            export GITHUB_TOKEN="$(cat ${osConfig.vaultix.secrets."githubToken-${user.userName}".path})"
             exec ${pkgs.gh}/bin/gh "$@"
           '';
         };
