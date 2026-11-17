@@ -1,5 +1,6 @@
 {
   den.aspects.niri = {
+    # TODO we'll need to add more configs for niri once we move to hm 26.11
     nixos = { pkgs, ... }: {
       programs.niri.enable = true;
 
@@ -9,7 +10,6 @@
     provides.to-users = {
       homeManager = { lib, ... }: {
         programs.waybar = {
-          # we'll need to add more configs for niri once we move to hm 26.11
           settings.main = {
             modules-left = lib.mkOrder 102 [
               "niri/workspaces"
