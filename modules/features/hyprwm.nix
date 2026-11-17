@@ -3,7 +3,7 @@
     includes = [
       den.aspects.font
       den.aspects.greet
-      den.aspects.hyprland
+      # den.aspects.hyprland
       den.aspects.fuzzel
       den.aspects.waybar
       den.aspects.hypridle
