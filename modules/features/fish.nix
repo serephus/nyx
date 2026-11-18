@@ -4,7 +4,7 @@
       # Shared by both the NixOS and home-manager fish configs.
       shellAbbrs = {
         pb = "curl -F 'c=@-' 'https://cocoon.sereph.us/api/paste'";
-        cargo-git = "cargo --config net.git-fetch-with-cli=true ";
+        cargo-git = "cargo --config net.git-fetch-with-cli=true";
       };
       interactiveShellInit = ''
         if not set -q __nyx_fish_initialized
