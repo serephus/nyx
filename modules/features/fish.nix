@@ -18,7 +18,16 @@
         set -g __fish_git_prompt_use_informative_chars 1
         set -g __fish_git_prompt_char_untrackedfiles '?'
 
-        if string match -qi '*.utf-8' -- $LANG $LC_CTYPE $LC_ALL
+        set -l loc
+        if set -q LC_ALL; and test -n "$LC_ALL"
+            set loc $LC_ALL
+        else if set -q LC_CTYPE; and test -n "$LC_CTYPE"
+            set loc $LC_CTYPE
+        else
+            set loc $LANG
+        end
+
+        if string match -qi '*.utf-8' -- "$loc"
             set -g __fish_git_prompt_char_dirtystate \U1F4A9
         else
             set -g __fish_git_prompt_char_dirtystate '+'
