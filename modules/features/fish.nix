@@ -124,8 +124,11 @@
                   # nix develop exposes devShell name to $name
                   # this will remove any parts containing shell or env separated by "-"
                   # I think this is good enough
-                  if set -q IN_NIX_SHELL
-                      set -a parts (set_color fe8019)"("(string split - $name | grep -v "\(shell\|env\)" | string join "-")")"(set_color normal)
+                  if set -q IN_NIX_SHELL; and set -q name; and test -n "$name"
+                      set -l shell_name (string split - $name | string match -rvi '(shell|env)' | string join "-")
+                      if test -n "$shell_name"
+                          set -a parts (set_color fe8019)"($shell_name)"(set_color normal)
+                      end
                   end
 
                   # abbr-pwd
