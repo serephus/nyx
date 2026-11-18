@@ -17,8 +17,8 @@
           enable = true;
           steamApiKeysFile = config.vaultix.secrets.steamApiKey.path;
           patch = {
-            name = "7.41f";
-            start = 1792200000;
+            name = "7.42";
+            start = 1795040000;
           };
           port = truesightPort;
           openFirewall = true;
