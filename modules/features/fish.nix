@@ -7,58 +7,62 @@
         cargo-git = "cargo --config net.git-fetch-with-cli=true ";
       };
       interactiveShellInit = ''
-        set -g fish_greeting
-        set -g fish_key_bindings fish_vi_key_bindings
-        set -g VIRTUAL_ENV_DISABLE_PROMPT true
+        if not set -q __nyx_fish_initialized
+            set -g __nyx_fish_initialized 1
 
-        set -g __fish_git_prompt_showdirtystate 1
-        set -g __fish_git_prompt_showuntrackedfiles 1
-        set -g __fish_git_prompt_showupstream informative
-        set -g __fish_git_prompt_showcolorhints 1
-        set -g __fish_git_prompt_use_informative_chars 1
-        set -g __fish_git_prompt_char_untrackedfiles '?'
+            set -g fish_greeting
+            set -g fish_key_bindings fish_vi_key_bindings
+            set -g VIRTUAL_ENV_DISABLE_PROMPT true
 
-        set -l loc
-        if set -q LC_ALL; and test -n "$LC_ALL"
-            set loc $LC_ALL
-        else if set -q LC_CTYPE; and test -n "$LC_CTYPE"
-            set loc $LC_CTYPE
-        else
-            set loc $LANG
+            set -g __fish_git_prompt_showdirtystate 1
+            set -g __fish_git_prompt_showuntrackedfiles 1
+            set -g __fish_git_prompt_showupstream informative
+            set -g __fish_git_prompt_showcolorhints 1
+            set -g __fish_git_prompt_use_informative_chars 1
+            set -g __fish_git_prompt_char_untrackedfiles '?'
+
+            set -l loc
+            if set -q LC_ALL; and test -n "$LC_ALL"
+                set loc $LC_ALL
+            else if set -q LC_CTYPE; and test -n "$LC_CTYPE"
+                set loc $LC_CTYPE
+            else
+                set loc $LANG
+            end
+
+            if string match -qi '*.utf-8' -- "$loc"
+                set -g __fish_git_prompt_char_dirtystate \U1F4A9
+            else
+                set -g __fish_git_prompt_char_dirtystate '+'
+            end
+
+            # Gruvbox colors (dark).
+            set -g fish_color_normal ebdbb2
+            set -g fish_color_command b8bb26
+            set -g fish_color_param ebdbb2
+            set -g fish_color_error fb4934
+            set -g fish_color_quote b8bb26
+            set -g fish_color_redirection fabd2f
+            set -g fish_color_end fabd2f
+            set -g fish_color_operator fe8019
+            set -g fish_color_escape fe8019
+            set -g fish_color_comment 928374
+            set -g fish_color_autosuggestion 928374
+            set -g fish_color_selection --background=3c3836 ebdbb2
+            set -g fish_color_search_match --background=d79921 282828
+            set -g fish_color_user b8bb26
+            set -g fish_color_host 83a598
+            set -g fish_color_cwd 458588
+            set -g fish_color_cwd_root fb4934
+            set -g fish_color_valid_path --underline
+
+            # Completion menu (pager) colors.
+            set -g fish_pager_color_prefix 83a598
+            set -g fish_pager_color_completion ebdbb2
+            set -g fish_pager_color_description 928374
+            set -g fish_pager_color_progress 928374
+            set -g fish_pager_color_selected_completion --background=3c3836 ebdbb2
         end
-
-        if string match -qi '*.utf-8' -- "$loc"
-            set -g __fish_git_prompt_char_dirtystate \U1F4A9
-        else
-            set -g __fish_git_prompt_char_dirtystate '+'
-        end
-
-        # Gruvbox colors (dark).
-        set -g fish_color_normal ebdbb2
-        set -g fish_color_command b8bb26
-        set -g fish_color_param ebdbb2
-        set -g fish_color_error fb4934
-        set -g fish_color_quote b8bb26
-        set -g fish_color_redirection fabd2f
-        set -g fish_color_end fabd2f
-        set -g fish_color_operator fe8019
-        set -g fish_color_escape fe8019
-        set -g fish_color_comment 928374
-        set -g fish_color_autosuggestion 928374
-        set -g fish_color_selection --background=3c3836 ebdbb2
-        set -g fish_color_search_match --background=d79921 282828
-        set -g fish_color_user b8bb26
-        set -g fish_color_host 83a598
-        set -g fish_color_cwd 458588
-        set -g fish_color_cwd_root fb4934
-        set -g fish_color_valid_path --underline
-
-        # Completion menu (pager) colors.
-        set -g fish_pager_color_prefix 83a598
-        set -g fish_pager_color_completion ebdbb2
-        set -g fish_pager_color_description 928374
-        set -g fish_pager_color_progress 928374
-        set -g fish_pager_color_selected_completion --background=3c3836 ebdbb2
       '';
     in
     {
