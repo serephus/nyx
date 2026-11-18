@@ -37,9 +37,9 @@
           ];
           monospace = [
             "Noto Mono"
-            "Sarasa Term SC"
-            "Sarasa Term TC"
-            "Sarasa Term J"
+            # "Sarasa Term SC"
+            # "Sarasa Term TC"
+            # "Sarasa Term J"
           ];
           emoji = [
             "Noto Color Emoji"
