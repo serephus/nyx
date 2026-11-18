@@ -1,8 +1,8 @@
 {
   den.aspects.helix = {
     nixos = { pkgs, ... }: {
-      # helix on nixos doesn't have any defined configs
-      environment.systemPackages = [
+      # Root gets its own helix; regular users get it from home-manager.
+      users.users.root.packages = [
         pkgs.helix
       ];
     };
@@ -40,43 +40,14 @@
             ret = "goto_word";
           };
         };
-        ignores = [
-          "!.gitignore"
-          "!.gitattributes"
-          "!.github/"
-          "!.gitlab/"
-          "!.cargo/"
-          "!.clang-*"
-        ];
         languages = {
           language = [
             {
               name = "python";
-              scope = "source.python";
-              injection-regex = "python";
-              file-types = [
-                "py"
-                "pyi"
-                "py3"
-                "pyw"
-                ".pythonstartup"
-                ".pythonrc"
-              ];
-              shebangs = [ "python" ];
-              roots = [
-                "."
-                "pyproject.toml"
-                "pyrightconfig.json"
-              ];
-              comment-token = "#";
               language-servers = [
                 "pyright"
                 "ruff"
               ];
-              indent = {
-                tab-width = 4;
-                unit = "    ";
-              };
               auto-format = true;
               formatter = {
                 command = "black";
@@ -95,25 +66,16 @@
           ];
           language-server = {
             rust-analyzer.config = {
-              checkOnSave.command = "clippy";
-              inlayHints = {
-                bindingModeHints.enable = true;
-                closingBraceHints.minLines = 10;
-                closureReturnTypeHints.enable = "with_block";
-                discriminantHints.enable = "fieldless";
-                lifetimeElisionHints.enable = "skip_trivial";
-                typeHints.hideClosureInitialization = false;
-              };
+              check.command = "clippy";
+              inlayHints.bindingModeHints.enable = true;
             };
             pyright = {
               command = "basedpyright-langserver";
               args = [ "--stdio" ];
-              config = {
+              config.python.analysis = {
                 reportMissingTypeStubs = false;
-                python.analysis = {
-                  typeCheckingMode = "basic";
-                  autoImportCompletions = true;
-                };
+                typeCheckingMode = "basic";
+                autoImportCompletions = true;
               };
             };
             ruff = {
