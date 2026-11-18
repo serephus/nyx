@@ -44,6 +44,7 @@
       den.aspects.helix
       den.aspects.tmux
 
+      den.aspects.mihomo
       den.aspects.frps
       (den.aspects.cloudflaredTunnel {
         id = "5de57f09-faf3-4f2b-a4b7-aa570028056e";
