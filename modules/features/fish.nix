@@ -111,6 +111,7 @@
                   # fish_git_prompt prints (branch|status...) — keep only the status part,
                   # the branch is already shown on the left prompt.
                   set -l vcs (fish_git_prompt 2>/dev/null)
+                  set vcs (string replace -ra '\x1b\[[0-9;]*m' "" -- $vcs)
                   string match -q '*|*' -- $vcs; or return
 
                   string replace -r '^ *\([^|]*\|' "" -- $vcs | string trim -c ')'
