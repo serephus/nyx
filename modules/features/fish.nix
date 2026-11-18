@@ -4,52 +4,65 @@
       # Shared by both the NixOS and home-manager fish configs.
       shellAbbrs = {
         pb = "curl -F 'c=@-' 'https://cocoon.sereph.us/api/paste'";
-        cargo-git = "cargo --config net.git-fetch-with-cli=true ";
+        cargo-git = "cargo --config net.git-fetch-with-cli=true";
       };
       interactiveShellInit = ''
-        set -g fish_greeting
-        set -g fish_key_bindings fish_vi_key_bindings
-        set -g VIRTUAL_ENV_DISABLE_PROMPT true
+        if not set -q __nyx_fish_initialized
+            set -g __nyx_fish_initialized 1
 
-        set -g __fish_git_prompt_showdirtystate 1
-        set -g __fish_git_prompt_showuntrackedfiles 1
-        set -g __fish_git_prompt_showupstream informative
-        set -g __fish_git_prompt_showcolorhints 1
-        set -g __fish_git_prompt_use_informative_chars 1
-        set -g __fish_git_prompt_char_untrackedfiles '?'
+            set -g fish_greeting
+            set -g fish_key_bindings fish_vi_key_bindings
+            set -g VIRTUAL_ENV_DISABLE_PROMPT true
 
-        if string match -qi '*.utf-8' -- $LANG $LC_CTYPE $LC_ALL
-            set -g __fish_git_prompt_char_dirtystate \U1F4A9
-        else
-            set -g __fish_git_prompt_char_dirtystate '+'
+            set -g __fish_git_prompt_showdirtystate 1
+            set -g __fish_git_prompt_showuntrackedfiles 1
+            set -g __fish_git_prompt_showupstream informative
+            set -g __fish_git_prompt_showcolorhints 1
+            set -g __fish_git_prompt_use_informative_chars 1
+            set -g __fish_git_prompt_char_untrackedfiles '?'
+
+            set -l loc
+            if set -q LC_ALL; and test -n "$LC_ALL"
+                set loc $LC_ALL
+            else if set -q LC_CTYPE; and test -n "$LC_CTYPE"
+                set loc $LC_CTYPE
+            else
+                set loc $LANG
+            end
+
+            if string match -qi '*.utf-8' -- "$loc"
+                set -g __fish_git_prompt_char_dirtystate \U1F4A9
+            else
+                set -g __fish_git_prompt_char_dirtystate '+'
+            end
+
+            # Gruvbox colors (dark).
+            set -g fish_color_normal ebdbb2
+            set -g fish_color_command b8bb26
+            set -g fish_color_param ebdbb2
+            set -g fish_color_error fb4934
+            set -g fish_color_quote b8bb26
+            set -g fish_color_redirection fabd2f
+            set -g fish_color_end fabd2f
+            set -g fish_color_operator fe8019
+            set -g fish_color_escape fe8019
+            set -g fish_color_comment 928374
+            set -g fish_color_autosuggestion 928374
+            set -g fish_color_selection --background=3c3836 ebdbb2
+            set -g fish_color_search_match --background=d79921 282828
+            set -g fish_color_user b8bb26
+            set -g fish_color_host 83a598
+            set -g fish_color_cwd 458588
+            set -g fish_color_cwd_root fb4934
+            set -g fish_color_valid_path --underline
+
+            # Completion menu (pager) colors.
+            set -g fish_pager_color_prefix 83a598
+            set -g fish_pager_color_completion ebdbb2
+            set -g fish_pager_color_description 928374
+            set -g fish_pager_color_progress 928374
+            set -g fish_pager_color_selected_completion --background=3c3836 ebdbb2
         end
-
-        # Gruvbox colors (dark).
-        set -g fish_color_normal ebdbb2
-        set -g fish_color_command b8bb26
-        set -g fish_color_param ebdbb2
-        set -g fish_color_error fb4934
-        set -g fish_color_quote b8bb26
-        set -g fish_color_redirection fabd2f
-        set -g fish_color_end fabd2f
-        set -g fish_color_operator fe8019
-        set -g fish_color_escape fe8019
-        set -g fish_color_comment 928374
-        set -g fish_color_autosuggestion 928374
-        set -g fish_color_selection --background=3c3836 ebdbb2
-        set -g fish_color_search_match --background=d79921 282828
-        set -g fish_color_user b8bb26
-        set -g fish_color_host 83a598
-        set -g fish_color_cwd 458588
-        set -g fish_color_cwd_root fb4934
-        set -g fish_color_valid_path --underline
-
-        # Completion menu (pager) colors.
-        set -g fish_pager_color_prefix 83a598
-        set -g fish_pager_color_completion ebdbb2
-        set -g fish_pager_color_description 928374
-        set -g fish_pager_color_progress 928374
-        set -g fish_pager_color_selected_completion --background=3c3836 ebdbb2
       '';
     in
     {
@@ -68,6 +81,10 @@
                 {
                   file = ".local/share/fish/fish_history";
                   # fix renaming file error
+                  how = "symlink";
+                }
+                {
+                  file = ".local/share/fish/fish_variables";
                   how = "symlink";
                 }
               ];
@@ -98,6 +115,7 @@
                   # fish_git_prompt prints (branch|status...) — keep only the status part,
                   # the branch is already shown on the left prompt.
                   set -l vcs (fish_git_prompt 2>/dev/null)
+                  set vcs (string replace -ra '\x1b\[[0-9;]*m' "" -- $vcs)
                   string match -q '*|*' -- $vcs; or return
 
                   string replace -r '^ *\([^|]*\|' "" -- $vcs | string trim -c ')'
@@ -115,12 +133,17 @@
                   # nix develop exposes devShell name to $name
                   # this will remove any parts containing shell or env separated by "-"
                   # I think this is good enough
-                  if set -q IN_NIX_SHELL
-                      set -a parts (set_color fe8019)"("(string split - $name | grep -v "\(shell\|env\)" | string join "-")")"(set_color normal)
+                  if set -q IN_NIX_SHELL; and set -q name; and test -n "$name"
+                      set -l shell_name (string split - $name | string match -rvi '(shell|env)' | string join "-")
+                      if test -n "$shell_name"
+                          set -a parts (set_color fe8019)"($shell_name)"(set_color normal)
+                      end
                   end
 
                   # abbr-pwd
-                  set -a parts (set_color $fish_color_cwd)(prompt_pwd)(set_color normal)
+                  set -l cwd_color $fish_color_cwd
+                  fish_is_root_user; and set cwd_color $fish_color_cwd_root
+                  set -a parts (set_color $cwd_color)(prompt_pwd)(set_color normal)
 
                   # git-branch
                   set -l branch (__nyx_git_branch)
@@ -166,7 +189,6 @@
                       set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
                   end
 
-                  set_color reset
                   string join " " -- $parts
                 '';
               };
