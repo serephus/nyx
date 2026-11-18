@@ -129,7 +129,9 @@
                   end
 
                   # abbr-pwd
-                  set -a parts (set_color $fish_color_cwd)(prompt_pwd)(set_color normal)
+                  set -l cwd_color $fish_color_cwd
+                  fish_is_root_user; and set cwd_color $fish_color_cwd_root
+                  set -a parts (set_color $cwd_color)(prompt_pwd)(set_color normal)
 
                   # git-branch
                   set -l branch (__nyx_git_branch)
