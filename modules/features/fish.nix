@@ -184,7 +184,6 @@
                       set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
                   end
 
-                  set_color reset
                   string join " " -- $parts
                 '';
               };
