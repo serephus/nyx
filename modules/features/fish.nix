@@ -83,6 +83,10 @@
                   # fix renaming file error
                   how = "symlink";
                 }
+                {
+                  file = ".local/share/fish/fish_variables";
+                  how = "symlink";
+                }
               ];
             };
           };
