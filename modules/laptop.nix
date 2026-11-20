@@ -46,7 +46,6 @@
         den.aspects.yubikey
         (den.aspects.openpgp "DD961903")
         den.aspects.mihomo
-        den.aspects.v2client
 
         # mostly laptop stuff
         den.aspects.wifi
