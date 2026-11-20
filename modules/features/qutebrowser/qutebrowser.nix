@@ -1,5 +1,6 @@
-{
+{ den, ... }: {
   den.aspects.qutebrowser = {
+    includes = [ (den.batteries.insecure [ "qutebrowser-3.7.0" ]) ];
     nixos = {
       vaultix.secrets.tokenLeetcodeSecrets = {
         file = ./token-update-leetcode-secrets.age;
