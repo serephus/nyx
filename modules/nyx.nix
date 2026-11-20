@@ -18,6 +18,7 @@
           })
           (den.aspects.preservation ephemeralRoot)
           den.aspects.xmmrpc
+          den.aspects.thunderbolt
           den.aspects.hotspot
           den.aspects.github
           den.aspects.nixit
