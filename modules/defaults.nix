@@ -1,4 +1,6 @@
 { den, ... }: {
+  den.schema.host.includes = [ den.batteries.mutual-provider ];
+
   # default configs applied to all hosts, some other
   # common configs are grouped into separate features
 
