@@ -25,7 +25,7 @@
     {
       nixos = {
         programs = {
-          # we only use minimal configs for root user
+          # we only use minimal configs for all users
           git = {
             enable = true;
             config.init.defaultBranch = "main";
