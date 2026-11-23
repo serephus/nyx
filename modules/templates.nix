@@ -37,6 +37,10 @@
         path = ./_templates/idris2;
         description = "Idris2 template";
       };
+      lean = {
+        path = ./_templates/lean;
+        description = "Lean4 template, using Lake";
+      };
       zig = {
         path = ./_templates/zig;
         description = "Zig template";
