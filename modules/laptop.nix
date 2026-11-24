@@ -55,7 +55,7 @@
         den.aspects.bluetooth
         den.aspects.logind
 
-        den.aspects.hyprwm
+        den.aspects.desktop
         den.aspects.niri
 
         den.aspects.common-gui-tools

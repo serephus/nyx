@@ -1,9 +1,11 @@
 { den, ... }: {
-  den.aspects.hyprwm = {
+  # Wayland desktop application bundle. Hyprland itself is intentionally not
+  # included (it stays available in modules/features/hyprland.nix); niri is the
+  # active compositor.
+  den.aspects.desktop = {
     includes = [
       den.aspects.font
       den.aspects.greet
-      # den.aspects.hyprland
       den.aspects.fuzzel
       den.aspects.waybar
       den.aspects.hypridle
