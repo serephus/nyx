@@ -35,7 +35,7 @@ To add a machine:
    2. Set `hostPubKey` in the aspect to the machine's real SSH host public key. Vaultix encrypts
       every secret to that key and decrypts it on the target with `/etc/ssh/ssh_host_ed25519_key`,
       so the key must exist and match before any secret is available (see "Bootstrapping" below).
-   3. Re-encrypt the secrets for the new recipient: `nix run .#vaultix.app.x86_64-linux.renc`
+    3. Re-encrypt the secrets for the new recipient: `nix run .#seal`
 4. If you added flake inputs, regenerate `flake.nix` (it is auto-generated, don't edit it by
    hand): `nix run .#write-flake`
 5. Sanity-check before deploying: `nix flake check` (it evaluates every host config).
@@ -51,7 +51,7 @@ anything until its host key exists and matches the `hostPubKey` baked into the a
    `modules/user/root.nix` and `modules/user/serephus.nix` are the usual suspects.
 2. Boot the installed machine and grab its host public key (e.g. `ssh-keyscan <host>`), then
    put it into the aspect's `hostPubKey` (step 3.2 above).
-3. Re-encrypt: `nix run .#vaultix.app.x86_64-linux.renc`, commit the regenerated
+3. Re-encrypt: `nix run .#seal`, commit the regenerated
    `secrets/cache/` files, then rebuild and switch. Once decryption works, restore the
    commented-out secrets.
 
@@ -68,9 +68,10 @@ install it with nixos-anywhere over SSH.
 
 Adapt one of the existing host configs to your hardware: disk device/encryption, hardware
 imports, monitors, and other hardware-specific settings. Replace the root and user
-hashedPassword values and SSH keys with your own credentials. My Vaultix secrets will not
-decrypt without my YubiKey, so you'll have to replace or remove those — this won't stop the
-system from building. Review other personal configs before trying this configuration.
+hashedPassword values and SSH keys with your own credentials. My Vaultix secrets are encrypted
+to my hosts' SSH keys (the YubiKey identity is only used to re-encrypt them), so they won't
+decrypt on your machine — replace or remove them; this won't stop the system from building.
+Review other personal configs before trying this configuration.
 
 ```console
 # replace github:serephus/nyx with your remote/local repository, then
