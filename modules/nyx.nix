@@ -2,10 +2,8 @@
   # nyx host aspect
   den.aspects.nyx =
     let
-      efiMountPoint = "/boot/efi";
       ephemeralRoot = true;
       spec = {
-        efiMountPoint = efiMountPoint;
         secureboot = true;
         extraIncludes = [
           (den.aspects.rootFileSystem {

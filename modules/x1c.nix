@@ -2,10 +2,8 @@
   # x1c host aspect
   den.aspects.x1c =
     let
-      efiMountPoint = "/boot/efi";
       ephemeralRoot = true;
       spec = {
-        efiMountPoint = efiMountPoint;
         secureboot = true;
         extraIncludes = [
           (den.aspects.rootFileSystem {
