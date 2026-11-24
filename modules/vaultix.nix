@@ -41,9 +41,10 @@
         rpi
         ;
     };
-    # yubikey identity
-    # it's not recommand to add it to store
-    # but I guess I'm too lazy to carry it around
+    # YubiKey identity used ONLY for re-encryption (nix run .#seal).
+    # Target hosts decrypt with their SSH host key (see the aspect below).
+    # This is an age-plugin-yubikey stub, but it still shouldn't be published;
+    # rotate it if the repo is ever mirrored.
     identity = ../secrets/age-yubikey-identity-af10df80.txt;
     # backup extra recipients
     extraRecipients = [ "age1yubikey1qgqgeuzz7qak8fxs6nef2nwdznfeyedr5f42htcdpz6j0pjk7vu97mqmcd9" ];
