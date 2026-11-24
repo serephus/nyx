@@ -1,7 +1,9 @@
 { inputs, ... }: {
   imports = [
-    (inputs.flake-file.flakeModules.dendritic or { })
-    (inputs.den.flakeModules.dendritic or { })
+    (inputs.flake-file.flakeModules.dendritic
+      or (throw "flake-file input is missing flakeModules.dendritic"))
+    (inputs.den.flakeModules.dendritic
+      or (throw "den input is missing flakeModules.dendritic"))
   ];
 
   flake-file = {
