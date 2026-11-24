@@ -2,8 +2,8 @@
   # aly host aspect
   den.aspects.aly = {
     includes = [
-      # stateless (ephemeral tmpfs root) on a hybrid (SeaBIOS + UEFI) disk;
-      # the @root/@nix/@var/@home subvolumes live under /persist
+      # stateless (ephemeral tmpfs root) on a UEFI GPT disk; the
+      # @root/@nix/@var/@home subvolumes live under /persist
       (den.aspects.rootFileSystem {
         device = "/dev/vda";
         bootPartitions = [
@@ -70,10 +70,7 @@
             "sr_mod"
             "virtio_blk"
           ];
-          kernelModules = [ ];
         };
-        kernelModules = [ ];
-        extraModulePackages = [ ];
       };
 
       hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
