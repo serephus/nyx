@@ -2,7 +2,8 @@
   den.aspects.common-gui-tools = {
     provides.to-users = { user, ... }: {
       nixos = {
-        # TODO: this does not preserve chromium state, just configs
+        # Only Chromium config is preserved; profile/cache state is not and
+        # will reset on every boot with the ephemeral root.
         preservation.preserveAt."/persist" = {
           users."${user.userName}" = {
             directories = [
