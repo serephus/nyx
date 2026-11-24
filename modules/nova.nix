@@ -104,10 +104,8 @@
               "usbhid"
               "sd_mod"
             ];
-            kernelModules = [ ];
           };
           kernelModules = [ "nvidia" ];
-          extraModulePackages = [ ];
         };
 
         services.xserver.videoDrivers = [ "nvidia" ];
