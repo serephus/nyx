@@ -1,8 +1,7 @@
 { lib, inputs, ... }: {
   # serephus user at nyx host.
   den.hosts.x86_64-linux.nyx.users.serephus = { };
-  # define an standalone home-manager for serephus
-  # how do I add configs to standalone home configs?
+  # define a standalone home-manager for serephus
   den.homes.x86_64-linux."serephus@nyx" = { };
 
   # serephus user at x1c host.
