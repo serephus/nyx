@@ -2,15 +2,17 @@
   # laptop host aspect
   den.aspects.laptop =
     {
-      includes,
-      imports,
+      extraIncludes,
+      hardwareImports,
       kernelModules,
       hostPubKey,
+      cpu ? "intel",
+      timeZone ? "Asia/Shanghai",
       efiMountPoint ? "/boot/efi",
       secureboot ? true,
     }:
     {
-      includes = includes ++ [
+      includes = extraIncludes ++ [
         # mostly hardware stuff
         (den.aspects.vaultix hostPubKey)
         (den.aspects.lanzaboote secureboot)
@@ -67,10 +69,10 @@
 
       # host NixOS configuration
       nixos = { lib, config, ... }: {
-        imports = imports;
+        imports = hardwareImports;
 
         # timezone
-        time.timeZone = "Asia/Shanghai";
+        time.timeZone = timeZone;
         boot = {
           zswap = {
             # this condition here fix the check of the vm packages
@@ -82,24 +84,14 @@
           # hardware related configs
           initrd = {
             systemd.enable = true;
-            kernelModules = [ ];
             availableKernelModules = kernelModules;
-            # we don't want to pregenerate the host keys
-            # which means we may won't able to decrypt with ssh
-            # we would also need config wireless in initrd if we want this
-            # since x1c 8th doesn't have internet cable
-            # network = {
-            #   enable = stateless;
-            #   ssh = {
-            #     enable = stateless;
-            #     authorizedKeys = [ <pubkey> ];
-            #   };
-            # };
+            # We intentionally don't enable initrd SSH: with an ephemeral root
+            # there are no pre-generated host keys, and these machines would
+            # also need wireless networking in initrd.
           };
-          kernelModules = [ "kvm-intel" ];
-          extraModulePackages = [ ];
+          kernelModules = [ "kvm-${cpu}" ];
         };
-        hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        hardware.cpu.${cpu}.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
         # enable power management for laptop
         services.tlp.enable = true;

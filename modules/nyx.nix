@@ -7,7 +7,7 @@
       spec = {
         efiMountPoint = efiMountPoint;
         secureboot = true;
-        includes = [
+        extraIncludes = [
           (den.aspects.rootFileSystem {
             device = "/dev/nvme0n1";
             ephemeralRoot = ephemeralRoot;
@@ -33,7 +33,7 @@
           den.aspects.freecad
           den.aspects.kicad
         ];
-        imports = [
+        hardwareImports = [
           # we're actually 8th gen, but I think it is okay?
           inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
         ];

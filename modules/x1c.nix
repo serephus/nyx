@@ -7,7 +7,7 @@
       spec = {
         efiMountPoint = efiMountPoint;
         secureboot = true;
-        includes = [
+        extraIncludes = [
           (den.aspects.rootFileSystem {
             device = "/dev/sda";
             ephemeralRoot = ephemeralRoot;
@@ -18,7 +18,7 @@
           })
           (den.aspects.preservation ephemeralRoot)
         ];
-        imports = [
+        hardwareImports = [
           # we're 1st gen
           inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
         ];
