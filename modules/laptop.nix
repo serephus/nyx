@@ -15,7 +15,7 @@
       includes = extraIncludes ++ [
         # mostly hardware stuff
         (den.aspects.vaultix hostPubKey)
-        (den.aspects.lanzaboote secureboot)
+        (den.aspects.lanzaboote { inherit secureboot; })
         (den.aspects.systemd-boot efiMountPoint)
         den.aspects.firmware
         den.aspects.root
