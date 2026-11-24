@@ -1,7 +1,10 @@
 {
   den.aspects.eza = {
     provides.to-users.homeManager = {
-      programs.eza.enable = true;
+      programs.eza = {
+        enable = true;
+        git = true;
+      };
     };
   };
 }

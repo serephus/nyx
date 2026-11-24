@@ -1,19 +1,19 @@
 {
   den.aspects.hypridle = {
+    # hypridle is compositor-agnostic, but its commands have to match niri.
     provides.to-users.homeManager = {
       services.hypridle = {
         enable = true;
         settings = {
           general = {
             before_sleep_cmd = "loginctl lock-session";
-            after_sleep_cmd = "hyprctl dispatch dpms on";
+            # niri powers the monitors back on automatically when input arrives.
           };
 
           listener = [
             {
               timeout = 1200;
-              on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-timeout = "niri msg action power-off-monitors";
             }
             {
               timeout = 1800;

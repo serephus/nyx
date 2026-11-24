@@ -13,6 +13,9 @@
           wqy_microhei
           lxgw-wenkai
           sarasa-gothic
+          # terminal / icon fonts
+          nerd-fonts.fira-code
+          font-awesome
         ];
       };
     };

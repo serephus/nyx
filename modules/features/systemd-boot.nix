@@ -8,8 +8,7 @@
         };
         efi = {
           canTouchEfiVariables = true;
-          # this has to be align with disko config
-          # with luks, it has to be "/boot" right? seems like no
+          # must match the ESP mountpoint configured in disko
           efiSysMountPoint = efiMountPoint;
         };
       };

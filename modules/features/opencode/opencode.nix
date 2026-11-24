@@ -29,20 +29,14 @@
             # https://opencode.ai/docs/providers/
             provider = {
               "opencode-go" = {
-                name = "OpenCode Go";
-                npm = "@ai-sdk/openai-compatible";
                 options = {
                   apiKey = "{file:${osConfig.vaultix.secrets."opencode-go-apikey-${user.userName}".path}}";
-                  baseURL = "https://opencode.ai/inference/go/openai/v1";
                 };
               };
 
               deepseek = {
-                name = "DeepSeek";
-                npm = "@ai-sdk/openai-compatible";
                 options = {
                   apiKey = "{file:${osConfig.vaultix.secrets."deepseek-apikey-${user.userName}".path}}";
-                  baseURL = "https://api.deepseek.com";
                 };
               };
             };

@@ -21,6 +21,11 @@
             set -g __fish_git_prompt_use_informative_chars 1
             set -g __fish_git_prompt_char_untrackedfiles '?'
 
+            # cache the (somewhat expensive) VM check for the right prompt
+            if command -sq systemd-detect-virt; and systemd-detect-virt -q
+                set -g __nyx_is_vm 1
+            end
+
             set -l loc
             if set -q LC_ALL; and test -n "$LC_ALL"
                 set loc $LC_ALL
@@ -74,7 +79,8 @@
       };
 
       provides.to-users = { user, ... }: {
-        nixos = {
+        nixos = { pkgs, ... }: {
+          users.users.${user.userName}.shell = pkgs.fish;
           preservation.preserveAt."/persist" = {
             users."${user.userName}" = {
               files = [
@@ -181,11 +187,7 @@
                   end
 
                   # identity, only when relevant (ssh / vm)
-                  if set -q SSH_TTY
-                      or begin
-                          command -sq systemd-detect-virt
-                          and systemd-detect-virt -q
-                      end
+                  if set -q SSH_TTY; or set -q __nyx_is_vm
                       set -a parts (set_color $fish_color_user)"$USER"(set_color normal)"@"(set_color $fish_color_host)(hostname)(set_color normal)
                   end
 

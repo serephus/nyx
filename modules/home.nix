@@ -7,7 +7,7 @@
   # provides the homeConfigurations output used by the standalone homes in modules/hosts.nix
   imports = [ inputs.home-manager.flakeModules.home-manager ];
 
-  # do we want hm everywhere?
+  # enable home-manager on every host by default
   den.default.includes = [ den.aspects.home ];
 
   den.aspects.home = {
@@ -20,16 +20,15 @@
       ];
       # some common home manager configs
       home-manager = {
-        verbose = true;
         useUserPackages = true;
         useGlobalPkgs = true;
+        # don't abort activation when an unmanaged dotfile already exists
+        backupFileExtension = "hm-backup";
       };
     };
-    provides.to-users = { user, ... }: {
+    provides.to-users = { ... }: {
       homeManager = { lib, ... }: {
         home.stateVersion = lib.mkDefault "26.05";
-        # many home manager configs requires this
-        home.homeDirectory = "/home/${user.userName}";
         # let home manager manage itself
         programs.home-manager.enable = true;
       };

@@ -36,6 +36,8 @@
         };
       };
 
+      # merged into the listeners defined in hypridle.nix; lock before the
+      # screen turns off (900s < 1200s).
       services.hypridle = {
         settings = {
           general.lock_cmd = "pidof hyprlock || hyprlock";

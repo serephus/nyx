@@ -1,4 +1,7 @@
 {
+  # NOTE: not included by default (see features/desktop.nix); niri is the
+  # active compositor. Kept so Hyprland can be enabled as an alternative
+  # session, but the monitor/device settings below are laptop-specific.
   den.aspects.hyprland = {
     nixos = {
       programs = {
@@ -146,6 +149,8 @@
             );
           };
         };
+
+        home.packages = with pkgs; [ hyprshot ];
 
         programs.waybar.settings.main = {
           modules-left = lib.mkOrder 101 [

@@ -9,57 +9,32 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "build(deps)"
 
   - package-ecosystem: "nix"
     directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 50
+    commit-message:
+      prefix: "build(deps)"
 
   # for templates: for a non-root directory the github-actions ecosystem only scans the
   # top level for *.yml/*.yaml, so point at the workflows dir itself.
   # python and typst have no workflow files yet, so they're not listed.
   - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/rust/.github/workflows"
+    directories:
+      - "/modules/_templates/android/.github/workflows"
+      - "/modules/_templates/android-egui/.github/workflows"
+      - "/modules/_templates/bevy/.github/workflows"
+      - "/modules/_templates/cpp/.github/workflows"
+      - "/modules/_templates/haskell/.github/workflows"
+      - "/modules/_templates/idris2/.github/workflows"
+      - "/modules/_templates/koka/.github/workflows"
+      - "/modules/_templates/rust/.github/workflows"
+      - "/modules/_templates/zig/.github/workflows"
     schedule:
       interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/bevy/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/cpp/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/koka/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/zig/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/haskell/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/idris2/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/android/.github/workflows"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/modules/_templates/android-egui/.github/workflows"
-    schedule:
-      interval: "monthly"
+    commit-message:
+      prefix: "build(deps)"

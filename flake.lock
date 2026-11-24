@@ -483,6 +483,7 @@
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
         "rust-overlay": "rust-overlay",
+        "telagent": "telagent",
         "truesight": "truesight",
         "vaultix": "vaultix",
         "wallpaper": "wallpaper",
@@ -538,6 +539,38 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "telagent": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "naersk": [
+          "naersk"
+        ],
+        "nixit": [
+          "nixit"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795531004,
+        "narHash": "sha256-/HyDzuba/7PwWSltcBoJ9OYPYBfuUzvXZJwEkPvlbk4=",
+        "owner": "serephus",
+        "repo": "telagent",
+        "rev": "d29c40a94c0748d9213883b80cb58b01dd750e0e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "serephus",
+        "repo": "telagent",
         "type": "github"
       }
     },

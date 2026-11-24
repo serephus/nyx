@@ -5,7 +5,8 @@
   ...
 }:
 let
-  # TODO: replace with the Pi's real SSH host public key
+  # TODO: replace with the Pi's real SSH host public key. Until this matches,
+  # vaultix cannot decrypt any secret on the Pi (see README "Bootstrapping").
   hostPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZB9ax2NN6PEMqgYweeqAaCbwLu/ICaPsa4a5bKmlar";
 
   ephemeralRoot = true;
@@ -104,10 +105,7 @@ in
             "sdhci_iproc"
             "mmc_block"
           ];
-          kernelModules = [ ];
         };
-        kernelModules = [ ];
-        extraModulePackages = [ ];
       };
     };
   };

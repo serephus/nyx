@@ -56,18 +56,23 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Build ISO
-        run: nix build .#iso --print-build-logs
+        id: build
+        run: |
+          set -euo pipefail
+          path=$(nix build .#iso --print-build-logs --no-link --print-out-paths)
+          echo "path=$path" >> "$GITHUB_OUTPUT"
 
       - name: Prepare release assets
         id: asset
         env:
           VERSION: ${{ steps.version.outputs.version }}
+          ISO_PATH: ${{ steps.build.outputs.path }}
         run: |
           set -euo pipefail
-          iso=$(find result/iso -maxdepth 1 -name '*.iso' -print -quit)
+          iso=$(find "$ISO_PATH/iso" -maxdepth 1 -name '*.iso' -print -quit)
           if [[ -z "$iso" ]]; then
-            echo "No ISO found under result/iso" >&2
-            ls -la result/iso >&2 || true
+            echo "No ISO found under $ISO_PATH/iso" >&2
+            ls -la "$ISO_PATH/iso" >&2 || true
             exit 1
           fi
           name="nixos-minimal-${VERSION}-x86_64-linux.iso"

@@ -1,4 +1,6 @@
 {
+  # Requires the vaultix aspect on the host: this aspect reads
+  # config.vaultix.secrets.* and hooks into vaultix.beforeUserborn.
   den.aspects.root.nixos = { config, ... }: {
     vaultix = {
       beforeUserborn = [ "rootHashedPasswordFile" ];

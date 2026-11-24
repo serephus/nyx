@@ -30,7 +30,7 @@
         })
         (den.aspects.vaultix "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDvN4ghEAka+UtJnULPssqK07nC85mIDo3ww3C3rInkH")
         (den.aspects.preservation ephemeralRoot)
-        (den.aspects.lanzaboote secureboot)
+        (den.aspects.lanzaboote { inherit secureboot; })
         (den.aspects.systemd-boot efiMountPoint)
         den.aspects.firmware
         den.aspects.nvidia
@@ -104,10 +104,8 @@
               "usbhid"
               "sd_mod"
             ];
-            kernelModules = [ ];
           };
           kernelModules = [ "nvidia" ];
-          extraModulePackages = [ ];
         };
 
         services.xserver.videoDrivers = [ "nvidia" ];

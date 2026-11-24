@@ -11,12 +11,14 @@
       homeManager = { lib, ... }: {
         programs.waybar = {
           settings.main = {
+            # niri modules layer after the base waybar config; don't enable
+            # the Hyprland aspect at the same time.
             modules-left = lib.mkOrder 102 [
               "niri/workspaces"
               "niri/window"
             ];
           };
-          style = ''
+          style = lib.mkAfter ''
             * {
               font-size: 16px;
             }

@@ -2,8 +2,8 @@
   # vex host aspect
   den.aspects.vex = {
     includes = [
-      # stateless (ephemeral tmpfs root) on a hybrid (SeaBIOS + UEFI) disk;
-      # the @root/@nix/@var/@home subvolumes live under /persist
+      # stateless (ephemeral tmpfs root) on a UEFI GPT disk; the
+      # @root/@nix/@var/@home subvolumes live under /persist
       (den.aspects.rootFileSystem {
         device = "/dev/vda";
         bootPartitions = [
@@ -65,7 +65,7 @@
         Storage=volatile
         RuntimeMaxUse=32M
       '';
-      # Use chrony instead of timesyncd for a lighter time sync
+      # Use chrony for time sync instead of systemd-timesyncd
       services.timesyncd.enable = false;
       services.chrony.enable = true;
       hardware.enableRedistributableFirmware = false;
@@ -82,10 +82,7 @@
             "sr_mod"
             "virtio_blk"
           ];
-          kernelModules = [ ];
         };
-        kernelModules = [ ];
-        extraModulePackages = [ ];
       };
 
       hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

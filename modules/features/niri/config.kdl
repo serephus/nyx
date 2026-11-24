@@ -34,7 +34,8 @@ xwayland-satellite {
     path "xwayland-satellite"
 }
 
-// Output names: `niri msg outputs`.
+// Two-monitor desk layout (nyx). Outputs that don't exist on a given host
+// are simply ignored by niri. Output names: `niri msg outputs`.
 output "HDMI-A-1" {  // First external 1920x1080 monitor
     mode "2560x1440"
     scale 1.0
@@ -131,6 +132,10 @@ layer-rule {
 }
 
 binds {
+    // The commands below require the matching aspects/packages:
+    // alacritty (features/alacritty), fuzzel (features/fuzzel),
+    // hyprlock (features/hyprlock), clipcat (features/clipcat).
+
     // apps & session
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
