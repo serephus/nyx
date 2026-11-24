@@ -20,6 +20,7 @@
             "${config.home.homeDirectory}/dev/zig"
             "${config.home.homeDirectory}/dev/llm"
             "${config.home.homeDirectory}/dev/android"
+            "${config.home.homeDirectory}/dev/lean"
           ];
         };
       };

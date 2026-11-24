@@ -11,7 +11,12 @@
           metric = 10000;
         };
       };
+      # The WWAN APN only reaches Chinese resolvers; Google/Cloudflare DNS
+      # times out on it, which breaks name resolution (and the hotspot's
+      # clients) when WiFi is down. Keep reachable resolvers first.
       networking.nameservers = [
+        "223.5.5.5"
+        "119.29.29.29"
         "8.8.8.8"
         "8.8.4.4"
         "1.1.1.1"

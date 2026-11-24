@@ -272,6 +272,11 @@
 
           # DHCP/DNS need to reach the host from the internal AP interface.
           networking.firewall.trustedInterfaces = [ apInterface ];
+
+          # Use loose reverse-path filtering: this host has more than one
+          # uplink, and the strict default drops WWAN replies while WiFi is
+          # the default route (e.g. `ping -I wwan0`).
+          networking.firewall.checkReversePath = "loose";
         };
     };
 }

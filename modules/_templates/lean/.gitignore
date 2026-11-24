@@ -1,0 +1,6 @@
+/.direnv
+/result
+
+# Lake build cache and output
+/.lake
+/build

@@ -1,0 +1,114 @@
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    lean4-nix = {
+      url = "github:lenianiva/lean4-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixit = {
+      url = "github:serephus/nixit";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+  };
+
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      lean4-nix,
+      nixit,
+      ...
+    }:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+    in
+    {
+      githubRepositories.lean = nixit.lib.githubRepository {
+        owner = "serephus";
+        name = "lean";
+
+        description = "description";
+        homepage = "homepage";
+        topics = [
+          "lean"
+          "lean4"
+        ];
+        visibility = "public";
+
+        features = {
+          wiki.enable = false;
+          issues.enable = true;
+          projects.enable = false;
+          discussions.enable = false;
+        };
+
+        is_template = false;
+        is_archived = false;
+
+        pull = {
+          merge.enable = true;
+          squash.enable = false;
+          rebase.enable = false;
+          auto_merge = true;
+          delete_branch_on_merge = true;
+          update_branch = true;
+        };
+
+        actions = {
+          enable = true;
+          policy = "all";
+          default_token_permissions = "read";
+          allow_pr_approval = false;
+        };
+
+        rulesets = {
+          default = {
+            enforcement = "active";
+            conditions.ref_name.include = [ "~DEFAULT_BRANCH" ];
+            rules = [
+              { type = "deletion"; }
+              { type = "non_fast_forward"; }
+            ];
+          };
+          pr = {
+            enforcement = "active";
+            conditions.ref_name.include = [ "~DEFAULT_BRANCH" ];
+            rules = [
+              {
+                type = "required_status_checks";
+                parameters = {
+                  do_not_enforce_on_create = true;
+                  strict_required_status_checks_policy = true;
+                  required_status_checks = [
+                    { "context" = "build"; }
+                  ];
+                };
+              }
+            ];
+          };
+        };
+      };
+    }
+    // flake-utils.lib.eachSystem systems (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ (lean4-nix.readToolchainFile ./lean-toolchain) ];
+        };
+      in
+      {
+        devShell = pkgs.mkShell {
+          name = "lean";
+          buildInputs = [
+            pkgs.lean.lean-all
+          ];
+        };
+      }
+    );
+}
