@@ -75,7 +75,7 @@
           * {
             border: none;
             border-radius: 0;
-            font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+            font-family: "FiraCode Nerd Font", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
             font-size: 14px;
             min-height: 0;
           }
