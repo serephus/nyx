@@ -4,7 +4,8 @@
   # default configs applied to all hosts, some other
   # common configs are grouped into separate features
 
-  # we don't want mutable user, keep as many thing as declarative as possible
+  # we don't want mutable users; keep as much as possible declarative
+  # (hosts that use this rely on vaultix/userborn for passwords)
   den.default.nixos.users.mutableUsers = false;
 
   # always use en_US.UTF-8 locale
