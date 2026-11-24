@@ -17,6 +17,7 @@ let
       name,
       fido2 ? false,
       keyFile ? "/tmp/secret.key",
+      discard ? true,
       content,
     }:
     {
@@ -25,7 +26,7 @@ let
       settings =
         (lib.optionalAttrs (!fido2) (lib.optionalAttrs (keyFile != null) { inherit keyFile; }))
         // {
-          allowDiscards = true;
+          allowDiscards = discard;
         };
       enrollFido2 = fido2;
       inherit content;
@@ -103,6 +104,7 @@ let
       encrypted ? false,
       fido2 ? false,
       keyFile ? "/tmp/secret.key",
+      discard ? true,
       luksName ? "crypted-${name}",
       # swap sugar: inject a btrfs swapfile subvolume
       swap ? false,
@@ -145,7 +147,7 @@ let
         else if encrypted then
           mkLuks {
             name = luksName;
-            inherit fido2 keyFile;
+            inherit fido2 keyFile discard;
             content = btrfs.content;
           }
         else
@@ -172,6 +174,8 @@ let
     {
       nixos = {
         imports = [ inputs.disko.nixosModules.disko ];
+        # FIDO2 enrollment/unlocking needs the systemd-based initrd
+        boot.initrd.systemd.enable = lib.mkIf fido2 true;
         disko.devices = {
           disk."${name}" = {
             type = "disk";
@@ -220,6 +224,7 @@ let
       encrypted ? true,
       fido2 ? true,
       keyFile ? "/tmp/secret.key",
+      discard ? true,
       swapSize ? 20,
       tmpfsSize ? "4G",
       includeHome ? true,
@@ -241,6 +246,7 @@ let
             encrypted
             fido2
             keyFile
+            discard
             swapSize
             ;
           swap = true;
@@ -292,6 +298,7 @@ let
       rootPath ? "/",
       encrypted ? true,
       fido2 ? true,
+      discard ? true,
     }:
     {
       includes = [
@@ -301,6 +308,7 @@ let
             device
             encrypted
             fido2
+            discard
             ;
           luksName = "crypted-home";
           subvolumes = {
@@ -321,6 +329,11 @@ let
       mountpoint ? "/data",
       encrypted ? true,
       fido2 ? true,
+      discard ? true,
+      # the data mountpoint is world-writable by default; tighten as needed
+      mode ? "0777",
+      owner ? "root",
+      group ? "root",
     }:
     {
       includes = [
@@ -330,6 +343,7 @@ let
             device
             encrypted
             fido2
+            discard
             ;
           luksName = "crypted-data";
           subvolumes = {
@@ -340,7 +354,9 @@ let
         })
       ];
       # let just make it global readable and writable for now
-      nixos.systemd.tmpfiles.rules = [ "d ${mountpoint} 0777 root root - -" ];
+      nixos.systemd.tmpfiles.rules = [
+        "d ${mountpoint} ${mode} ${owner} ${group} - -"
+      ];
     };
 in
 {
