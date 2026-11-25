@@ -55,6 +55,7 @@
               enabled = true;
               provider = "custom";
               url = "https://cocoon.sereph.us/api/paste";
+              thresholdChars = 3900;
             };
           };
         };
