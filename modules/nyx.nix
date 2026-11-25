@@ -15,6 +15,7 @@
             includeHome = true;
           })
           (den.aspects.preservation ephemeralRoot)
+          (den.aspects.opencode { })
           den.aspects.xmmrpc
           den.aspects.thunderbolt
           den.aspects.hotspot
