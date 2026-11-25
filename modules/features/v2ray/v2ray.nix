@@ -1,4 +1,8 @@
-{ den, ... }: {
+{ den, ... }:
+let
+  serverPort = 32423;
+in
+{
   den.aspects.v2-secrets = {
     nixos = { config, ... }: {
       vaultix = {
@@ -7,7 +11,6 @@
         };
         templates =
           let
-            serverPort = 32423;
             mkOutbound =
               {
                 addr,
@@ -118,6 +121,7 @@
         enable = true;
         configFile = config.vaultix.templates.v2server.path;
       };
+      networking.firewall.allowedTCPPorts = [ serverPort ];
     };
   };
 }
