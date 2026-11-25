@@ -68,13 +68,13 @@
 
         programs.fish.functions.opencode = ''
           if test (count $argv) -eq 0
-              command opencode attach http://127.0.0.1:4096
+              command opencode attach http://127.0.0.1:4096 --dir "$PWD"
           else
               switch $argv[1]
                   case '--help' '-h' '--version' '-v' completion acp mcp attach run debug providers agent upgrade uninstall serve web models stats export import github pr session plugin db
                       command opencode $argv
                   case '-*'
-                      command opencode attach http://127.0.0.1:4096 $argv
+                      command opencode attach http://127.0.0.1:4096 --dir "$PWD" $argv
                   case '*'
                       command opencode attach http://127.0.0.1:4096 --dir "$argv[1]" $argv[2..-1]
               end
