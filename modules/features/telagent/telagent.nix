@@ -51,7 +51,11 @@
             questions = true;
             includeLastMessage = true;
             childSessions = false;
-            paste.enabled = false;
+            paste = {
+              enabled = true;
+              provider = "custom";
+              url = "https://cocoon.sereph.us/api/paste";
+            };
           };
         };
 
