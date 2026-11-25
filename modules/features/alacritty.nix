@@ -1,5 +1,16 @@
 {
   den.aspects.alacritty = {
+    nixos = { pkgs, ... }: {
+      fonts = {
+        packages = with pkgs; [
+          fira-code
+          # new way to add nerd fonts
+          nerd-fonts.fira-code
+          font-awesome
+        ];
+      };
+    };
+
     provides.to-users.homeManager = { pkgs, lib, ... }: {
       programs.alacritty = {
         enable = true;
