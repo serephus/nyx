@@ -593,11 +593,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795254354,
-        "narHash": "sha256-P6T7St5PKHAT6JH/f10czfE3NAp/uAx11ThQjjcQmb0=",
+        "lastModified": 1795598011,
+        "narHash": "sha256-gywwQ6c8B6/iqpE07erF/24A6r4E1ebU8Wn5J0LFRfk=",
         "owner": "serephus",
         "repo": "truesight",
-        "rev": "acbd950ef48451088df8f92da83a3c16d26514f1",
+        "rev": "0f9d47e796031272aa112846997f775e9c831e6c",
         "type": "github"
       },
       "original": {
