@@ -15,10 +15,6 @@
               timeout = 1200;
               on-timeout = "niri msg action power-off-monitors";
             }
-            {
-              timeout = 1800;
-              on-timeout = "systemctl suspend";
-            }
           ];
         };
       };

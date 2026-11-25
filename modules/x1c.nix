@@ -16,6 +16,7 @@
           })
           (den.aspects.preservation ephemeralRoot)
           (den.aspects.telagent ./features/telagent/telagent-bot-token-x1c.age)
+          (den.aspects.opencode { baselineBun = true; })
         ];
         hardwareImports = [
           # we're 1st gen
