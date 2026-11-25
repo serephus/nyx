@@ -1,20 +1,21 @@
 { den, inputs, ... }: {
-  den.aspects.telagent-bot-token = user: {
-    provides.to-hosts = {
-      nixos = {
-        vaultix.secrets."telagentBotToken-${user}" = {
-          file = ./telagent-bot-token.age;
-          owner = user;
-          mode = "0400";
-        };
+  # Parameterized by the encrypted token file and the user so each host gets a
+  # distinct aspect identity (and thus its own bot) even when the same user is
+  # on several hosts.
+  den.aspects.telagent-bot-token = tokenFile: user: {
+    provides.to-hosts.nixos = {
+      vaultix.secrets."telagentBotToken-${user}" = {
+        file = tokenFile;
+        owner = user;
+        mode = "0400";
       };
     };
   };
 
-  den.aspects.telagent = {
+  den.aspects.telagent = tokenFile: {
     provides.to-users = { user, ... }: {
       includes = [
-        (den.aspects.telagent-bot-token user.userName)
+        (den.aspects.telagent-bot-token tokenFile user.userName)
       ];
 
       nixos = {
@@ -68,13 +69,13 @@
 
         programs.fish.functions.opencode = ''
           if test (count $argv) -eq 0
-              command opencode attach http://127.0.0.1:4096
+              command opencode attach http://127.0.0.1:4096 --dir "$PWD"
           else
               switch $argv[1]
                   case '--help' '-h' '--version' '-v' completion acp mcp attach run debug providers agent upgrade uninstall serve web models stats export import github pr session plugin db
                       command opencode $argv
                   case '-*'
-                      command opencode attach http://127.0.0.1:4096 $argv
+                      command opencode attach http://127.0.0.1:4096 --dir "$PWD" $argv
                   case '*'
                       command opencode attach http://127.0.0.1:4096 --dir "$argv[1]" $argv[2..-1]
               end

@@ -26,6 +26,7 @@
           den.aspects.minecraft-client
 
           den.aspects.telegram
+          (den.aspects.telagent ./features/telagent/telagent-bot-token-nyx.age)
           den.aspects.obs
           den.aspects.blender
           den.aspects.freecad
