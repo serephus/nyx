@@ -65,7 +65,6 @@
         # ai related stuff
         den.aspects.pi-coding-agent
         den.aspects.opencode
-        den.aspects.telagent
       ];
 
       # host NixOS configuration

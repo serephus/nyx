@@ -1,20 +1,21 @@
 { den, inputs, ... }: {
-  den.aspects.telagent-bot-token = user: {
-    provides.to-hosts = {
-      nixos = {
-        vaultix.secrets."telagentBotToken-${user}" = {
-          file = ./telagent-bot-token.age;
-          owner = user;
-          mode = "0400";
-        };
+  # Parameterized by the encrypted token file and the user so each host gets a
+  # distinct aspect identity (and thus its own bot) even when the same user is
+  # on several hosts.
+  den.aspects.telagent-bot-token = tokenFile: user: {
+    provides.to-hosts.nixos = {
+      vaultix.secrets."telagentBotToken-${user}" = {
+        file = tokenFile;
+        owner = user;
+        mode = "0400";
       };
     };
   };
 
-  den.aspects.telagent = {
+  den.aspects.telagent = tokenFile: {
     provides.to-users = { user, ... }: {
       includes = [
-        (den.aspects.telagent-bot-token user.userName)
+        (den.aspects.telagent-bot-token tokenFile user.userName)
       ];
 
       nixos = {
