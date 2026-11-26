@@ -59,6 +59,14 @@
         den.aspects.direnv
         den.aspects.cargo
 
+        den.aspects.github
+        den.aspects.nixit
+
+        # ai related stuff
+        den.aspects.pi-coding-agent
+        (den.aspects.telagent ./features/telagent/telagent-bot-token-nova.age)
+        (den.aspects.opencode { })
+
         # credential stuff
         den.aspects.yubikey
         (den.aspects.openpgp "DD961903")
