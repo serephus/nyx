@@ -51,12 +51,11 @@
             questions = true;
             includeLastMessage = true;
             childSessions = false;
-            paste = {
-              enabled = true;
-              provider = "custom";
-              url = "https://cocoon.sereph.us/api/paste";
-              thresholdChars = 3900;
-            };
+          };
+
+          paste = {
+            enabled = true;
+            thresholdChars = 3900;
           };
         };
 
