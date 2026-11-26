@@ -8,7 +8,7 @@
           enable = true;
           gitCredentialHelper.enable = true;
           settings = {
-            git_protocol = "ssh";
+            git_protocol = "https";
           };
           package = pkgs.writeShellScriptBin "gh" ''
             export GITHUB_TOKEN="$(cat ${osConfig.vaultix.secrets."githubToken-${user.userName}".path})"
