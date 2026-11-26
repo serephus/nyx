@@ -15,23 +15,27 @@
             includeHome = true;
           })
           (den.aspects.preservation ephemeralRoot)
-          (den.aspects.opencode { })
           den.aspects.xmmrpc
           den.aspects.thunderbolt
           den.aspects.hotspot
-          den.aspects.github
-          den.aspects.nixit
-          den.aspects.termusic
 
           den.aspects.steam
           den.aspects.minecraft-client
 
           den.aspects.telegram
-          (den.aspects.telagent ./features/telagent/telagent-bot-token-nyx.age)
           den.aspects.obs
           den.aspects.blender
           den.aspects.freecad
           den.aspects.kicad
+
+          den.aspects.github
+          den.aspects.nixit
+          den.aspects.termusic
+
+          # ai related stuff
+          den.aspects.pi-coding-agent
+          (den.aspects.telagent ./features/telagent/telagent-bot-token-nyx.age)
+          (den.aspects.opencode { })
         ];
         hardwareImports = [
           # we're actually 8th gen, but I think it is okay?

@@ -61,9 +61,6 @@
         den.aspects.common-gui-tools
         den.aspects.alacritty
         den.aspects.qutebrowser
-
-        # ai related stuff
-        den.aspects.pi-coding-agent
       ];
 
       # host NixOS configuration

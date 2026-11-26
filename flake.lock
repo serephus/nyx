@@ -561,11 +561,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795589052,
-        "narHash": "sha256-mGFl4LzbNxwFYfmrPLKt11/4iDB0kKzGVd8Z+SPhygw=",
+        "lastModified": 1795662367,
+        "narHash": "sha256-mrCJua/5CcYUl814mHa0wVINcSZpTQ+BRjTp3pxywv0=",
         "owner": "serephus",
         "repo": "telagent",
-        "rev": "45e353f6819826b7110e1ad891616ee9b2aede81",
+        "rev": "a3a110b36ee1c981cb236859e437d3f63b14a1fb",
         "type": "github"
       },
       "original": {
