@@ -79,8 +79,7 @@
       };
 
       provides.to-users = { user, ... }: {
-        nixos = { pkgs, ... }: {
-          users.users.${user.userName}.shell = pkgs.fish;
+        nixos = {
           preservation.preserveAt."/persist" = {
             users."${user.userName}" = {
               files = [
