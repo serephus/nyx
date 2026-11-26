@@ -15,6 +15,12 @@
             includeHome = true;
           })
           (den.aspects.preservation ephemeralRoot)
+
+          den.aspects.github
+          den.aspects.nixit
+
+          # ai related stuff
+          den.aspects.pi-coding-agent
           (den.aspects.telagent ./features/telagent/telagent-bot-token-x1c.age)
           (den.aspects.opencode { baselineBun = true; })
         ];
