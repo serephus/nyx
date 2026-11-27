@@ -3,8 +3,8 @@
     nixit = {
       url = "github:serephus/nixit";
       inputs = {
+        crate2nix.follows = "crate2nix";
         flake-utils.follows = "flake-utils";
-        naersk.follows = "naersk";
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
       };
