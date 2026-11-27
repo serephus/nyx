@@ -13,6 +13,15 @@
   };
 
   inputs = {
+    cachix = {
+      url = "github:cachix/cachix/latest";
+      inputs = {
+        devenv.follows = "";
+        flake-compat.follows = "";
+        git-hooks.follows = "pre-commit-hooks";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     cocoon = {
       url = "github:serephus/cocoon";
       inputs = {
@@ -26,10 +35,7 @@
     crate2nix = {
       url = "github:nix-community/crate2nix";
       inputs = {
-        cachix.inputs = {
-          git-hooks.follows = "pre-commit-hooks";
-          nixpkgs.follows = "nixpkgs";
-        };
+        cachix.follows = "cachix";
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
         pre-commit-hooks.follows = "pre-commit-hooks";

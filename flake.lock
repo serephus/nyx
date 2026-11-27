@@ -18,12 +18,8 @@
     },
     "cachix": {
       "inputs": {
-        "devenv": [
-          "crate2nix"
-        ],
-        "flake-compat": [
-          "crate2nix"
-        ],
+        "devenv": [],
+        "flake-compat": [],
         "git-hooks": [
           "pre-commit-hooks"
         ],
@@ -32,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767714506,
-        "narHash": "sha256-WaTs0t1CxhgxbIuvQ97OFhDTVUGd1HA+KzLZUZBhe0s=",
+        "lastModified": 1794862072,
+        "narHash": "sha256-ftyytmVYzl0oUnMTmCBNS7TTMSjqCsHNlnGbswGxYY8=",
         "owner": "cachix",
         "repo": "cachix",
-        "rev": "894c649f0daaa38bbcfb21de64be47dfa7cd0ec9",
+        "rev": "8231a10ca573fc5cbdd844d2a2802d6c7765f288",
         "type": "github"
       },
       "original": {
@@ -95,7 +91,9 @@
     },
     "crate2nix": {
       "inputs": {
-        "cachix": "cachix",
+        "cachix": [
+          "cachix"
+        ],
         "devshell": "devshell",
         "flake-compat": "flake-compat",
         "flake-parts": [
@@ -575,6 +573,7 @@
     },
     "root": {
       "inputs": {
+        "cachix": "cachix",
         "cocoon": "cocoon",
         "crate2nix": "crate2nix",
         "den": "den",
