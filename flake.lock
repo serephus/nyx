@@ -16,13 +16,39 @@
         "type": "github"
       }
     },
+    "cachix": {
+      "inputs": {
+        "devenv": [],
+        "flake-compat": [],
+        "git-hooks": [
+          "pre-commit-hooks"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794862072,
+        "narHash": "sha256-ftyytmVYzl0oUnMTmCBNS7TTMSjqCsHNlnGbswGxYY8=",
+        "owner": "cachix",
+        "repo": "cachix",
+        "rev": "8231a10ca573fc5cbdd844d2a2802d6c7765f288",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "latest",
+        "repo": "cachix",
+        "type": "github"
+      }
+    },
     "cocoon": {
       "inputs": {
+        "crate2nix": [
+          "crate2nix"
+        ],
         "flake-utils": [
           "flake-utils"
-        ],
-        "naersk": [
-          "naersk"
         ],
         "nixit": [
           "nixit"
@@ -35,11 +61,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795483005,
-        "narHash": "sha256-kvD4xbZRZ5ScMCkqrKKWmIwnftnD2q3RZdGdGZWIJoM=",
+        "lastModified": 1795755727,
+        "narHash": "sha256-FhAyu6UGym66Cu8NvBinxnU6vhXyr3zRctKMUCAvnVs=",
         "owner": "serephus",
         "repo": "cocoon",
-        "rev": "733f145bbc726760b57aef8448c18a96a82ea265",
+        "rev": "6fcdab9235b42cd74c9a6d05acee7f531e07a262",
         "type": "github"
       },
       "original": {
@@ -63,6 +89,38 @@
         "type": "github"
       }
     },
+    "crate2nix": {
+      "inputs": {
+        "cachix": [
+          "cachix"
+        ],
+        "devshell": "devshell",
+        "flake-compat": "flake-compat",
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nix-test-runner": "nix-test-runner",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pre-commit-hooks": [
+          "pre-commit-hooks"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790579054,
+        "narHash": "sha256-S2NrwKB7aQa6HZsg2UGCmzQPI5Dw+bqUPm8R23BAUh8=",
+        "owner": "nix-community",
+        "repo": "crate2nix",
+        "rev": "1cb60331b14f15dad145dbd4e207c1ec110e5675",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "crate2nix",
+        "type": "github"
+      }
+    },
     "den": {
       "locked": {
         "lastModified": 1795224939,
@@ -75,6 +133,27 @@
       "original": {
         "owner": "denful",
         "repo": "den",
+        "type": "github"
+      }
+    },
+    "devshell": {
+      "inputs": {
+        "nixpkgs": [
+          "crate2nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768818222,
+        "narHash": "sha256-460jc0+CZfyaO8+w8JNtlClB2n4ui1RbHfPTLkpwhU8=",
+        "owner": "numtide",
+        "repo": "devshell",
+        "rev": "255a2b1725a20d060f566e4755dbf571bbbb5f76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "devshell",
         "type": "github"
       }
     },
@@ -121,6 +200,20 @@
       }
     },
     "flake-compat": {
+      "locked": {
+        "lastModified": 1733328505,
+        "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
+        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "revCount": 69,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/edolstra/flake-compat/1.1.0/01948eb7-9cba-704f-bbf3-3fa956735b52/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz"
+      }
+    },
+    "flake-compat_2": {
       "locked": {
         "lastModified": 1767039857,
         "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
@@ -226,11 +319,11 @@
     },
     "komi": {
       "inputs": {
+        "crate2nix": [
+          "crate2nix"
+        ],
         "flake-utils": [
           "flake-utils"
-        ],
-        "naersk": [
-          "naersk"
         ],
         "nixit": [
           "nixit"
@@ -243,11 +336,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795276927,
-        "narHash": "sha256-MKFwlH9x6GLLndSOx2ytxsma6TddmkCcReF8hM1vtU4=",
+        "lastModified": 1795755732,
+        "narHash": "sha256-QKeYaeDbWmVb7nwjLigyFFAnicwlJJQgqIi3oJ4Rvic=",
         "owner": "serephus",
         "repo": "komi",
-        "rev": "03f74b5429ae05f95945ad2de15e293874044e7e",
+        "rev": "b7a7660d5aaf9a042d053962b6b36ce5b502f373",
         "type": "github"
       },
       "original": {
@@ -307,13 +400,29 @@
         "type": "github"
       }
     },
+    "nix-test-runner": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1588761593,
+        "narHash": "sha256-FKJykltAN/g3eIceJl4SfDnnyuH2jHImhMrXS2KvGIs=",
+        "owner": "stoeffel",
+        "repo": "nix-test-runner",
+        "rev": "c45d45b11ecef3eb9d834c3b6304c05c49b06ca2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stoeffel",
+        "repo": "nix-test-runner",
+        "type": "github"
+      }
+    },
     "nixit": {
       "inputs": {
+        "crate2nix": [
+          "crate2nix"
+        ],
         "flake-utils": [
           "flake-utils"
-        ],
-        "naersk": [
-          "naersk"
         ],
         "nixpkgs": [
           "nixpkgs"
@@ -323,11 +432,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795185125,
-        "narHash": "sha256-FqMXMYQUF3z8j++cuQ4LB0lh49S+GmTVA+rVRDIejFA=",
+        "lastModified": 1795755737,
+        "narHash": "sha256-uRKARv4wKP7jqYp6Rr1qThuWgsscn7yqTLZKoc8Exu8=",
         "owner": "serephus",
         "repo": "nixit",
-        "rev": "365863a5c68b58014cedc2a521df41c63816abca",
+        "rev": "d5075c00cbde126d7920729667ff6385a78117e1",
         "type": "github"
       },
       "original": {
@@ -464,10 +573,12 @@
     },
     "root": {
       "inputs": {
+        "cachix": "cachix",
         "cocoon": "cocoon",
+        "crate2nix": "crate2nix",
         "den": "den",
         "disko": "disko",
-        "flake-compat": "flake-compat",
+        "flake-compat": "flake-compat_2",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
@@ -544,11 +655,11 @@
     },
     "telagent": {
       "inputs": {
+        "crate2nix": [
+          "crate2nix"
+        ],
         "flake-utils": [
           "flake-utils"
-        ],
-        "naersk": [
-          "naersk"
         ],
         "nixit": [
           "nixit"
@@ -561,11 +672,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795667855,
-        "narHash": "sha256-jsPa/OFYQbn7tedeqCHZSJ+BnJJ0sSHJVJN/j0PG8Nc=",
+        "lastModified": 1795766579,
+        "narHash": "sha256-uQqlbFXQ0OKllUM6D3n67yZS10vvtH/A9qRs/zNxe9w=",
         "owner": "serephus",
         "repo": "telagent",
-        "rev": "45b9aca3a20252d5521f282f8814cb7d195a5ad7",
+        "rev": "e2bd03ca5085084dfeb219fa33af0846f04353c9",
         "type": "github"
       },
       "original": {

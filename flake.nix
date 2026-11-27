@@ -13,14 +13,32 @@
   };
 
   inputs = {
+    cachix = {
+      url = "github:cachix/cachix/latest";
+      inputs = {
+        devenv.follows = "";
+        flake-compat.follows = "";
+        git-hooks.follows = "pre-commit-hooks";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     cocoon = {
       url = "github:serephus/cocoon";
       inputs = {
+        crate2nix.follows = "crate2nix";
         flake-utils.follows = "flake-utils";
-        naersk.follows = "naersk";
         nixit.follows = "nixit";
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
+      };
+    };
+    crate2nix = {
+      url = "github:nix-community/crate2nix";
+      inputs = {
+        cachix.follows = "cachix";
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        pre-commit-hooks.follows = "pre-commit-hooks";
       };
     };
     den.url = "github:denful/den";
@@ -43,8 +61,8 @@
     komi = {
       url = "github:serephus/komi";
       inputs = {
+        crate2nix.follows = "crate2nix";
         flake-utils.follows = "flake-utils";
-        naersk.follows = "naersk";
         nixit.follows = "nixit";
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
@@ -66,8 +84,8 @@
     nixit = {
       url = "github:serephus/nixit";
       inputs = {
+        crate2nix.follows = "crate2nix";
         flake-utils.follows = "flake-utils";
-        naersk.follows = "naersk";
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";
       };
@@ -99,8 +117,8 @@
     telagent = {
       url = "github:serephus/telagent";
       inputs = {
+        crate2nix.follows = "crate2nix";
         flake-utils.follows = "flake-utils";
-        naersk.follows = "naersk";
         nixit.follows = "nixit";
         nixpkgs.follows = "nixpkgs";
         rust-overlay.follows = "rust-overlay";

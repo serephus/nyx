@@ -9,6 +9,22 @@
   flake-file.inputs = {
     flake-utils.url = "github:numtide/flake-utils";
 
+    cachix = {
+      url = "github:cachix/cachix/latest";
+      inputs.devenv.follows = "";
+      inputs.flake-compat.follows = "";
+      inputs.git-hooks.follows = "pre-commit-hooks";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    crate2nix = {
+      url = "github:nix-community/crate2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.pre-commit-hooks.follows = "pre-commit-hooks";
+      inputs.cachix.follows = "cachix";
+    };
+
     naersk = {
       url = "github:nix-community/naersk";
       inputs.nixpkgs.follows = "nixpkgs";
