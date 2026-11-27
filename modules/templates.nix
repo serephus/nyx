@@ -11,7 +11,7 @@
       };
       rust = {
         path = ./_templates/rust;
-        description = "Rust template, using Naersk";
+        description = "Rust template";
       };
       bevy = {
         path = ./_templates/bevy;
