@@ -39,9 +39,9 @@
                     health-check = {
                       enable = true;
                       url = "https://www.gstatic.com/generate_204";
-                      interval = 300;
-                      timeout = 5000;
-                      lazy = true;
+                      interval = 120;
+                      timeout = 3000;
+                      lazy = false;
                       expected-status = 204;
                     };
                   };
@@ -54,9 +54,9 @@
                     health-check = {
                       enable = true;
                       url = "https://www.gstatic.com/generate_204";
-                      interval = 300;
-                      timeout = 5000;
-                      lazy = true;
+                      interval = 120;
+                      timeout = 3000;
+                      lazy = false;
                       expected-status = 204;
                     };
                   };
@@ -69,9 +69,9 @@
                     health-check = {
                       enable = true;
                       url = "https://www.gstatic.com/generate_204";
-                      interval = 300;
-                      timeout = 5000;
-                      lazy = true;
+                      interval = 120;
+                      timeout = 3000;
+                      lazy = false;
                       expected-status = 204;
                     };
                   };
@@ -81,7 +81,11 @@
                   {
                     name = "PROXY";
                     type = "select";
-                    proxies = [ "AUTO" ];
+                    proxies = [
+                      "AUTO"
+                      "FALLBACK"
+                      "DIRECT"
+                    ];
                     use = [
                       "pqjc"
                       "kitty"
@@ -96,9 +100,28 @@
                       "kitty"
                       "stt"
                     ];
-                    url = "http://www.gstatic.com/generate_204";
-                    interval = 300;
+                    url = "https://www.gstatic.com/generate_204";
+                    interval = 120;
+                    timeout = 3000;
                     tolerance = 50;
+                    lazy = false;
+                    max-failed-times = 3;
+                    expected-status = 204;
+                  }
+                  {
+                    name = "FALLBACK";
+                    type = "fallback";
+                    use = [
+                      "kitty"
+                      "pqjc"
+                      "stt"
+                    ];
+                    url = "https://www.gstatic.com/generate_204";
+                    interval = 60;
+                    timeout = 3000;
+                    lazy = false;
+                    max-failed-times = 3;
+                    expected-status = 204;
                   }
                 ];
 
