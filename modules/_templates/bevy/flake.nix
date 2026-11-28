@@ -6,11 +6,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    crate2nix = {
+      url = "github:nix-community/crate2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.cachix.inputs.nixpkgs.follows = "nixpkgs";
+      inputs.cachix.inputs.git-hooks.inputs.gitignore.follows = "crate2nix/pre-commit-hooks/gitignore";
+    };
     nixit = {
       url = "github:serephus/nixit";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
+      inputs.crate2nix.follows = "crate2nix";
     };
   };
 
@@ -19,6 +26,7 @@
       nixpkgs,
       flake-utils,
       rust-overlay,
+      crate2nix,
       nixit,
       ...
     }:
@@ -136,8 +144,23 @@
         deps =
           (pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux linuxDeps)
           ++ (pkgs.lib.optionals pkgs.stdenv.hostPlatform.isDarwin darwinDeps);
+
+        cargoNix = pkgs.callPackage (crate2nix.tools.${system}.generatedCargoNix {
+          name = "bevy-app";
+          src = ./.;
+        }) {
+          buildRustCrateForPkgs = pkgs': pkgs'.buildRustCrate.override {
+            defaultCrateOverrides = pkgs'.defaultCrateOverrides // {
+              wayland-sys = attrs: {
+                nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs'.pkg-config ];
+                buildInputs = (attrs.buildInputs or [ ]) ++ [ pkgs'.wayland ];
+              };
+            };
+          };
+        };
       in
       {
+        packages.default = cargoNix.rootCrate.build;
         devShell = pkgs.mkShell rec {
           name = "bevy";
           nativeBuildInputs = nativeDeps ++ linker;
